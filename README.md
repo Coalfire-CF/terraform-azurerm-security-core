@@ -1,86 +1,95 @@
-# ACE-ToolingTemplate
-
-Template repository for management of ACE code. This repo should be used as the framework for maintaining ACE code that is not a part of the Launchpad stack
+# Coalfire Azure Core Security Components
 
 ## Description
 
-- Terraform Version:
-- Cloud(s) supported:{Government/Commercial}
-- Product Version/License:
-- FedRAMP Compliance Support: {}
-- DoD Compliance Support:{IL4/5}
-- Misc Framework Support:
-- Launchpad validated version:
+This module sets the security core components.
 
-## Setup and usage
+## Resource List
 
-Describes what changes are needed to leverage this code. Likely should have several sub headings including items as
+- Vnet
+- Private DNS zone if desired
+- AAD Diagnostic logs
+- Storage account to store the terraform state files
+- Key Vault
+- Log Analytics workspace
+- Resource group
+- Subscription diagnostics monitor
 
-- process/structure for code modifications in the version of Launchpad listed above
-- modules/output/variable updates
-- removal of existing LP technology
+## Inputs
 
-### Code Location
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:-----:|
+| location | The Azure location/region to create resources in | string | N/A | yes |
+| resource_prefix | Name prefix used for resources | string | N/A | yes |
+| location_abbreviation | The  Azure location/region in 4 letter code | string | N/A | yes |
+| app_abbreviation | The prefix for the blob storage account names | string | N/A | yes |
+| subscription_id | The Azure subscription ID where resources are being deployed into | string | N/A | yes |
+| tenant_id | The Azure tenant ID that owns the deployed resources | string | N/A | yes |
+| sub_diag_logs | Types of logs to gather for subscription diagnostics | list(any) | N/A | yes |
+| cidrs_for_remote_access | admin ciders | list(any) | N/A | yes |
+| ip_for_remote_access | This is the same as 'cidrs_for_remote_access' but without the /32 on each of the files. The 'ip_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | list(any) | N/A | yes |
+| admin_principal_ids | admin principal ids | set(string) | N/A | yes |
+| tags | The tags to associate with your network and subnets | map(string) | N/A | yes |
+| regional_tags | Regional level tags | map(string) | N/A | yes |
+| global_tags | Global level tags | map(string) | N/A | yes |
+| core_rg_name | Resource group name for core security services | string | core-rg-1 | no |
+| private_dns_zone_name | The name of the Private DNS Zone. Must be a valid domain name. If passed, it will create a vnet link with the private DNS zone | string | null | no |
+| app_subscription_ids | The Azure subscription IDs for TM microservices | list(string) | [] | no |
 
-Code should be stored in terraform/app/code
+## Outputs
 
-### Code updates
+| Name | Description |
+|------|-------------|
+| core_rg_name | The resource group name |
+| core_vnet_id | The ID of the newly created VNet |
+| core_vnet_name | The Name of the newly created VNet  |
+| core_vnet_subnet_ids | Map of subnets with their ids | 
+| core_la_id | The ID of the log analytics workspace |
+| core_la_primaryKey | The primary key of the log analytics workspace |
+| core_la_secondaryKey | The secondary key of the log analytics workspace |
+| core_la_workspace_id | The ID of the log analytics workspace |
+| core_la_workspace_name | The name of the log analytics workspace |
+| core_kv_id | The ID of the Key Vault | 
+| ad-cmk_id | The id of the customer managed key for AD |
+| ars-cmk_id | The id of the customer managed key for ars |
+| flowlog-cmk_id | The id of the customer managed key for flow logs |
+| install-cmk_id | The id of the customer managed key for installs |
+| tstate-cmk_id | The id of the customer managed key for terraform state |
+| cloudshell-cmk_id | The id of the customer managed key for cloudshells |
+| docs-cmk_id | The id of the customer managed key for docs |
+| avd-cmk_id | The id of the customer managed key for avd |
+| core_private_dns_zone_name | The name of the Private DNS Zone |
+| core_private_dns_zone_id | The ID of the Private DNS Zone |
+| core_xadm_ssh_public_key | The SSH public key for the xadm account |
 
-Ensure that vars zyx are in regional/global vars
+## Usage
 
-## Issues
+```hcl
+module "core" {
+  source = "../../../modules/coalfire-az-security-core"
 
-Bug fixes and enhancements are managed, tracked, and discussed through the GitHub issues on this repository.
-
-Issues should be flagged appropriately.
-
-- Bug
-- Enhancement
-- Documentation
-- Code
-
-### Bugs
-
-Bugs are problems that exist with the technology or code that occur when expected behavior does not match implementation.
-For example, spelling mistakes on a dashboard.
-
-Use the Bug fix template to describe the issue and expected behaviors.
-
-### Enhancements
-
-Updates and changes to the code to support additional functionality, new features or improve engineering or operations usage of the technology.
-For example, adding a new widget to a dashboard to report on failed backups is enhancement.
-
-Use the Enhancement issue template to request enhancements to the codebase. Enhancements should be improvements that are applicable to wide variety of clients and projects. One of updates for a specific project should be handled locally. If you are unsure if something qualifies for an enhancement contact the repository code owner.
-
-### Pull Requests
-
-Code updates ideally are limited in scope to address one enhancement or bug fix per PR. The associated PR should be linked to the relevant issue.
-
-### Code Owners
-
-- Primary Code owner: Douglas Francis (@douglas-f)
-- Backup Code owner: James Westbrook (@i-ate-a-vm)
-
-The responsibility of the code owners is to approve and Merge PR's on the repository, and generally manage and direct issue discussions.
-
-## Repository Settings
-
-Settings that should be applied to repos
-
-### Branch Protection
-
-#### main Branch
-
-- Require a pull request before merging
-- Require Approvals
-- Dismiss stale pull requests approvals when new commits are pushed
-- Require review from Code Owners
-
-#### other branches
-
-- add as needed
-
-### GitHub Actions
-
-Future state. There are current inatitives for running CI/CD tooling as GitHub actions.
+  subscription_id         = var.subscription_id
+  resource_prefix         = local.resource_prefix
+  location_abbreviation   = var.location_abbreviation
+  location                = var.location
+  app_abbreviation        = var.app_abbreviation
+  tenant_id               = var.tenant_id
+  regional_tags           = var.regional_tags
+  global_tags             = var.global_tags
+  core_rg_name            = "${local.resource_prefix}-core-rg"
+  cidrs_for_remote_access = var.cidrs_for_remote_access
+  ip_for_remote_access    = var.ip_for_remote_access
+  admin_principal_ids     = var.admin_principal_ids
+  #diag_law_id             = data.terraform_remote_state.core.outputs.core_la_id
+  sub_diag_logs = [
+    "Administrative",
+    "Security",
+    "ServiceHealth",
+    "Alert",
+    "Recommendation",
+    "Policy",
+    "Autoscale",
+    "ResourceHealth"
+  ]
+}
+```
