@@ -1,5 +1,7 @@
 # Coalfire Azure Core Security Components
 
+## v1.0.0 - 2023-01-06
+
 ## Description
 
 This module sets the security core components.
@@ -43,13 +45,13 @@ This module sets the security core components.
 | core_rg_name | The resource group name |
 | core_vnet_id | The ID of the newly created VNet |
 | core_vnet_name | The Name of the newly created VNet  |
-| core_vnet_subnet_ids | Map of subnets with their ids | 
+| core_vnet_subnet_ids | Map of subnets with their ids |
 | core_la_id | The ID of the log analytics workspace |
 | core_la_primaryKey | The primary key of the log analytics workspace |
 | core_la_secondaryKey | The secondary key of the log analytics workspace |
 | core_la_workspace_id | The ID of the log analytics workspace |
 | core_la_workspace_name | The name of the log analytics workspace |
-| core_kv_id | The ID of the Key Vault | 
+| core_kv_id | The ID of the Key Vault |
 | ad-cmk_id | The id of the customer managed key for AD |
 | ars-cmk_id | The id of the customer managed key for ars |
 | flowlog-cmk_id | The id of the customer managed key for flow logs |
