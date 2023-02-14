@@ -1,5 +1,5 @@
 module "core_kv" {
-  source                          = "../coalfire-az-key-vault"
+  source                          = "git@github.com:Coalfire-CF/ACE-Azure-KeyVault.git?ref=v1.0.0"
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core-la.id
   kv_name                         = "${var.resource_prefix}-core-kv"
   resource_group_name             = var.core_rg_name
