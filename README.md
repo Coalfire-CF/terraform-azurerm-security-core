@@ -1,10 +1,8 @@
 # Coalfire Azure Core Security Components
 
-## v1.0.0 - 2023-01-06
-
 ## Description
 
-This module sets the security core components.
+This module is the first step for deploying the Coalfire Azure FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
 
 ## Resource List
 
@@ -57,7 +55,7 @@ This module sets the security core components.
 | flowlog-cmk_id | The id of the customer managed key for flow logs |
 | install-cmk_id | The id of the customer managed key for installs |
 | tstate-cmk_id | The id of the customer managed key for terraform state |
-| cloudshell-cmk_id | The id of the customer managed key for cloudshells |
+| cloudshell-cmk_id | The id of the customer managed key for cloudshell |
 | docs-cmk_id | The id of the customer managed key for docs |
 | avd-cmk_id | The id of the customer managed key for avd |
 | core_private_dns_zone_name | The name of the Private DNS Zone |
@@ -68,7 +66,7 @@ This module sets the security core components.
 
 ```hcl
 module "core" {
-  source = "../../../modules/coalfire-az-security-core"
+  source = "git@github.com:Coalfire-CF/ACE-Azure-SecurityCore.git?ref=v1.0.0"
 
   subscription_id         = var.subscription_id
   resource_prefix         = local.resource_prefix
