@@ -9,7 +9,6 @@
 
 module "diag_sub" {
   source                = "git@github.com:Coalfire-CF/ACE-Azure-Diagnostics.git?ref=v1.0.1"
-  #git@github.com:Coalfire-CF/ACE-Azure-Diagnostics.git
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = "/subscriptions/${var.subscription_id}"
   resource_type         = "sub"
