@@ -69,3 +69,9 @@ variable "private_dns_zone_name" {
   description = "The name of the Private DNS Zone. Must be a valid domain name."
   default     = null
 }
+
+variable "enable_sub_logs" {
+  type        = bool
+  description = "Enable subscription level logging"
+  default     = false
+}

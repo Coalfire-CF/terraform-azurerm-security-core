@@ -66,7 +66,7 @@ This module is the first step for deploying the Coalfire Azure FedRAMP Framework
 
 ```hcl
 module "core" {
-  source = "git@github.com:Coalfire-CF/ACE-Azure-SecurityCore.git?ref=v1.0.0"
+  source = "github.com:Coalfire-CF/ACE-Azure-SecurityCore?ref=v1.0.0"
 
   subscription_id         = var.subscription_id
   resource_prefix         = local.resource_prefix
