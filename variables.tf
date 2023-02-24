@@ -75,3 +75,9 @@ variable "enable_sub_logs" {
   description = "Enable subscription level logging"
   default     = false
 }
+
+variable "enable_aad_logs" {
+  type        = bool
+  description = "Enable AAD logging"
+  default     = false
+}

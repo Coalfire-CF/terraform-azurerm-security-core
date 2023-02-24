@@ -80,6 +80,8 @@ module "core" {
   cidrs_for_remote_access = var.cidrs_for_remote_access
   ip_for_remote_access    = var.ip_for_remote_access
   admin_principal_ids     = var.admin_principal_ids
+  enable_diag_logs        = true
+  enable_aad_logs         = true
   #diag_law_id             = data.terraform_remote_state.core.outputs.core_la_id
   sub_diag_logs = [
     "Administrative",
