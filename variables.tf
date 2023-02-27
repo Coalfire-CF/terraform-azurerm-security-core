@@ -73,11 +73,17 @@ variable "private_dns_zone_name" {
 variable "enable_sub_logs" {
   type        = bool
   description = "Enable subscription level logging"
-  default     = false
+  default     = true
 }
 
 variable "enable_aad_logs" {
   type        = bool
   description = "Enable AAD logging"
-  default     = false
+  default     = true
+}
+
+variable "enable_aad_permissions" {
+  type        = bool
+  description = "Enable/Disable provisioning basic AAD level permissions."
+  default     = true
 }

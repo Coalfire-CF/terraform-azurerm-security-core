@@ -45,7 +45,7 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
 
   name                       = "AAD_Logs"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.core-la.id
-  log {
+  enabled_log {
     category = "SignInLogs"
     enabled  = true
     retention_policy {
