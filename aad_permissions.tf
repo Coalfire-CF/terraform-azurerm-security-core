@@ -3,9 +3,9 @@ resource "azuread_directory_role" "groups_administrator" {
 }
 
 resource "azuread_directory_role_assignment" "assign_groups_administrator" {
-  for_each         = var.admin_principal_ids
-  role_object_id   = azuread_directory_role.groups_administrator.object_id
-  member_object_id = each.key
+  for_each            = var.admin_principal_ids
+  role_id             = azuread_directory_role.groups_administrator.object_id
+  principal_object_id = each.key
 }
 
 resource "azuread_directory_role" "app_owners" {
@@ -13,9 +13,9 @@ resource "azuread_directory_role" "app_owners" {
 }
 
 resource "azuread_directory_role_assignment" "assign_app_owners" {
-  for_each         = var.admin_principal_ids
-  role_object_id   = azuread_directory_role.app_owners.object_id
-  member_object_id = each.key
+  for_each            = var.admin_principal_ids
+  role_id             = azuread_directory_role.app_owners.object_id
+  principal_object_id = each.key
 }
 
 resource "azurerm_role_assignment" "assign_sub_contributor" {
