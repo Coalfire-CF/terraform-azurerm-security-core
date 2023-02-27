@@ -6,7 +6,8 @@ resource "azurerm_private_dns_zone" "default" {
 
 
   lifecycle {
-    ignore_changes = [number_of_record_sets]
+    # new provider version is erroring that this is redundant. 02/27/2024
+    #  ignore_changes = [number_of_record_sets]
   }
 }
 
