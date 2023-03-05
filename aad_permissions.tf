@@ -3,6 +3,7 @@ resource "azuread_directory_role" "groups_administrator" {
 }
 
 resource "azuread_directory_role_assignment" "assign_groups_administrator" {
+  count               = var.enable_aad_permissions ? 1 : 0
   for_each            = var.admin_principal_ids
   role_id             = azuread_directory_role.groups_administrator.object_id
   principal_object_id = each.key
@@ -13,12 +14,14 @@ resource "azuread_directory_role" "app_owners" {
 }
 
 resource "azuread_directory_role_assignment" "assign_app_owners" {
+  count               = var.enable_aad_permissions ? 1 : 0
   for_each            = var.admin_principal_ids
   role_id             = azuread_directory_role.app_owners.object_id
   principal_object_id = each.key
 }
 
 resource "azurerm_role_assignment" "assign_sub_contributor" {
+  count                = var.enable_aad_permissions ? 1 : 0
   for_each             = var.admin_principal_ids
   scope                = "/subscriptions/${var.subscription_id}"
   role_definition_name = "Contributor"
@@ -26,6 +29,7 @@ resource "azurerm_role_assignment" "assign_sub_contributor" {
 }
 
 resource "azurerm_role_assignment" "assign_sub_user_access" {
+  count                = var.enable_aad_permissions ? 1 : 0
   for_each             = var.admin_principal_ids
   scope                = "/subscriptions/${var.subscription_id}"
   role_definition_name = "User Access Administrator"

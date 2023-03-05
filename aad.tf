@@ -135,5 +135,4 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
       days    = 0
     }
   }
-
 }
