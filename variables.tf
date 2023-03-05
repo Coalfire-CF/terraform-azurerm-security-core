@@ -69,3 +69,21 @@ variable "private_dns_zone_name" {
   description = "The name of the Private DNS Zone. Must be a valid domain name."
   default     = null
 }
+
+variable "enable_sub_logs" {
+  type        = bool
+  description = "Enable subscription level logging"
+  default     = true
+}
+
+variable "enable_aad_logs" {
+  type        = bool
+  description = "Enable AAD logging"
+  default     = true
+}
+
+variable "enable_aad_permissions" {
+  type        = bool
+  description = "Enable/Disable provisioning basic AAD level permissions."
+  default     = true
+}

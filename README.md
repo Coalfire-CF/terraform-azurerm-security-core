@@ -35,6 +35,9 @@ This module is the first step for deploying the Coalfire Azure FedRAMP Framework
 | core_rg_name | Resource group name for core security services | string | core-rg-1 | no |
 | private_dns_zone_name | The name of the Private DNS Zone. Must be a valid domain name. If passed, it will create a vnet link with the private DNS zone | string | null | no |
 | app_subscription_ids | The Azure subscription IDs for TM microservices | list(string) | [] | no |
+| enable_diag_logs | Enable diagnostic logs for AAD | bool | false | no |
+| enable_aad_logs | Enable diagnostic logs for AAD | bool | false | no |
+| enable_sub_diag | Enable subscription diagnostics | bool | false | no |
 
 ## Outputs
 
@@ -66,7 +69,7 @@ This module is the first step for deploying the Coalfire Azure FedRAMP Framework
 
 ```hcl
 module "core" {
-  source = "git@github.com:Coalfire-CF/ACE-Azure-SecurityCore.git?ref=v1.0.0"
+  source = "github.com:Coalfire-CF/ACE-Azure-SecurityCore?ref=v1.0.0"
 
   subscription_id         = var.subscription_id
   resource_prefix         = local.resource_prefix
@@ -80,6 +83,8 @@ module "core" {
   cidrs_for_remote_access = var.cidrs_for_remote_access
   ip_for_remote_access    = var.ip_for_remote_access
   admin_principal_ids     = var.admin_principal_ids
+  enable_diag_logs        = true
+  enable_aad_logs         = true
   #diag_law_id             = data.terraform_remote_state.core.outputs.core_la_id
   sub_diag_logs = [
     "Administrative",

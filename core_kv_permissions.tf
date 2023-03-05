@@ -8,6 +8,7 @@ resource "azurerm_role_assignment" "core_kv_administrator" {
 data "azurerm_subscription" "primary" {
 }
 # resource "azurerm_role_assignment" "core_user_administrator" {
+
 #   for_each             = var.admin_principal_ids
 #   scope                = data.azurerm_subscription.primary.id
 #   role_definition_name = "User Access Administrator"
