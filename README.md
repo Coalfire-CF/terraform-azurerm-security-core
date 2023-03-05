@@ -35,6 +35,9 @@ This module is the first step for deploying the Coalfire Azure FedRAMP Framework
 | core_rg_name | Resource group name for core security services | string | core-rg-1 | no |
 | private_dns_zone_name | The name of the Private DNS Zone. Must be a valid domain name. If passed, it will create a vnet link with the private DNS zone | string | null | no |
 | app_subscription_ids | The Azure subscription IDs for TM microservices | list(string) | [] | no |
+| enable_diag_logs | Enable diagnostic logs for AAD | bool | false | no |
+| enable_aad_logs | Enable diagnostic logs for AAD | bool | false | no |
+| enable_sub_diag | Enable subscription diagnostics | bool | false | no |
 
 ## Outputs
 
