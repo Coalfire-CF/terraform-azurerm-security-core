@@ -22,12 +22,11 @@ resource "azurerm_storage_account" "tf_state" {
     versioning_enabled = true
   }
 
-  # network_rules {
-  #   #default_action             = "Deny" # Changed from default dny to allow to support GH actions being able to access state file
-  #   default_action             = "Deny"
-  #   ip_rules                   = var.ip_for_remote_access
-  #   virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
-  # }
+  network_rules {
+    default_action             = "Deny"
+    ip_rules                   = var.ip_for_remote_access
+    virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
+  }
 
   tags = merge({
     Function = "Storage"
