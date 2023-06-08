@@ -26,7 +26,7 @@ resource "azurerm_storage_account" "tf_state" {
     default_action = "Deny"
     ip_rules       = var.ip_for_remote_access
     #virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
-    virtual_network_subnet_ids = var.cidrs_for_remote_access
+    virtual_network_subnet_ids = var.ip_for_remote_access
   }
 
   tags = merge({

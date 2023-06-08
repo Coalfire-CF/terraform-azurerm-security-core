@@ -37,6 +37,8 @@ The folder you will deploy from. Most of the folder calls from the vars the only
 
 Ensure the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
 
+Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
+
 
 
 ## Inputs
