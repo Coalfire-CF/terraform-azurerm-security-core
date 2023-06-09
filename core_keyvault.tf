@@ -24,6 +24,7 @@ module "core_kv" {
 }
 
 resource "azurerm_key_vault_key" "ad-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
   name         = "ad-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -42,6 +43,7 @@ resource "azurerm_key_vault_key" "ad-cmk" {
 }
 
 resource "azurerm_key_vault_key" "ars-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
   name         = "ars-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -60,6 +62,7 @@ resource "azurerm_key_vault_key" "ars-cmk" {
 }
 
 resource "azurerm_key_vault_key" "flowlog-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
   name         = "flowlog-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -78,6 +81,7 @@ resource "azurerm_key_vault_key" "flowlog-cmk" {
 }
 
 resource "azurerm_key_vault_key" "install-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
   name         = "install-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -96,6 +100,7 @@ resource "azurerm_key_vault_key" "install-cmk" {
 }
 
 resource "azurerm_key_vault_key" "tstate-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
   name         = "tstate-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -114,6 +119,7 @@ resource "azurerm_key_vault_key" "tstate-cmk" {
 }
 
 resource "azurerm_key_vault_key" "cloudshell-cmk" {
+  # checkov:skip=CKV_Azure_112:HSM backed Key Vault keys are not required.
   name         = "cloudshell-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -132,6 +138,7 @@ resource "azurerm_key_vault_key" "cloudshell-cmk" {
 }
 
 resource "azurerm_key_vault_key" "docs-cmk" {
+  # checkov:skip=CKV_Azure_112:HSM backed Key Vault keys are not required.
   name         = "docs-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
@@ -150,6 +157,7 @@ resource "azurerm_key_vault_key" "docs-cmk" {
 }
 
 resource "azurerm_key_vault_key" "avd-cmk" {
+  # checkov:skip=CKV_Azure_112:HSM backed Key Vault keys are not required.
   name         = "avd-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"

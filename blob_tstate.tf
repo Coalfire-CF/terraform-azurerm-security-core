@@ -8,6 +8,7 @@ resource "azurerm_storage_account" "tf_state" {
   min_tls_version                 = "TLS1_2"
   enable_https_traffic_only       = true
   allow_nested_items_to_be_public = false
+  public_network_access_enabled   = false
 
   identity {
     type = "SystemAssigned"

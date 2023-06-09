@@ -39,7 +39,19 @@ Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out 
 
 Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
 
+**Warning** It does take some time for the initial key vault permissions to propagate. If you get an error about the Customer Managed Key for the state storage account error 400, wait a few minutes and try again and deployment should complete successfully.
 
+### Migrate State
+
+Now that the storage account exists you need to migrate the local state file to the remote state storage account.
+
+1. Uncomment the `backend "azurerm"` portion of the `tstate.tf` file.
+2. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
+3. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
+4. Run `terraform apply` to migrate the state file to the remote storage account.
+5. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
+6. Uncomment the `remote-data.tf` file for the `Core` block only.
+7. Commit changes and push to repo.
 
 ## Inputs
 
