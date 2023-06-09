@@ -62,12 +62,15 @@ output "avd-cmk_id" {
   value = azurerm_key_vault_key.avd-cmk.id
 }
 
-output "core_private_dns_zone_name" {
-  value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.name : null
-}
+# output "core_private_dns_zone_name" {
+#   value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.name : null
+# }
 
-output "core_private_dns_zone_id" {
-  value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.id : null
+# output "core_private_dns_zone_id" {
+#   value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.id : null
+# }
+output "core_private_dns_zones" {
+  value = { for zone in azurerm_private_dns_zone.default : zone.name => zone.id }
 }
 
 output "core_xadm_ssh_public_key" {

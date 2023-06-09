@@ -5,6 +5,6 @@ resource "azurerm_private_dns_zone" "default" {
   tags                = local.tags
 
   lifecycle {
-    ignore_changes = [number_of_record_sets]
+    # ignore_changes = [number_of_record_sets]
   }
 }
