@@ -87,3 +87,32 @@ variable "enable_aad_permissions" {
   description = "Enable/Disable provisioning basic AAD level permissions."
   default     = true
 }
+
+variable "azure_private_dns_zones" {
+  type        = list(string)
+  description = "List of Private DNS zones to create."
+  default = [
+    "privatelink.azurecr.us",
+    "privatelink.azuredatabricks.net",
+    "privatelink.database.usgovcloudapi.net",
+    "privatelink.datafactory.azure.net",
+    "privatelink.blob.core.usgovcloudapi.net",
+    "privatelink.table.core.usgovcloudapi.net",
+    "privatelink.queue.core.usgovcloudapi.net",
+    "privatelink.file.core.usgovcloudapi.net",
+    "privatelink.documents.azure.us",
+    "privatelink.mongo.cosmos.azure.us",
+    "privatelink.table.cosmos.azure.us",
+    "privatelink.postgres.database.usgovcloudapi.net",
+    "privatelink.mysql.database.usgovcloudapi.net",
+    "privatelink.vaultcore.usgovcloudapi.net",
+    "privatelink.servicebus.usgovcloudapi.net",
+    "privatelink.redis.cache.usgovcloudapi.net"
+  ]
+}
+
+variable "custom_private_dns_zones" {
+  type        = list(string)
+  description = "List of custom private DNS zones to create."
+  default     = []
+}
