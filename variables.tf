@@ -116,3 +116,9 @@ variable "custom_private_dns_zones" {
   description = "List of custom private DNS zones to create."
   default     = []
 }
+
+variable "dr_location" {
+  description = "The Azure location/region for DR resources."
+  type        = string
+  default     = "usgovtexas"
+}
