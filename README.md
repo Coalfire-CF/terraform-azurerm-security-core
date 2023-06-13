@@ -15,6 +15,44 @@ This module is the first step for deploying the Coalfire Azure FedRAMP Framework
 - Resource group
 - Subscription diagnostics monitor
 
+## Deployment Steps
+
+### Global-vars.tf
+
+Update global vars file with the following variables:
+| Name | Description | Sample |
+|---|---|---|
+| subscription_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
+| tenant_id | The Azure tenant ID that owns the deployed resources. Found in AAD properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
+| app_subscription_ids | The Azure subscription IDs for client application subscriptions. This should be the subscription for the application plane | ["00000000-0000-0000-0000-000000000000"] |
+| app_abbreviation | two or three digit abbreviation for app resource naming | "CF" |
+| cidrs_for_remote_access | List of CIDRs that will be allowed to access the resources | [""]|
+| admin_principal_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in AAD | ["00000000-0000-0000-0000-000000000000"] |
+
+## mgmt/security-core/core.tf
+
+The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or aad permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
+
+### Terraform Deployment
+
+Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
+
+Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
+
+**Warning** It does take some time for the initial key vault permissions to propagate. If you get an error about the Customer Managed Key for the state storage account error 400, wait a few minutes and try again and deployment should complete successfully.
+
+### Migrate State
+
+Now that the storage account exists you need to migrate the local state file to the remote state storage account.
+
+1. Uncomment the `backend "azurerm"` portion of the `tstate.tf` file.
+2. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
+3. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
+4. Run `terraform apply` to migrate the state file to the remote storage account.
+5. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
+6. Uncomment the `remote-data.tf` file for the `Core` block only.
+7. Commit changes and push to repo.
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |

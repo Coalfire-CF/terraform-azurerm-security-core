@@ -8,6 +8,7 @@ resource "azurerm_storage_account" "tf_state" {
   min_tls_version                 = "TLS1_2"
   enable_https_traffic_only       = true
   allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true #controlled with firewall rules 
 
   identity {
     type = "SystemAssigned"
@@ -22,11 +23,12 @@ resource "azurerm_storage_account" "tf_state" {
     versioning_enabled = true
   }
 
+  #removed for testing jun08-2023 -df
   # network_rules {
-  #   #default_action             = "Deny" # Changed from default dny to allow to support GH actions being able to access state file
-  #   default_action             = "Deny"
-  #   ip_rules                   = var.ip_for_remote_access
-  #   virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
+  #   default_action = "Deny"
+  #   ip_rules       = var.ip_for_remote_access
+  #   #virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
+  #   virtual_network_subnet_ids = var.ip_for_remote_access
   # }
 
   tags = merge({

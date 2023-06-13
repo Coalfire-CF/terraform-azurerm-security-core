@@ -1,14 +1,10 @@
 resource "azurerm_private_dns_zone" "default" {
-  count               = local.enable_private_dns ? 1 : 0
-  name                = var.private_dns_zone_name
+  for_each            = toset(local.private_dns_zones)
+  name                = each.value
   resource_group_name = var.core_rg_name
   tags                = local.tags
 
-
   lifecycle {
-    # new provider version is erroring that this is redundant. 02/27/2024
-    #  ignore_changes = [number_of_record_sets]
+    # ignore_changes = [number_of_record_sets]
   }
 }
-
-
