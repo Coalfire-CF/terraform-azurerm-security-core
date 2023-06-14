@@ -7,10 +7,10 @@ resource "azurerm_log_analytics_workspace" "core-la" {
   internet_ingestion_enabled = true
   internet_query_enabled     = true
 
-  tags = {
+  tags = merge({
     Function = "SIEM"
-    Plane    = "Core"
-  }
+    Function = "Core"
+  }, var.global_tags, var.regional_tags)
 
   depends_on = [
     azurerm_resource_group.core
