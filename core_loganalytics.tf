@@ -9,7 +9,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
 
   tags = merge({
     Function = "SIEM"
-    Function = "Core"
+    Plane    = "Core"
   }, var.global_tags, var.regional_tags)
 
   depends_on = [
