@@ -46,6 +46,10 @@ output "install-cmk_id" {
   value = azurerm_key_vault_key.install-cmk.id
 }
 
+output "law_queries-cmk_id" {
+  value = azurerm_key_vault_key.law_queries-cmk.id
+}
+
 output "tstate-cmk_id" {
   value = azurerm_key_vault_key.tstate-cmk.id
 }
