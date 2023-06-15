@@ -17,6 +17,13 @@ resource "azurerm_log_analytics_workspace" "core-la" {
   ]
 }
 
+module "diag_la_queries_sa" {
+  source                = "github.com/Coalfire-CF/ACE-Azure-Diagnostics"
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
+  resource_id           = azurerm_log_analytics_workspace.core-la.id
+  resource_type         = "law"
+}
+
 # storage account for stored log analytics queries
 
 #data "azurerm_client_config" "current" {}
