@@ -111,3 +111,10 @@ resource "azurerm_log_analytics_linked_storage_account" "law_queries" {
   workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
   storage_account_ids   = [azurerm_storage_account.law_queries.id]
 }
+
+resource "azurerm_log_analytics_linked_storage_account" "law_alerts" {
+  data_source_type      = "Alerts"
+  resource_group_name   = azurerm_resource_group.core.name
+  workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
+  storage_account_ids   = [azurerm_storage_account.law_queries.id]
+}
