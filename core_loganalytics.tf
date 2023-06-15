@@ -21,7 +21,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
 
 #data "azurerm_client_config" "current" {}
 resource "azurerm_storage_account" "law_queries" {
-  name                              = length("${local.storage_name_prefix}satfstate") <= 24 ? "${local.storage_name_prefix}satfstate" : "${var.location_abbreviation}mp${var.app_abbreviation}salawqueries"
+  name                              = length("${local.storage_name_prefix}salawqueries") <= 24 ? "${local.storage_name_prefix}salawqueries" : "${var.location_abbreviation}mp${var.app_abbreviation}salawqueries"
   resource_group_name               = azurerm_resource_group.core.name
   location                          = var.location
   account_tier                      = "Standard"
