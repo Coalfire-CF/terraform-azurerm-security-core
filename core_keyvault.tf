@@ -118,6 +118,25 @@ resource "azurerm_key_vault_key" "tstate-cmk" {
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
+resource "azurerm_key_vault_key" "law_queries-cmk" {
+  # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
+  name         = "law-queries-cmk"
+  key_vault_id = module.core_kv.key_vault_id
+  key_type     = "RSA"
+  key_size     = 4096
+
+  key_opts = [
+    "decrypt",
+    "encrypt",
+    "sign",
+    "unwrapKey",
+    "verify",
+    "wrapKey",
+  ]
+
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
+}
+
 resource "azurerm_key_vault_key" "cloudshell-cmk" {
   # checkov:skip=CKV_Azure_112:HSM backed Key Vault keys are not required.
   name         = "cloudshell-cmk"

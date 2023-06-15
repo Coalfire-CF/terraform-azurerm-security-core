@@ -1,14 +1,15 @@
 data "azurerm_client_config" "current" {}
 resource "azurerm_storage_account" "tf_state" {
-  name                            = length("${local.storage_name_prefix}satfstate") <= 24 ? "${local.storage_name_prefix}satfstate" : "${var.location_abbreviation}mp${var.app_abbreviation}satfstate"
-  resource_group_name             = azurerm_resource_group.core.name
-  location                        = var.location
-  account_tier                    = "Standard"
-  account_replication_type        = "LRS"
-  min_tls_version                 = "TLS1_2"
-  enable_https_traffic_only       = true
-  allow_nested_items_to_be_public = false
-  public_network_access_enabled   = true #controlled with firewall rules 
+  name                              = length("${local.storage_name_prefix}satfstate") <= 24 ? "${local.storage_name_prefix}satfstate" : "${var.location_abbreviation}mp${var.app_abbreviation}satfstate"
+  resource_group_name               = azurerm_resource_group.core.name
+  location                          = var.location
+  account_tier                      = "Standard"
+  account_replication_type          = "GRS"
+  min_tls_version                   = "TLS1_2"
+  enable_https_traffic_only         = true
+  allow_nested_items_to_be_public   = false
+  public_network_access_enabled     = true #controlled with firewall rules 
+  infrastructure_encryption_enabled = true
 
   identity {
     type = "SystemAssigned"

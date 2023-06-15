@@ -29,7 +29,7 @@ variable "subscription_id" {
 }
 
 variable "app_subscription_ids" {
-  description = "The Azure subscription IDs for TM microservices"
+  description = "The Azure subscription IDs for org microservices"
   type        = map(any)
 }
 
@@ -72,13 +72,13 @@ variable "private_dns_zone_name" {
 
 variable "enable_sub_logs" {
   type        = bool
-  description = "Enable subscription level logging"
+  description = "Enable/Disable subscription level logging"
   default     = true
 }
 
 variable "enable_aad_logs" {
   type        = bool
-  description = "Enable AAD logging"
+  description = "Enable/Disable AAD logging"
   default     = true
 }
 
