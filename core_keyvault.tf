@@ -120,7 +120,7 @@ resource "azurerm_key_vault_key" "tstate-cmk" {
 
 resource "azurerm_key_vault_key" "law_queries-cmk" {
   # checkov:skip=CKV_AZURE_112: HSM backed Key Vault keys are not required.
-  name         = "law_queries-cmk"
+  name         = "law-queries-cmk"
   key_vault_id = module.core_kv.key_vault_id
   key_type     = "RSA"
   key_size     = 4096
