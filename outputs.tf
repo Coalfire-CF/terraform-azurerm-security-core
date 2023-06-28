@@ -76,9 +76,9 @@ output "core_xadm_ssh_public_key" {
 
 output "core_private_dns_zone_id" {
   #value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.id : null
-  value = azurerm_private_dns_zone.default.id
+  value = azurerm_private_dns_zone.default.id.0
 }
 output "core_private_dns_zones" {
   # value = { for zone in azurerm_private_dns_zone.default : zone.name => zone.id }
-  value = azurerm_private_dns_zone.default.name
+  value = azurerm_private_dns_zone.default.name.0
 }
