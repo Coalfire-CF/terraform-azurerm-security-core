@@ -1,4 +1,4 @@
-# AAD Logs
+# Entra ID Logs
 resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
   count = var.enable_aad_logs ? 1 : 0
 

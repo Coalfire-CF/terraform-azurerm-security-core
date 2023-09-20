@@ -78,13 +78,13 @@ variable "enable_sub_logs" {
 
 variable "enable_aad_logs" {
   type        = bool
-  description = "Enable/Disable AAD logging"
+  description = "Enable/Disable Entra ID logging"
   default     = true
 }
 
 variable "enable_aad_permissions" {
   type        = bool
-  description = "Enable/Disable provisioning basic AAD level permissions."
+  description = "Enable/Disable provisioning basic Entra ID level permissions."
   default     = true
 }
 

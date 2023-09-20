@@ -18,7 +18,7 @@ This module is the first step for deploying the [coalfire-azure-pak](https://git
 - Resource group
 - Vnet
 - Private DNS zone if desired
-- AAD Diagnostic logs
+- Entra ID Diagnostic logs
 - Storage account to store the terraform state files
 - Key Vault
 - Log Analytics workspace
@@ -30,15 +30,15 @@ Update `/coalfire-azure-pak/terraform/prod/global-vars.tf` file variables:
 | Name | Description | Sample |
 |---|---|---|
 | subscription_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
-| tenant_id | The Azure tenant ID that owns the deployed resources. Found in AAD properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
+| tenant_id | The Azure tenant ID that owns the deployed resources. Found in Entra ID properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
 | app_subscription_ids | The Azure subscription IDs for client application subscriptions. This should be the subscription for the application plane | ["00000000-0000-0000-0000-000000000000"] |
 | app_abbreviation | two or three digit abbreviation for app resource naming | "CF" |
 | cidrs_for_remote_access | List of CIDRs that will be allowed to access the resources | [""]|
-| admin_principal_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in AAD | ["00000000-0000-0000-0000-000000000000"] |
+| admin_principal_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in Entra ID | ["00000000-0000-0000-0000-000000000000"] |
 
 ## /coalfire-azure-pak/terraform/prod/us-va/security-core/core.tf
 
-The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or AAD permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
+The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or Entra ID permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
 
 ## Deployment Steps
 
@@ -116,9 +116,9 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | n/a |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | n/a |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.42.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.73.0 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.4 |
 
 ## Modules
 
@@ -184,8 +184,8 @@ No requirements.
 | <a name="input_core_rg_name"></a> [core\_rg\_name](#input\_core\_rg\_name) | Resource group name for core security services | `string` | `"core-rg-1"` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
-| <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable AAD logging | `bool` | `true` | no |
-| <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic AAD level permissions. | `bool` | `true` | no |
+| <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
+| <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | This is the same as 'cidrs\_for\_remote\_access' but without the /32 on each of the files. The 'ip\_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | `list(any)` | n/a | yes |
