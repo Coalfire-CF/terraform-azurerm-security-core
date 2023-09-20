@@ -1,3 +1,5 @@
+# Update the variables below to match your environment
+
 variable "global_tags" {
   type        = map(string)
   description = "Global level tags"
