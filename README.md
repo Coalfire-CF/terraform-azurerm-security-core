@@ -7,7 +7,7 @@
 
 ## Description
 
-This module is the first step for deploying the [coalfire-azure-pak](https://github.com/Coalfire-CF/ACE-Azure-RA) FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
+This module is the first step for deploying the [Coalfire-Azure-RAMPpak](https://github.com/Coalfire-CF/Coalfire-Azure-RAMPpak) FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
 
 ## Dependencies
 
