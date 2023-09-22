@@ -9,6 +9,8 @@
 
 This module is the first step for deploying the [Coalfire-Azure-RAMPpak](https://github.com/Coalfire-CF/Coalfire-Azure-RAMPpak) FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
 
+Learn more at [Coalfire OpenSource](https://coalfire.com/opensource).
+
 ## Dependencies
 
 - New Azure Commercial or Gov Subscription
@@ -72,7 +74,7 @@ provider "azurerm" {
 }
 
 module "core" {
-  source = "github.com/Coalfire-CF/ACE-Azure-SecurityCore"
+  source = "github.com/Coalfire-CF/terraform-azurerm-security-core"
 
   subscription_id          = var.subscription_id
   resource_prefix          = local.resource_prefix
