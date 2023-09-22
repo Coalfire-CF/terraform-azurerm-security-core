@@ -78,7 +78,7 @@ resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
 }
 
 module "diag_tf_state_sa" {
-  source                = "github.com/Coalfire-CF/ACE-Azure-Diagnostics"
+  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = azurerm_storage_account.tf_state.id
   resource_type         = "sa"

@@ -18,7 +18,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
 }
 
 module "diag_law" {
-  source                = "github.com/Coalfire-CF/ACE-Azure-Diagnostics"
+  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = azurerm_log_analytics_workspace.core-la.id
   resource_type         = "law"
@@ -106,7 +106,7 @@ resource "azurerm_storage_container" "law_queries" {
 # }
 
 module "diag_la_queries_sa" {
-  source                = "github.com/Coalfire-CF/ACE-Azure-Diagnostics"
+  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = azurerm_storage_account.law_queries.id
   resource_type         = "sa"
