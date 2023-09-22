@@ -126,7 +126,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | github.com/Coalfire-CF/ACE-Azure-KeyVault | n/a |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | github.com/Coalfire-CF/terraform-azurerm-key-vault | n/a |
 | <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
 | <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
 | <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
