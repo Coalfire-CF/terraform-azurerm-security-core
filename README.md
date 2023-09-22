@@ -1,47 +1,58 @@
-# Coalfire Azure Core Security Components
+<div align="center">
+<img src="coalfire_logo.png" width="200">
+
+</div>
+
+# terraform-azurerm-security-core
 
 ## Description
 
-This module is the first step for deploying the Coalfire Azure FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
+This module is the first step for deploying the [Coalfire-Azure-RAMPpak](https://github.com/Coalfire-CF/Coalfire-Azure-RAMPpak) FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
+
+## Dependencies
+
+- New Azure Commercial or Gov Subscription
 
 ## Resource List
 
+- Resource group
 - Vnet
 - Private DNS zone if desired
-- AAD Diagnostic logs
+- Entra ID Diagnostic logs
 - Storage account to store the terraform state files
 - Key Vault
 - Log Analytics workspace
-- Resource group
 - Subscription diagnostics monitor
-
-## Deployment Steps
 
 ### Global-vars.tf
 
-Update global vars file with the following variables:
+Update `/coalfire-azure-pak/terraform/prod/global-vars.tf` file variables:
 | Name | Description | Sample |
 |---|---|---|
 | subscription_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
-| tenant_id | The Azure tenant ID that owns the deployed resources. Found in AAD properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
+| tenant_id | The Azure tenant ID that owns the deployed resources. Found in Entra ID properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
 | app_subscription_ids | The Azure subscription IDs for client application subscriptions. This should be the subscription for the application plane | ["00000000-0000-0000-0000-000000000000"] |
 | app_abbreviation | two or three digit abbreviation for app resource naming | "CF" |
 | cidrs_for_remote_access | List of CIDRs that will be allowed to access the resources | [""]|
-| admin_principal_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in AAD | ["00000000-0000-0000-0000-000000000000"] |
+| admin_principal_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in Entra ID | ["00000000-0000-0000-0000-000000000000"] |
 
-## mgmt/security-core/core.tf
+## /coalfire-azure-pak/terraform/prod/us-va/security-core/core.tf
 
-The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or aad permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
+The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or Entra ID permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
 
-### Terraform Deployment
+## Deployment Steps
 
-Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
+- Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
+- Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
+- Login to the Azure CLI: `az login`. If your subscription is in Azure Gov change the cloud first with: `az login --environment AzureUSGovernment`
+- Change directories to the `/coalfire-azure-pak/terraform/prod/us-va/security-core` directory.
+- Run `terraform init`.
+- Run `terraform plan` to review the resources being created.
+- If everything looks correct in the plan output, run `terraform apply`.
 
-Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
+**Warning** It does take some time for the initial key vault permissions to propagate. If you get a 400 error about the Customer Managed Key for the state storage account, wait a few minutes and try again. The deployment should complete successfully.
 
-**Warning** It does take some time for the initial key vault permissions to propagate. If you get an error about the Customer Managed Key for the state storage account error 400, wait a few minutes and try again and deployment should complete successfully.
-
-### Migrate State
+## Migrate State
 
 Now that the storage account exists you need to migrate the local state file to the remote state storage account.
 
@@ -56,34 +67,43 @@ Now that the storage account exists you need to migrate the local state file to 
 ## Usage
 
 ```hcl
-module "core" {
-  source = "github.com:Coalfire-CF/ACE-Azure-SecurityCore?ref=v1.0.0"
+provider "azurerm" {
+  features {}
+}
 
-  subscription_id         = var.subscription_id
-  resource_prefix         = local.resource_prefix
-  location_abbreviation   = var.location_abbreviation
-  location                = var.location
-  app_abbreviation        = var.app_abbreviation
-  tenant_id               = var.tenant_id
-  regional_tags           = var.regional_tags
-  global_tags             = var.global_tags
-  core_rg_name            = "${local.resource_prefix}-core-rg"
-  cidrs_for_remote_access = var.cidrs_for_remote_access
-  ip_for_remote_access    = var.ip_for_remote_access
-  admin_principal_ids     = var.admin_principal_ids
-  enable_diag_logs        = true
-  enable_aad_logs         = true
-  #diag_law_id             = data.terraform_remote_state.core.outputs.core_la_id
-  sub_diag_logs = [
-    "Administrative",
-    "Security",
-    "ServiceHealth",
-    "Alert",
-    "Recommendation",
-    "Policy",
-    "Autoscale",
-    "ResourceHealth"
+module "core" {
+  source = "github.com/Coalfire-CF/ACE-Azure-SecurityCore"
+
+  subscription_id          = var.subscription_id
+  resource_prefix          = local.resource_prefix
+  location_abbreviation    = var.location_abbreviation
+  location                 = var.location
+  app_abbreviation         = var.app_abbreviation
+  tenant_id                = var.tenant_id
+  regional_tags            = var.regional_tags
+  global_tags              = merge(var.global_tags, local.global_local_tags)
+  core_rg_name             = "${local.resource_prefix}-core-rg"
+  cidrs_for_remote_access  = var.cidrs_for_remote_access
+  ip_for_remote_access     = var.ip_for_remote_access
+  admin_principal_ids      = var.admin_principal_ids
+  private_dns_zone_name    = var.domain_name
+  app_subscription_ids     = var.app_subscription_ids
+  enable_sub_logs          = false
+  enable_aad_logs          = false
+  enable_aad_permissions   = false
+  custom_private_dns_zones = [var.domain_name]
+  azure_private_dns_zones = [
+    "privatelink.azurecr.us",
+    "privatelink.database.usgovcloudapi.net",
+    "privatelink.blob.core.usgovcloudapi.net",
+    "privatelink.table.core.usgovcloudapi.net",
+    "privatelink.queue.core.usgovcloudapi.net",
+    "privatelink.file.core.usgovcloudapi.net",
+    "privatelink.postgres.database.usgovcloudapi.net"
   ]
+
+  # uncomment and rerun terraform apply after the networks are created if you're using FWs
+  #fw_virtual_network_subnet_ids = data.terraform_remote_state.usgv_mgmt_vnet.outputs.usgv_mgmt_vnet_subnet_ids["${local.resource_prefix}-bastion-sn-1"] #Uncomment and rerun terraform apply after the mgmt-network is created
 }
 ```
 
@@ -164,8 +184,8 @@ No requirements.
 | <a name="input_core_rg_name"></a> [core\_rg\_name](#input\_core\_rg\_name) | Resource group name for core security services | `string` | `"core-rg-1"` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
-| <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable AAD logging | `bool` | `true` | no |
-| <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic AAD level permissions. | `bool` | `true` | no |
+| <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
+| <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | This is the same as 'cidrs\_for\_remote\_access' but without the /32 on each of the files. The 'ip\_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | `list(any)` | n/a | yes |
@@ -181,24 +201,24 @@ No requirements.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ad-cmk_id"></a> [ad-cmk\_id](#output\_ad-cmk\_id) | n/a |
-| <a name="output_ars-cmk_id"></a> [ars-cmk\_id](#output\_ars-cmk\_id) | n/a |
-| <a name="output_avd-cmk_id"></a> [avd-cmk\_id](#output\_avd-cmk\_id) | n/a |
-| <a name="output_cloudshell-cmk_id"></a> [cloudshell-cmk\_id](#output\_cloudshell-cmk\_id) | n/a |
-| <a name="output_core_kv_id"></a> [core\_kv\_id](#output\_core\_kv\_id) | n/a |
-| <a name="output_core_kv_name"></a> [core\_kv\_name](#output\_core\_kv\_name) | n/a |
-| <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | n/a |
-| <a name="output_core_la_primaryKey"></a> [core\_la\_primaryKey](#output\_core\_la\_primaryKey) | n/a |
-| <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | n/a |
-| <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | n/a |
-| <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | n/a |
-| <a name="output_core_private_dns_zone_id"></a> [core\_private\_dns\_zone\_id](#output\_core\_private\_dns\_zone\_id) | n/a |
-| <a name="output_core_private_dns_zones"></a> [core\_private\_dns\_zones](#output\_core\_private\_dns\_zones) | n/a |
-| <a name="output_core_rg_name"></a> [core\_rg\_name](#output\_core\_rg\_name) | n/a |
-| <a name="output_core_xadm_ssh_public_key"></a> [core\_xadm\_ssh\_public\_key](#output\_core\_xadm\_ssh\_public\_key) | n/a |
-| <a name="output_docs-cmk_id"></a> [docs-cmk\_id](#output\_docs-cmk\_id) | n/a |
-| <a name="output_flowlog-cmk_id"></a> [flowlog-cmk\_id](#output\_flowlog-cmk\_id) | n/a |
-| <a name="output_install-cmk_id"></a> [install-cmk\_id](#output\_install-cmk\_id) | n/a |
-| <a name="output_law_queries-cmk_id"></a> [law\_queries-cmk\_id](#output\_law\_queries-cmk\_id) | n/a |
-| <a name="output_tstate-cmk_id"></a> [tstate-cmk\_id](#output\_tstate-cmk\_id) | n/a |
+| <a name="output_ad-cmk_id"></a> [ad-cmk\_id](#output\_ad-cmk\_id) | AD SA CMK ID |
+| <a name="output_ars-cmk_id"></a> [ars-cmk\_id](#output\_ars-cmk\_id) | Azure Recovery Services SA CMK ID |
+| <a name="output_avd-cmk_id"></a> [avd-cmk\_id](#output\_avd-cmk\_id) | Azure Virtual Desktop CMK ID |
+| <a name="output_cloudshell-cmk_id"></a> [cloudshell-cmk\_id](#output\_cloudshell-cmk\_id) | Cloudshell SA CMK ID |
+| <a name="output_core_kv_id"></a> [core\_kv\_id](#output\_core\_kv\_id) | Value of the Core Key Vault ID |
+| <a name="output_core_kv_name"></a> [core\_kv\_name](#output\_core\_kv\_name) | Name of the Core Key vault |
+| <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | value of the core log analytics workspace id |
+| <a name="output_core_la_primaryKey"></a> [core\_la\_primaryKey](#output\_core\_la\_primaryKey) | value of the core log analytics workspace primary key |
+| <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | value of the core log analytics workspace secondary key |
+| <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | value of the core log analytics workspace id |
+| <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | value of the core log analytics workspace name |
+| <a name="output_core_private_dns_zone_id"></a> [core\_private\_dns\_zone\_id](#output\_core\_private\_dns\_zone\_id) | Private DNS Zone IDs |
+| <a name="output_core_private_dns_zones"></a> [core\_private\_dns\_zones](#output\_core\_private\_dns\_zones) | Private DNS Zone names |
+| <a name="output_core_rg_name"></a> [core\_rg\_name](#output\_core\_rg\_name) | Name of the core resource group |
+| <a name="output_core_xadm_ssh_public_key"></a> [core\_xadm\_ssh\_public\_key](#output\_core\_xadm\_ssh\_public\_key) | Value of the SSH public key for xadm |
+| <a name="output_docs-cmk_id"></a> [docs-cmk\_id](#output\_docs-cmk\_id) | Docs SA CMK ID |
+| <a name="output_flowlog-cmk_id"></a> [flowlog-cmk\_id](#output\_flowlog-cmk\_id) | Flowlogs SA CMK ID |
+| <a name="output_install-cmk_id"></a> [install-cmk\_id](#output\_install-cmk\_id) | Installs SA CMK ID |
+| <a name="output_law_queries-cmk_id"></a> [law\_queries-cmk\_id](#output\_law\_queries-cmk\_id) | Log Analytics Workspace Queries SA CMK ID |
+| <a name="output_tstate-cmk_id"></a> [tstate-cmk\_id](#output\_tstate-cmk\_id) | Terraform State SA CMK ID |
 <!-- END_TF_DOCS -->
