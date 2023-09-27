@@ -224,3 +224,19 @@ No requirements.
 | <a name="output_law_queries-cmk_id"></a> [law\_queries-cmk\_id](#output\_law\_queries-cmk\_id) | Log Analytics Workspace Queries SA CMK ID |
 | <a name="output_tstate-cmk_id"></a> [tstate-cmk\_id](#output\_tstate-cmk\_id) | Terraform State SA CMK ID |
 <!-- END_TF_DOCS -->
+
+## Contributing
+
+[Start Here](CONTRIBUTING.md)
+
+## License
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/license/mit/)
+
+## Contact Us
+
+[Coalfire](https://coalfire.com/)
+
+### Copyright
+
+Copyright © 2023 Coalfire Systems Inc.
