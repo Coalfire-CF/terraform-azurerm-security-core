@@ -3,8 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      #version = "~> 3.45.0"
-      version = "~> 4.0" # 4.0 isn't compatible with pak currently
+      version = "~> 4.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
