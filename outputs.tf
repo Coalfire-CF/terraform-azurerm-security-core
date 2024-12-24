@@ -88,28 +88,12 @@ output "core_xadm_ssh_public_key" {
   description = "Value of the SSH public key for xadm"
 }
 
-# output "core_private_dns_zone_name" {
-#   value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.name : null
-# }
-
 output "core_private_dns_zone_id" {
-  #value = local.enable_private_dns ? azurerm_private_dns_zone.default.0.id : null
-  # value = azurerm_private_dns_zone.default[each.key].id
-  value       = values(azurerm_private_dns_zone.default).*.id
+  value       = values(azurerm_private_dns_zone.default)[*].id
   description = "Private DNS Zone IDs"
 }
 
-# sample
-# output "core_private_dns_zone_id" {
-#   value = {
-#     for k, bd in mso_schema_template_bd.bd : k => bd.name
-#   }
-# }
-
-
 output "core_private_dns_zones" {
-  # value = { for zone in azurerm_private_dns_zone.default : zone.name => zone.id }
-  #  value = azurerm_private_dns_zone.default[each.key].name
-  value       = values(azurerm_private_dns_zone.default).*.name
+  value       = values(azurerm_private_dns_zone.default)[*].name
   description = "Private DNS Zone names"
 }

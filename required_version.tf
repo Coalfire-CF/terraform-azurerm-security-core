@@ -10,5 +10,13 @@ terraform {
       source  = "hashicorp/azuread"
       version = "~> 2.0" # 3.0 appears bugged: https://github.com/hashicorp/terraform-provider-azuread/issues/1526
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
   }
 }
