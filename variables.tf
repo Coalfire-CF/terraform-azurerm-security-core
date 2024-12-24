@@ -122,3 +122,9 @@ variable "dr_location" {
   type        = string
   default     = "usgovtexas"
 }
+
+variable "log_analytics_data_collection_rule_id" {
+  description = "Optional Log Analytics Data Collection Rule for the workspace."
+  type        = string
+  default     = null
+}

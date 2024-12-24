@@ -6,6 +6,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
   retention_in_days          = 366
   internet_ingestion_enabled = true
   internet_query_enabled     = true
+  data_collection_rule_id    = var.log_analytics_data_collection_rule_id
 
   tags = merge({
     Function = "SIEM"
