@@ -4,94 +4,34 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
 
   name                       = "AAD_Logs"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.core-la.id
-  log {
+  enabled_log {
     category = "SignInLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "AuditLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "NonInteractiveUserSignInLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "ServicePrincipalSignInLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "ManagedIdentitySignInLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  # not supported on Gov Cloud
-  # log {
-  #   category = "ProvisioningLogs"
-  #   enabled  = true
-  #   retention_policy {
-  #     enabled = true
-  #     days    = 365
-  #   }
-  # }
-  log {
+  enabled_log {
     category = "ADFSSignInLogs"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "RiskyUsers"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-  log {
+  enabled_log {
     category = "UserRiskEvents"
-    enabled  = true
-    retention_policy {
-      enabled = true
-      days    = 365
-    }
   }
-
-  log {
+  enabled_log {
     category = "RiskyServicePrincipals"
-    enabled  = false
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
   }
-  log {
+  enabled_log {
     category = "ServicePrincipalRiskEvents"
-    enabled  = false
-    retention_policy {
-      enabled = false
-      days    = 0
-    }
   }
 }
