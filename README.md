@@ -109,25 +109,31 @@ module "core" {
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | n/a |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | n/a |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 2.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | github.com/Coalfire-CF/terraform-azurerm-key-vault | n/a |
-| <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
-| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
-| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
-| <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | n/a |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.0.2 |
+| <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.0.0 |
+| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.0.0 |
+| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.0.0 |
+| <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.0.0 |
 
 ## Resources
 
@@ -168,8 +174,6 @@ No requirements.
 | [azurerm_storage_container.tf_state_lock](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_management_policy.lifecycle_mgmt](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_management_policy) | resource |
 | [tls_private_key.xadm](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
-| [azurerm_subscription.primary](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 
 ## Inputs
 
@@ -178,7 +182,7 @@ No requirements.
 | <a name="input_admin_principal_ids"></a> [admin\_principal\_ids](#input\_admin\_principal\_ids) | admin principal ids | `set(string)` | n/a | yes |
 | <a name="input_app_abbreviation"></a> [app\_abbreviation](#input\_app\_abbreviation) | The prefix for the blob storage account names | `string` | n/a | yes |
 | <a name="input_app_subscription_ids"></a> [app\_subscription\_ids](#input\_app\_subscription\_ids) | The Azure subscription IDs for org microservices | `map(any)` | n/a | yes |
-| <a name="input_azure_private_dns_zones"></a> [azure\_private\_dns\_zones](#input\_azure\_private\_dns\_zones) | List of Private DNS zones to create. | `list(string)` | <pre>[<br>  "privatelink.azurecr.us",<br>  "privatelink.azuredatabricks.net",<br>  "privatelink.database.usgovcloudapi.net",<br>  "privatelink.datafactory.azure.net",<br>  "privatelink.blob.core.usgovcloudapi.net",<br>  "privatelink.table.core.usgovcloudapi.net",<br>  "privatelink.queue.core.usgovcloudapi.net",<br>  "privatelink.file.core.usgovcloudapi.net",<br>  "privatelink.documents.azure.us",<br>  "privatelink.mongo.cosmos.azure.us",<br>  "privatelink.table.cosmos.azure.us",<br>  "privatelink.postgres.database.usgovcloudapi.net",<br>  "privatelink.mysql.database.usgovcloudapi.net",<br>  "privatelink.vaultcore.usgovcloudapi.net",<br>  "privatelink.servicebus.usgovcloudapi.net",<br>  "privatelink.redis.cache.usgovcloudapi.net"<br>]</pre> | no |
+| <a name="input_azure_private_dns_zones"></a> [azure\_private\_dns\_zones](#input\_azure\_private\_dns\_zones) | List of Private DNS zones to create. | `list(string)` | <pre>[<br/>  "privatelink.azurecr.us",<br/>  "privatelink.azuredatabricks.net",<br/>  "privatelink.database.usgovcloudapi.net",<br/>  "privatelink.datafactory.azure.net",<br/>  "privatelink.blob.core.usgovcloudapi.net",<br/>  "privatelink.table.core.usgovcloudapi.net",<br/>  "privatelink.queue.core.usgovcloudapi.net",<br/>  "privatelink.file.core.usgovcloudapi.net",<br/>  "privatelink.documents.azure.us",<br/>  "privatelink.mongo.cosmos.azure.us",<br/>  "privatelink.table.cosmos.azure.us",<br/>  "privatelink.postgres.database.usgovcloudapi.net",<br/>  "privatelink.mysql.database.usgovcloudapi.net",<br/>  "privatelink.vaultcore.usgovcloudapi.net",<br/>  "privatelink.servicebus.usgovcloudapi.net",<br/>  "privatelink.redis.cache.usgovcloudapi.net"<br/>]</pre> | no |
 | <a name="input_cidrs_for_remote_access"></a> [cidrs\_for\_remote\_access](#input\_cidrs\_for\_remote\_access) | admin ciders | `list(any)` | n/a | yes |
 | <a name="input_core_rg_name"></a> [core\_rg\_name](#input\_core\_rg\_name) | Resource group name for core security services | `string` | `"core-rg-1"` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
@@ -187,10 +191,9 @@ No requirements.
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
-| <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | This is the same as 'cidrs\_for\_remote\_access' but without the /32 on each of the files. The 'ip\_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | `list(any)` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location/region to create resources in | `string` | n/a | yes |
 | <a name="input_location_abbreviation"></a> [location\_abbreviation](#input\_location\_abbreviation) | The  Azure location/region in 4 letter code | `string` | n/a | yes |
-| <a name="input_private_dns_zone_name"></a> [private\_dns\_zone\_name](#input\_private\_dns\_zone\_name) | The name of the Private DNS Zone. Must be a valid domain name. | `string` | `null` | no |
+| <a name="input_log_analytics_data_collection_rule_id"></a> [log\_analytics\_data\_collection\_rule\_id](#input\_log\_analytics\_data\_collection\_rule\_id) | Optional Log Analytics Data Collection Rule for the workspace. | `string` | `null` | no |
 | <a name="input_regional_tags"></a> [regional\_tags](#input\_regional\_tags) | Regional level tags | `map(string)` | n/a | yes |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Name prefix used for resources | `string` | n/a | yes |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The Azure subscription ID where resources are being deployed into | `string` | n/a | yes |
