@@ -6,6 +6,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
   retention_in_days          = 366
   internet_ingestion_enabled = true
   internet_query_enabled     = true
+  data_collection_rule_id    = var.log_analytics_data_collection_rule_id
 
   tags = merge({
     Function = "SIEM"
@@ -18,7 +19,7 @@ resource "azurerm_log_analytics_workspace" "core-la" {
 }
 
 module "diag_law" {
-  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics"
+  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = azurerm_log_analytics_workspace.core-la.id
   resource_type         = "law"
@@ -34,7 +35,7 @@ resource "azurerm_storage_account" "law_queries" {
   account_tier                      = "Standard"
   account_replication_type          = "GRS"
   min_tls_version                   = "TLS1_2"
-  enable_https_traffic_only         = true
+  https_traffic_only_enabled         = true
   allow_nested_items_to_be_public   = false
   public_network_access_enabled     = true #controlled with firewall rules 
   infrastructure_encryption_enabled = true
@@ -52,14 +53,6 @@ resource "azurerm_storage_account" "law_queries" {
     versioning_enabled = true
   }
 
-  #removed for testing jun08-2023 -df
-  # network_rules {
-  #   default_action = "Deny"
-  #   ip_rules       = var.ip_for_remote_access
-  #   #virtual_network_subnet_ids = [module.core-vnet.vnet_subnets[2]]
-  #   virtual_network_subnet_ids = var.ip_for_remote_access
-  # }
-
   tags = merge({
     Function = "SIEM"
     Plane    = "Core"
@@ -71,7 +64,7 @@ resource "azurerm_role_assignment" "law_queries_kv_crypto_user" {
   # for_each             = var.admin_principal_ids
   scope                = module.core_kv.key_vault_id
   role_definition_name = "Key Vault Crypto Service Encryption User"
-  principal_id         = azurerm_storage_account.law_queries.identity.0.principal_id
+  principal_id         = azurerm_storage_account.law_queries.identity[0].principal_id
 }
 
 resource "azurerm_storage_account_customer_managed_key" "enable_law_queries_cmk" {
@@ -87,26 +80,8 @@ resource "azurerm_storage_container" "law_queries" {
   container_access_type = "private"
 }
 
-# resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
-#   storage_account_id = azurerm_storage_account.law_queries.id
-
-#   rule {
-#     name    = "deleteAfter90"
-#     enabled = "true"
-#     filters {
-#       prefix_match = ["${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"]
-#       blob_types   = ["blockBlob"]
-#     }
-#     actions {
-#       version {
-#         delete_after_days_since_creation = 90
-#       }
-#     }
-#   }
-# }
-
 module "diag_la_queries_sa" {
-  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics"
+  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
   resource_id           = azurerm_storage_account.law_queries.id
   resource_type         = "sa"

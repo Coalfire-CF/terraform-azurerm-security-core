@@ -49,11 +49,6 @@ variable "cidrs_for_remote_access" {
   type        = list(any)
 }
 
-variable "ip_for_remote_access" {
-  description = "This is the same as 'cidrs_for_remote_access' but without the /32 on each of the files. The 'ip_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over"
-  type        = list(any)
-}
-
 variable "admin_principal_ids" {
   description = "admin principal ids"
   type        = set(string)
@@ -62,12 +57,6 @@ variable "admin_principal_ids" {
 variable "resource_prefix" {
   type        = string
   description = "Name prefix used for resources"
-}
-
-variable "private_dns_zone_name" {
-  type        = string
-  description = "The name of the Private DNS Zone. Must be a valid domain name."
-  default     = null
 }
 
 variable "enable_sub_logs" {
@@ -121,4 +110,10 @@ variable "dr_location" {
   description = "The Azure location/region for DR resources."
   type        = string
   default     = "usgovtexas"
+}
+
+variable "log_analytics_data_collection_rule_id" {
+  description = "Optional Log Analytics Data Collection Rule for the workspace."
+  type        = string
+  default     = null
 }
