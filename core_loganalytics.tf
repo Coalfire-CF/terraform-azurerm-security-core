@@ -29,13 +29,14 @@ module "diag_law" {
 
 #data "azurerm_client_config" "current" {}
 resource "azurerm_storage_account" "law_queries" {
+  depends_on                        = [azurerm.azurerm_resource_group.core]
   name                              = length("${local.storage_name_prefix}salawqueries") <= 24 ? "${local.storage_name_prefix}salawqueries" : "${var.location_abbreviation}mp${var.app_abbreviation}salawqueries"
   resource_group_name               = azurerm_resource_group.core.name
   location                          = var.location
   account_tier                      = "Standard"
   account_replication_type          = "GRS"
   min_tls_version                   = "TLS1_2"
-  https_traffic_only_enabled         = true
+  https_traffic_only_enabled        = true
   allow_nested_items_to_be_public   = false
   public_network_access_enabled     = true #controlled with firewall rules 
   infrastructure_encryption_enabled = true
@@ -88,6 +89,7 @@ module "diag_la_queries_sa" {
 }
 
 resource "azurerm_log_analytics_linked_storage_account" "law_queries" {
+  depends_on            = [azurerm.azurerm_resource_group.core]
   data_source_type      = "Query"
   resource_group_name   = azurerm_resource_group.core.name
   workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
@@ -95,6 +97,7 @@ resource "azurerm_log_analytics_linked_storage_account" "law_queries" {
 }
 
 resource "azurerm_log_analytics_linked_storage_account" "law_alerts" {
+  depends_on            = [azurerm.azurerm_resource_group.core]
   data_source_type      = "Alerts"
   resource_group_name   = azurerm_resource_group.core.name
   workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
