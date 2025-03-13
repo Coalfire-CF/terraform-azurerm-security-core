@@ -165,3 +165,14 @@ variable "law_queries_storage_account_name" {
     error_message = "Storage account names must contain only lowercase letters and numbers"
   }
 }
+variable "log_analytics_workspace_name" {
+  description = "Optional custom name for the Log Analytics Workspace"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{4,63}$", var.log_analytics_workspace_name))
+    error_message = "Log Analytics Workspace names must be between 4 and 63 characters long and can only contain letters, numbers and dashes."
+  }
+}
+
+

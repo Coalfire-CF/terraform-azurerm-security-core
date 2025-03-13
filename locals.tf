@@ -29,4 +29,5 @@ locals {
   key_vault_name                   = var.key_vault_name != "default" ? var.key_vault_name : "${var.resource_prefix}-core-kv"
   tfstate_storage_account_name     = var.tfstate_storage_account_name != "default" ? var.tfstate_storage_account_name : length("${local.storage_name_prefix}satfstate") <= 24 ? "${local.storage_name_prefix}satfstate" : "${var.location_abbreviation}mp${var.app_abbreviation}satfstate"
   law_queries_storage_account_name = var.law_queries_storage_account_name != "default" ? var.law_queries_storage_account_name : length("${local.storage_name_prefix}salawqueries") <= 24 ? "${local.storage_name_prefix}salawqueries" : "${var.location_abbreviation}mp${var.app_abbreviation}salawqueries"
+  log_analytics_workspace_name     = var.log_analytics_workspace_name != "default" ? var.loganalytics_workspace_name : "${var.resource_prefix}-la-1"
 }
