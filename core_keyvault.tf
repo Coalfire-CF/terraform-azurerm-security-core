@@ -200,7 +200,7 @@ resource "tls_private_key" "xadm" {
 }
 
 resource "azurerm_key_vault_secret" "xadm_ssh" {
-  name         = "xadm-ssh-private-key"
+  name         = var.admin_ssh_key_name
   value        = base64encode(tls_private_key.xadm.private_key_openssh)
   key_vault_id = module.core_kv.key_vault_id
   content_type = "ssh-key"

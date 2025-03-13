@@ -174,5 +174,9 @@ variable "log_analytics_workspace_name" {
     error_message = "Log Analytics Workspace names must be between 4 and 63 characters long and can only contain letters, numbers and dashes."
   }
 }
-
+variable "admin_ssh_key_name" {
+  description = "Optional custom name for admin SSH key secret in Key Vault"
+  type        = string
+  default     = "xadm-ssh-private-key"
+}
 
