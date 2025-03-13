@@ -118,6 +118,7 @@ variable "log_analytics_data_collection_rule_id" {
   default     = null
 }
 
+### Optional custom name inputs ###
 variable "key_vault_name" {
   description = "Optional custom name for the Security Core Key Vault"
   type        = string
