@@ -1,7 +1,7 @@
 module "core_kv" {
   source                          = "github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.0.2"
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core-la.id
-  kv_name                         = "${var.resource_prefix}-core-kv"
+  kv_name                         = local.key_vault_name
   resource_group_name             = var.core_rg_name
   location                        = var.location
   tenant_id                       = var.tenant_id

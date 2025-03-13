@@ -117,3 +117,13 @@ variable "log_analytics_data_collection_rule_id" {
   type        = string
   default     = null
 }
+
+variable "key_vault_name" {
+  description = "Optional custom name for the Security Core Key Vault"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{3,24}$", var.key_vault_name))
+    error_message = "Key Vault names must be between 3 and 24 characters long and can only contain letters, numbers and dashes."
+  }
+}
