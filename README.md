@@ -259,4 +259,4 @@ module "core" {
 
 ### Copyright
 
-Copyright © 2023 Coalfire Systems Inc.
+Copyright © Coalfire Systems Inc.
