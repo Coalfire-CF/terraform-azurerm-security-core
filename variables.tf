@@ -152,3 +152,16 @@ variable "tfstate_storage_account_name" {
     error_message = "Storage account names must contain only lowercase letters and numbers"
   }
 }
+variable "law_queries_storage_account_name" {
+  description = "Optional custom name for the Terraform state Storage Account"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = length(var.law_queries_storage_account_name) < 25 && length(var.law_queries_storage_account_name) > 2
+    error_message = "Storage account names must be between 3 and 24 characters in length"
+  }
+  validation {
+    condition     = can(regex("^[0-9a-z]+$", var.law_queries_storage_account_name))
+    error_message = "Storage account names must contain only lowercase letters and numbers"
+  }
+}
