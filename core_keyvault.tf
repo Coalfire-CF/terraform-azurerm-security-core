@@ -1,7 +1,7 @@
 module "core_kv" {
   source                          = "github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.0.2"
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core-la.id
-  kv_name                         = "${var.resource_prefix}-core-kv"
+  kv_name                         = local.key_vault_name
   resource_group_name             = var.core_rg_name
   location                        = var.location
   tenant_id                       = var.tenant_id
@@ -200,7 +200,7 @@ resource "tls_private_key" "xadm" {
 }
 
 resource "azurerm_key_vault_secret" "xadm_ssh" {
-  name         = "xadm-ssh-private-key"
+  name         = var.admin_ssh_key_name
   value        = base64encode(tls_private_key.xadm.private_key_openssh)
   key_vault_id = module.core_kv.key_vault_id
   content_type = "ssh-key"

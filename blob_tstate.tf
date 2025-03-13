@@ -1,6 +1,6 @@
 resource "azurerm_storage_account" "tf_state" {
   depends_on                        = [azurerm_resource_group.core]
-  name                              = length("${local.storage_name_prefix}satfstate") <= 24 ? "${local.storage_name_prefix}satfstate" : "${var.location_abbreviation}mp${var.app_abbreviation}satfstate"
+  name                              = local.tfstate_storage_account_name
   resource_group_name               = azurerm_resource_group.core.name
   location                          = var.location
   account_tier                      = "Standard"

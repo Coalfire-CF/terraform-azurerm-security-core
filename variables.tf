@@ -117,3 +117,67 @@ variable "log_analytics_data_collection_rule_id" {
   type        = string
   default     = null
 }
+
+### Optional custom name inputs ###
+variable "key_vault_name" {
+  description = "Optional custom name for the Security Core Key Vault"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{3,24}$", var.key_vault_name))
+    error_message = "Key Vault names must be between 3 and 24 characters long and can only contain letters, numbers and dashes."
+  }
+  validation {
+    error_message = "Key Vault names must not contain two consecutive dashes"
+    condition     = !can(regex("--", var.key_vault_name))
+  }
+  validation {
+    error_message = "Key Vault names must start with a letter"
+    condition     = can(regex("^[a-zA-Z]", var.key_vault_name))
+  }
+  validation {
+    error_message = "Key Vault names must end with a letter or number"
+    condition     = can(regex("[a-zA-Z0-9]$", var.key_vault_name))
+  }
+}
+variable "tfstate_storage_account_name" {
+  description = "Optional custom name for the Terraform state Storage Account"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = length(var.tfstate_storage_account_name) < 25 && length(var.tfstate_storage_account_name) > 2
+    error_message = "Storage account names must be between 3 and 24 characters in length"
+  }
+  validation {
+    condition     = can(regex("^[0-9a-z]+$", var.tfstate_storage_account_name))
+    error_message = "Storage account names must contain only lowercase letters and numbers"
+  }
+}
+variable "law_queries_storage_account_name" {
+  description = "Optional custom name for the Terraform state Storage Account"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = length(var.law_queries_storage_account_name) < 25 && length(var.law_queries_storage_account_name) > 2
+    error_message = "Storage account names must be between 3 and 24 characters in length"
+  }
+  validation {
+    condition     = can(regex("^[0-9a-z]+$", var.law_queries_storage_account_name))
+    error_message = "Storage account names must contain only lowercase letters and numbers"
+  }
+}
+variable "log_analytics_workspace_name" {
+  description = "Optional custom name for the Log Analytics Workspace"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]{4,63}$", var.log_analytics_workspace_name))
+    error_message = "Log Analytics Workspace names must be between 4 and 63 characters long and can only contain letters, numbers and dashes."
+  }
+}
+variable "admin_ssh_key_name" {
+  description = "Optional custom name for admin SSH key secret in Key Vault"
+  type        = string
+  default     = "xadm-ssh-private-key"
+}
+

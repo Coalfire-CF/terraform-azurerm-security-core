@@ -1,5 +1,5 @@
 resource "azurerm_log_analytics_workspace" "core-la" {
-  name                       = "${var.resource_prefix}-la-1"
+  name                       = local.log_analytics_workspace_name
   location                   = var.location
   resource_group_name        = azurerm_resource_group.core.name
   sku                        = "PerGB2018"
@@ -30,7 +30,7 @@ module "diag_law" {
 #data "azurerm_client_config" "current" {}
 resource "azurerm_storage_account" "law_queries" {
   depends_on                        = [azurerm_resource_group.core]
-  name                              = length("${local.storage_name_prefix}salawqueries") <= 24 ? "${local.storage_name_prefix}salawqueries" : "${var.location_abbreviation}mp${var.app_abbreviation}salawqueries"
+  name                              = local.law_queries_storage_account_name
   resource_group_name               = azurerm_resource_group.core.name
   location                          = var.location
   account_tier                      = "Standard"
