@@ -23,7 +23,8 @@ locals {
     ]
   }
   private_dns_zones = distinct(concat(var.azure_private_dns_zones, var.custom_private_dns_zones, flatten(values(local.regional_private_dns_zones))))
-}
 
-# default resource names
-key_vault_name = var.key_vault_name != "default" ? var.key_vault_name : "${var.resource_prefix}-core-kv"
+
+  # default resource names
+  key_vault_name = var.key_vault_name != "default" ? var.key_vault_name : "${var.resource_prefix}-core-kv"
+}
