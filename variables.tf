@@ -126,4 +126,29 @@ variable "key_vault_name" {
     condition     = can(regex("^[a-zA-Z0-9-]{3,24}$", var.key_vault_name))
     error_message = "Key Vault names must be between 3 and 24 characters long and can only contain letters, numbers and dashes."
   }
+  validation {
+    error_message = "Key Vault names must not contain two consecutive dashes"
+    condition     = !can(regex("--", var.key_vault_name))
+  }
+  validation {
+    error_message = "Key Vault names must start with a letter"
+    condition     = can(regex("^[a-zA-Z]", var.key_vault_name))
+  }
+  validation {
+    error_message = "Key Vault names must end with a letter or number"
+    condition     = can(regex("[a-zA-Z0-9]$", var.key_vault_name))
+  }
+}
+variable "tfstate_storage_account_name" {
+  description = "Optional custom name for the Terraform state Storage Account"
+  type        = string
+  default     = "default"
+  validation {
+    condition     = length(var.tfstate_storage_account_name) < 25 && length(var.tfstate_storage_account_name) > 2
+    error_message = "Storage account names must be between 3 and 24 characters in length"
+  }
+  validation {
+    condition     = can(regex("^[0-9a-z]+$", var.tfstate_storage_account_name))
+    error_message = "Storage account names must contain only lowercase letters and numbers"
+  }
 }
