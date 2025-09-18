@@ -7,7 +7,7 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.0" # 3.0 appears bugged: https://github.com/hashicorp/terraform-provider-azuread/issues/1526
+      version = "~> 3.5" # 3.0 appears bugged: https://github.com/hashicorp/terraform-provider-azuread/issues/1526
     }
     random = {
       source  = "hashicorp/random"
