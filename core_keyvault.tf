@@ -194,14 +194,16 @@ resource "azurerm_key_vault_key" "avd-cmk" {
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
-# Create SSH keys for xadm and store in AKV
+# Generate SSH keypair
 resource "tls_private_key" "xadm" {
   algorithm = "RSA"
+  rsa_bits  = 4096
 }
 
-resource "azurerm_key_vault_secret" "xadm_ssh" {
-  name         = var.admin_ssh_key_name
-  value        = base64encode(tls_private_key.xadm.private_key_openssh)
+# Store the PUBLIC key in Key Vault for use with VM creation
+resource "azurerm_key_vault_secret" "xadm_ssh_pub" {
+  name         = "${var.admin_ssh_key_name}-pub"
+  value        = tls_private_key.xadm.public_key_openssh
   key_vault_id = module.core_kv.key_vault_id
-  content_type = "ssh-key"
+  content_type = "ssh-public-key"
 }
