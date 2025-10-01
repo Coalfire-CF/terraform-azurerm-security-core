@@ -46,7 +46,7 @@ resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
 
 resource "azurerm_storage_container" "tf_state_lock" {
   name                  = "${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"
-  storage_account_name  = azurerm_storage_account.tf_state.name
+  storage_account_id    = azurerm_storage_account.tf_state.id
   container_access_type = "private"
 }
 
