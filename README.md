@@ -205,7 +205,7 @@ module "core" {
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
-| <a name="input_enable_tfstate_storage"></a> [enable\_tfstate\_storage](#input\_enable\_tfstate\_storage) | Enable/Disable provisioning storage account and container for terraform state | `bool` | `true` | no |
+| <a name="input_enable_tfstate_storage"></a> [enable\_tfstate\_storage](#input\_enable\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_law_queries_storage_account_name"></a> [law\_queries\_storage\_account\_name](#input\_law\_queries\_storage\_account\_name) | Optional custom name for the Terraform state Storage Account | `string` | `"default"` | no |
