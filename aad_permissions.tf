@@ -5,6 +5,7 @@ locals {
 }
 
 resource "azuread_directory_role" "groups_administrator" {
+  count = var.enable_aad_permissions ? 1 : 0
   display_name = "Groups Administrator"
 }
 
@@ -17,6 +18,7 @@ resource "azuread_directory_role_assignment" "assign_groups_administrator" {
 }
 
 resource "azuread_directory_role" "app_owners" {
+  count = var.enable_aad_permissions ? 1 : 0
   display_name = "Application Administrator"
 }
 
