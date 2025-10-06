@@ -104,7 +104,9 @@ module "core" {
   #fw_virtual_network_subnet_ids = data.terraform_remote_state.usgv_mgmt_vnet.outputs.usgv_mgmt_vnet_subnet_ids["${local.resource_prefix}-bastion-sn-1"] #Uncomment and rerun terraform apply after the mgmt-network is created
 }
 ```
+
 ### Optional - custom resource names
+
 You may optionally supply custom names for all resources created by this module, to support various naming convention requirements: 
 
 ```hcl
@@ -118,8 +120,20 @@ module "core" {
   log_analytics_workspace_name     = "arbitrary-log-analytics-workspace-name"
 ...
 }
-
 ```
+
+### Optional - Terraform state storage creation
+
+You may optionally disable (enabled by default) the creation of the Terraform state Storage Account and container. A use case to disable it would be a multi-subscription architecture where the Terraform state files are centralized in a single Storage Account.
+
+```hcl
+module "core" {
+...
+  enable_tfstate_storage = false
+...
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
