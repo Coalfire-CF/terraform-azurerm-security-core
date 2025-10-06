@@ -77,6 +77,12 @@ variable "enable_aad_permissions" {
   default     = true
 }
 
+variable "enable_tfstate_storage" {
+  type        = bool
+  description = "Enable/Disable provisioning a storage account and container for Terraform state."
+  default     = true
+}
+
 variable "azure_private_dns_zones" {
   type        = list(string)
   description = "List of Private DNS zones to create."
