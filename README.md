@@ -88,8 +88,9 @@ module "core" {
   enable_sub_logs          = false
   enable_aad_logs          = false
   enable_aad_permissions   = false
+  enable_tfstate_storage   = true
   custom_private_dns_zones = [var.domain_name]
-  azure_private_dns_zones = [
+  azure_private_dns_zones  = [
     "privatelink.azurecr.us",
     "privatelink.database.usgovcloudapi.net",
     "privatelink.blob.core.usgovcloudapi.net",
@@ -103,7 +104,9 @@ module "core" {
   #fw_virtual_network_subnet_ids = data.terraform_remote_state.usgv_mgmt_vnet.outputs.usgv_mgmt_vnet_subnet_ids["${local.resource_prefix}-bastion-sn-1"] #Uncomment and rerun terraform apply after the mgmt-network is created
 }
 ```
+
 ### Optional - custom resource names
+
 You may optionally supply custom names for all resources created by this module, to support various naming convention requirements: 
 
 ```hcl
@@ -117,8 +120,20 @@ module "core" {
   log_analytics_workspace_name     = "arbitrary-log-analytics-workspace-name"
 ...
 }
-
 ```
+
+### Optional - Terraform state storage creation
+
+You may optionally disable (enabled by default) the creation of the Terraform state Storage Account and container. A use case to disable it would be a multi-subscription architecture where the Terraform state files are centralized in a single Storage Account.
+
+```hcl
+module "core" {
+...
+  enable_tfstate_storage = false
+...
+}
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -205,6 +220,7 @@ module "core" {
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
+| <a name="input_enable_tfstate_storage"></a> [enable\_tfstate\_storage](#input\_enable\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_law_queries_storage_account_name"></a> [law\_queries\_storage\_account\_name](#input\_law\_queries\_storage\_account\_name) | Optional custom name for the Terraform state Storage Account | `string` | `"default"` | no |
