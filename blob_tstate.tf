@@ -1,4 +1,5 @@
 resource "azurerm_storage_account" "tf_state" {
+  count                             = var.enable_tfstate_storage ? 1 : 0
   depends_on                        = [azurerm_resource_group.core]
   name                              = local.tfstate_storage_account_name
   resource_group_name               = azurerm_resource_group.core.name
@@ -32,26 +33,30 @@ resource "azurerm_storage_account" "tf_state" {
 
 
 resource "azurerm_role_assignment" "tstate_kv_crypto_user" {
+  count                = var.enable_tfstate_storage ? 1 : 0
   scope                = module.core_kv.key_vault_id
   role_definition_name = "Key Vault Crypto Service Encryption User"
-  principal_id         = azurerm_storage_account.tf_state.identity[0].principal_id
+  principal_id         = azurerm_storage_account.tf_state[0].identity[0].principal_id
 }
 
 resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
-  storage_account_id = azurerm_storage_account.tf_state.id
+  count              = var.enable_tfstate_storage ? 1 : 0
+  storage_account_id = azurerm_storage_account.tf_state[0].id
   key_vault_id       = module.core_kv.key_vault_id
   key_name           = azurerm_key_vault_key.tstate-cmk.name
 }
 
 
 resource "azurerm_storage_container" "tf_state_lock" {
+  count                 = var.enable_tfstate_storage ? 1 : 0
   name                  = "${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"
-  storage_account_name  = azurerm_storage_account.tf_state.name
+  storage_account_id    = azurerm_storage_account.tf_state[0].id
   container_access_type = "private"
 }
 
 resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
-  storage_account_id = azurerm_storage_account.tf_state.id
+  count              = var.enable_tfstate_storage ? 1 : 0
+  storage_account_id = azurerm_storage_account.tf_state[0].id
 
   rule {
     name    = "deleteAfter90"
@@ -69,8 +74,9 @@ resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
 }
 
 module "diag_tf_state_sa" {
-  source                = "github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
+  count                 = var.enable_tfstate_storage ? 1 : 0
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
-  resource_id           = azurerm_storage_account.tf_state.id
+  resource_id           = azurerm_storage_account.tf_state[0].id
   resource_type         = "sa"
 }
