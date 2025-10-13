@@ -77,7 +77,7 @@ resource "azurerm_storage_account_customer_managed_key" "enable_law_queries_cmk"
 
 resource "azurerm_storage_container" "law_queries" {
   name                  = "law-queries"
-  storage_account_name  = azurerm_storage_account.law_queries.name
+  storage_account_id    = azurerm_storage_account.law_queries.id
   container_access_type = "private"
 }
 
