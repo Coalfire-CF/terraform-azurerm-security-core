@@ -61,11 +61,7 @@ module "ad_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
@@ -84,11 +80,7 @@ module "ars_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Flow Log CMK with custom rotation policy ###
@@ -107,11 +99,7 @@ module "flowlog_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Install CMK with custom rotation policy ###
@@ -130,11 +118,7 @@ module "install_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### TF State CMK with custom rotation policy ###
@@ -153,11 +137,7 @@ module "tstate_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Law Queries CMK with custom rotation policy ###
@@ -176,11 +156,7 @@ module "law_queries_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Cloud Shell CMK with custom rotation policy ###
@@ -199,11 +175,7 @@ module "cloudshell_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Documentation CMK with custom rotation policy ###
@@ -222,11 +194,7 @@ module "docs_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ### Azure Virtual Desktop (AVD) CMK with custom rotation policy ###
@@ -245,11 +213,7 @@ module "avd_cmk" {
   rotation_expire_after      = "P180D"  # 180 days
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
-  tags = {
-    Environment = "Production"
-    Compliance  = "FedRAMP-High"
-    DataClass   = "Sensitive"
-  }
+  tags = var.tags
 }
 
 ##### Key Vault Keys for CMK ######
