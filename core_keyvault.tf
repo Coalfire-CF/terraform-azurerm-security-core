@@ -3,7 +3,7 @@ module "core_kv" {
   source                          = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.1.0"
   
   kv_name                         = local.key_vault_name
-  sku_name                        = var.sku_name
+  sku_name                        = var.fedramp_high ? "premium" : "standard"
   resource_group_name             = var.core_rg_name
   location                        = var.location
   tenant_id                       = var.tenant_id
@@ -62,6 +62,8 @@ module "ad_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
@@ -81,6 +83,7 @@ module "ars_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Flow Log CMK with custom rotation policy ###
@@ -100,6 +103,7 @@ module "flowlog_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Install CMK with custom rotation policy ###
@@ -119,6 +123,7 @@ module "install_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### TF State CMK with custom rotation policy ###
@@ -138,6 +143,7 @@ module "tstate_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Law Queries CMK with custom rotation policy ###
@@ -157,6 +163,7 @@ module "law_queries_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Cloud Shell CMK with custom rotation policy ###
@@ -176,6 +183,7 @@ module "cloudshell_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Documentation CMK with custom rotation policy ###
@@ -195,6 +203,7 @@ module "docs_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Azure Virtual Desktop (AVD) CMK with custom rotation policy ###
@@ -214,6 +223,7 @@ module "avd_cmk" {
   rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
 
   tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
 ##### Key Vault Keys for CMK ######

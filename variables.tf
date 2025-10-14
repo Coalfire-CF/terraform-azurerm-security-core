@@ -216,15 +216,15 @@ variable "kms_key_vault_network_access" {
   default     = "Private"
 }
 
-variable "sku_name" {
-  description = "The SKU name of the Key Vault. Possible values are standard and premium."
-  type        = string
-  default     = "standard"
-  validation {
-    condition     = contains(["standard", "premium"], lower(var.sku_name))
-    error_message = "SKU name must be either 'standard' or 'premium'."
-  }
-}
+# variable "sku_name" {
+#   description = "The SKU name of the Key Vault. Possible values are standard and premium."
+#   type        = string
+#   default     = "standard"
+#   validation {
+#     condition     = contains(["standard", "premium"], lower(var.sku_name))
+#     error_message = "SKU name must be either 'standard' or 'premium'."
+#   }
+# }
 
 variable "kv_subnet_ids" {
   type        = list(string)
