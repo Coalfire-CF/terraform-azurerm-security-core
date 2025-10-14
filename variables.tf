@@ -197,10 +197,16 @@ variable "sku_name" {
   }
 }
 
+variable "kv_subnet_ids" {
+  type        = list(string)
+  description = "A list of Subnet IDs where the Key Vault should allow communication."
+  default     = []
+}
+
 variable "create_ad_cmk" {
   description = "Whether to create the AD CMK in Key Vault."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "create_ars_cmk" {
@@ -248,7 +254,7 @@ variable "create_docs_cmk" {
 variable "create_avd_cmk" {
   description = "Whether to create the AVD CMK in Key Vault."
   type        = bool
-  default     = true    
+  default     = false    
 }
 
 variable "fedramp_high" {

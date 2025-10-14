@@ -20,7 +20,7 @@ module "core_kv" {
   network_acls = {
     bypass                     = "AzureServices"
     default_action             = var.kms_key_vault_network_access == "Private" ? "Deny" : "Allow"
-    virtual_network_subnet_ids = var.kms_key_vault_network_access == "Private" ? [data.terraform_remote_state.network.outputs.usgv_mgmt_vnet_subnet_ids["${var.resource_prefix}-aks-sn-1"]] : []
+    virtual_network_subnet_ids = var.kms_key_vault_network_access == "Private" ?  var.kv_subnet_ids : []
     ip_rules                   = var.cidrs_for_remote_access
   }
 
