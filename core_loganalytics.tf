@@ -19,7 +19,7 @@ resource "azurerm_log_analytics_workspace" "core_la" {
 }
 
 module "diag_law" {
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = azurerm_log_analytics_workspace.core_la.id
   resource_type         = "law"
@@ -69,7 +69,7 @@ resource "azurerm_role_assignment" "law_queries_kv_crypto_user" {
 resource "azurerm_storage_account_customer_managed_key" "enable_law_queries_cmk" {
   storage_account_id = azurerm_storage_account.law_queries.id
   key_vault_id       = module.core_kv.key_vault_id
-  key_name           = azurerm_key_vault_key.law_queries-cmk.name
+  key_name           = module.law_queries_cmk[0].key_name
 }
 
 
@@ -80,7 +80,7 @@ resource "azurerm_storage_container" "law_queries" {
 }
 
 module "diag_la_queries_sa" {
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = azurerm_storage_account.law_queries.id
   resource_type         = "sa"

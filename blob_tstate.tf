@@ -43,7 +43,7 @@ resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
   count              = var.enable_tfstate_storage ? 1 : 0
   storage_account_id = azurerm_storage_account.tf_state[0].id
   key_vault_id       = module.core_kv.key_vault_id
-  key_name           = azurerm_key_vault_key.tstate-cmk.name
+  key_name           = module.tstate_cmk[0].key_name
 }
 
 

@@ -139,7 +139,7 @@ module "install_cmk" {
 
 ### TF State CMK with custom rotation policy ###
 module "tstate_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.0"
+  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=fix/outputs"
 
   count = var.create_tstate_cmk ? 1 : 0
 
