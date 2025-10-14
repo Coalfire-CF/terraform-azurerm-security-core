@@ -75,8 +75,8 @@ resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
 
 module "diag_tf_state_sa" {
   count                 = var.enable_tfstate_storage ? 1 : 0
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = azurerm_storage_account.tf_state[0].id
   resource_type         = "sa"
 }

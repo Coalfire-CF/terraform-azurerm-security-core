@@ -88,15 +88,12 @@ variable "azure_private_dns_zones" {
   description = "List of Private DNS zones to create."
   default = [
     "privatelink.azurecr.us",
-    "privatelink.azuredatabricks.net",
     "privatelink.database.usgovcloudapi.net",
-    "privatelink.datafactory.azure.net",
     "privatelink.blob.core.usgovcloudapi.net",
     "privatelink.table.core.usgovcloudapi.net",
     "privatelink.queue.core.usgovcloudapi.net",
     "privatelink.file.core.usgovcloudapi.net",
     "privatelink.documents.azure.us",
-    "privatelink.mongo.cosmos.azure.us",
     "privatelink.table.cosmos.azure.us",
     "privatelink.postgres.database.usgovcloudapi.net",
     "privatelink.mysql.database.usgovcloudapi.net",
@@ -181,9 +178,88 @@ variable "log_analytics_workspace_name" {
     error_message = "Log Analytics Workspace names must be between 4 and 63 characters long and can only contain letters, numbers and dashes."
   }
 }
+
+### Key Vault Variabeles ###
+
+variable "kms_key_vault_network_access" {
+  description = "Network access configuration for the Key Vault."
+  type        = string
+  default     = "Public"
+}
+
+variable "sku_name" {
+  description = "The SKU name of the Key Vault. Possible values are standard and premium."
+  type        = string
+  default     = "standard"
+  validation {
+    condition     = contains(["standard", "premium"], lower(var.sku_name))
+    error_message = "SKU name must be either 'standard' or 'premium'."
+  }
+}
+
+variable "create_ad_cmk" {
+  description = "Whether to create the AD CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_ars_cmk" {
+  description = "Whether to create the ARS CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_flowlog_cmk" {
+  description = "Whether to create the Flow Log CMK in Key Vault."
+  type        = bool
+  default     = true  
+}
+
+variable "create_install_cmk" {
+  description = "Whether to create the Install CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_tstate_cmk" {
+  description = "Whether to create the TF State CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_law_queries_cmk" {
+  description = "Whether to create the Law Queries CMK in Key Vault."
+  type        = bool
+  default     = true  
+}
+
+variable "create_cloudshell_cmk" {
+  description = "Whether to create the Cloud Shell CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "create_docs_cmk" {
+  description = "Whether to create the Docs CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "create_avd_cmk" {
+  description = "Whether to create the AVD CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "fedramp_high" {
+  description = "Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys)."
+  type        = bool
+  default     = false
+}
+
 variable "admin_ssh_key_name" {
   description = "Optional custom name for admin SSH key secret in Key Vault"
   type        = string
-  default     = "xadm-ssh-private-key"
+  default     = "xadm-ssh-key"
 }
 
