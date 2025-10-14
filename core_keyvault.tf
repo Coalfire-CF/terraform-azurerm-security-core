@@ -24,13 +24,6 @@ module "core_kv" {
     ip_rules                   = var.cidrs_for_remote_access
   }
 
-  # network_acls = {
-  #   bypass                     = "AzureServices"
-  #   default_action             = "Deny"
-  #   virtual_network_subnet_ids = []
-  #   ip_rules                   = var.cidrs_for_remote_access
-  # }
-
   depends_on = [azurerm_resource_group.core]
 }
 
