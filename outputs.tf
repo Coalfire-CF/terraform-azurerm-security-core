@@ -39,47 +39,47 @@ output "core_kv_id" {
 }
 
 output "ad_cmk_id" {
-  value       = module.ad_cmk[0].key_id
+  value       = try(module.ad_cmk[0].key_id, null)
   description = "Active Directory CMK Key ID"
 }
 
 output "ars_cmk_id" {
-  value       = module.ars_cmk[0].key_id
+  value       = try(module.ars_cmk[0].key_id, null)
   description = "Azure Recovery Services CMK Key ID"
 }
 
 output "flowlog_cmk_id" {
-  value       = module.flowlog_cmk[0].key_id
+  value       = try(module.flowlog_cmk[0].key_id, null)
   description = "Flowlogs CMK Key ID"
 }
 
 output "install_cmk_id" {
-  value       = module.install_cmk[0].key_id
+  value       = try(module.install_cmk[0].key_id, null)
   description = "Installs CMK Key ID"
 }
 
 output "law_queries_cmk_id" {
-  value       = module.law_queries_cmk[0].key_id
+  value       = try(module.law_queries_cmk[0].key_id, null)
   description = "Log Analytics Workspace Queries CMK Key ID"
 }
 
 output "tstate_cmk_id" {
-  value       = module.tstate_cmk[0].key_id
+  value       = try(module.tstate_cmk[0].key_id, null)
   description = "Terraform State CMK Key ID"
 }
 
 output "cloudshell_cmk_id" {
-  value       = module.cloudshell_cmk[0].key_id
+  value       = try(module.cloudshell_cmk[0].key_id, null)
   description = "Cloudshell CMK Key ID"
 }
 
 output "docs_cmk_id" {
-  value       = module.docs_cmk[0].key_id
+  value       = try(module.docs_cmk[0].key_id, null)
   description = "Docs CMK Key ID"
 }
 
 output "avd_cmk_id" {
-  value       = module.avd_cmk[0].key_id
+  value       = try(module.avd_cmk[0].key_id, null)
   description = "Azure Virtual Desktop CMK Key ID"
 }
 
