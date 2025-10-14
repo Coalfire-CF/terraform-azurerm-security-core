@@ -181,10 +181,34 @@ variable "log_analytics_workspace_name" {
 
 ### Key Vault Variabeles ###
 
+variable "enabled_for_disk_encryption" {
+  description = "Specifies whether the Key Vault is enabled for disk encryption."
+  type        = bool
+  default     = false
+}
+
+variable "enabled_for_deployment" {
+  description = "Specifies whether the Key Vault is enabled for deployment."
+  type        = bool
+  default     = true
+}
+
+variable "enabled_for_template_deployment" {
+  description = "Specifies whether the Key Vault is enabled for template deployment."
+  type        = bool
+  default     = true
+}
+
+variable "public_network_access_enabled" {
+  description = "Specifies whether public network access is enabled for the Key Vault."
+  type        = bool
+  default     = true
+}
+
 variable "kms_key_vault_network_access" {
   description = "Network access configuration for the Key Vault."
   type        = string
-  default     = "Public"
+  default     = "Private"
 }
 
 variable "sku_name" {
