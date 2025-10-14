@@ -162,7 +162,7 @@ module "tstate_cmk" {
 
 ### Law Queries CMK with custom rotation policy ###
 module "law_queries_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.0"
+  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=fix/outputs"
 
   count = var.create_law_queries_cmk ? 1 : 0
 
