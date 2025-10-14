@@ -8,6 +8,11 @@ variable "regional_tags" {
   description = "Regional level tags"
 }
 
+variable "tags" {
+  type        = map(string)
+  description = "Resource level tags"
+}
+
 variable "location" {
   description = "The Azure location/region to create resources in"
   type        = string
