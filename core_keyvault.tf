@@ -7,9 +7,9 @@ module "core_kv" {
   resource_group_name             = var.core_rg_name
   location                        = var.location
   tenant_id                       = var.tenant_id
-  enabled_for_disk_encryption     = var.enable_for_disk_encryption
-  enabled_for_deployment          = var.enable_for_deployment
-  enabled_for_template_deployment = var.enable_for_template_deployment
+  enabled_for_disk_encryption     = var.enabled_for_disk_encryption
+  enabled_for_deployment          = var.enabled_for_deployment
+  enabled_for_template_deployment = var.enabled_for_template_deployment
   public_network_access_enabled   = var.public_network_access_enabled
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la.id
 
