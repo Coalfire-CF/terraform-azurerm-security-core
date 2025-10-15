@@ -69,11 +69,6 @@ variable "resource_prefix" {
   description = "Name prefix used for resources"
 }
 
-variable "diag_log_analytics_id" {
-  description = "ID of the Log Analytics Workspace diagnostic logs should be sent to"
-  type        = string
-}
-
 variable "enable_sub_logs" {
   type        = bool
   description = "Enable/Disable subscription level logging"
