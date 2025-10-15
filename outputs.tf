@@ -43,9 +43,19 @@ output "ad_cmk_id" {
   description = "Active Directory CMK Key ID"
 }
 
+output "ad_cmk_name" {
+  value       = try(module.ad_cmk[0].key_name, null)
+  description = "Active Directory CMK Key Name"
+}
+
 output "ars_cmk_id" {
   value       = try(module.ars_cmk[0].key_id, null)
   description = "Azure Recovery Services CMK Key ID"
+}
+
+output "ars_cmk_name" {
+  value       = try(module.ars_cmk[0].key_name, null)
+  description = "Azure Recovery Services CMK Key Name"
 }
 
 output "flowlog_cmk_id" {
@@ -53,9 +63,19 @@ output "flowlog_cmk_id" {
   description = "Flowlogs CMK Key ID"
 }
 
+output "flowlog_cmk_name" {
+  value       = try(module.flowlog_cmk[0].key_name, null)
+  description = "Flowlogs CMK Key Name"
+}
+
 output "install_cmk_id" {
   value       = try(module.install_cmk[0].key_id, null)
   description = "Installs CMK Key ID"
+}
+
+output "install_cmk_name" {
+  value       = try(module.install_cmk[0].key_name, null)
+  description = "Installs CMK Key Name"
 }
 
 output "law_queries_cmk_id" {
@@ -63,9 +83,19 @@ output "law_queries_cmk_id" {
   description = "Log Analytics Workspace Queries CMK Key ID"
 }
 
+output "law_queries_cmk_name" {
+  value       = try(module.law_queries_cmk[0].key_name, null)
+  description = "Log Analytics Workspace Queries CMK Key Name"
+}
+
 output "tstate_cmk_id" {
   value       = try(module.tstate_cmk[0].key_id, null)
   description = "Terraform State CMK Key ID"
+}
+
+output "tstate_cmk_name" {
+  value       = try(module.tstate_cmk[0].key_name, null)
+  description = "Terraform State CMK Key Name"
 }
 
 output "cloudshell_cmk_id" {
@@ -73,14 +103,29 @@ output "cloudshell_cmk_id" {
   description = "Cloudshell CMK Key ID"
 }
 
+output "cloudshell_cmk_name" {
+  value       = try(module.cloudshell_cmk[0].key_name, null)
+  description = "Cloudshell CMK Key Name"
+}
+
 output "docs_cmk_id" {
   value       = try(module.docs_cmk[0].key_id, null)
   description = "Docs CMK Key ID"
 }
 
+output "docs_cmk_name" {
+  value       = try(module.docs_cmk[0].key_name, null)
+  description = "Docs CMK Key Name"
+}
+
 output "avd_cmk_id" {
   value       = try(module.avd_cmk[0].key_id, null)
   description = "Azure Virtual Desktop CMK Key ID"
+}
+
+output "avd_cmk_name" {
+  value       = try(module.avd_cmk[0].key_name, null)
+  description = "Azure Virtual Desktop CMK Key Name"
 }
 
 output "core_xadm_ssh_public_key" {
