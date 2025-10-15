@@ -167,6 +167,7 @@ module "core" {
 | <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | fix/storage-cmk |
 | <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 
@@ -193,8 +194,6 @@ module "core" {
 | [azurerm_role_assignment.core_kv_administrator](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.law_queries_kv_crypto_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.tstate_kv_crypto_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_storage_account.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_account.tf_state](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account_customer_managed_key.enable_law_queries_cmk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_customer_managed_key) | resource |
 | [azurerm_storage_account_customer_managed_key.enable_tstate_cmk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_customer_managed_key) | resource |
 | [azurerm_storage_container.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
@@ -225,15 +224,19 @@ module "core" {
 | <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
+| <a name="input_diag_log_analytics_id"></a> [diag\_log\_analytics\_id](#input\_diag\_log\_analytics\_id) | ID of the Log Analytics Workspace diagnostic logs should be sent to | `string` | n/a | yes |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
+| <a name="input_enable_customer_managed_key"></a> [enable\_customer\_managed\_key](#input\_enable\_customer\_managed\_key) | Enable/Disable Customer Managed Key (CMK) for the storage account. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Specifies whether the Key Vault is enabled for deployment. | `bool` | `true` | no |
 | <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `false` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
 | <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys). | `bool` | `false` | no |
+| <a name="input_fw_virtual_network_subnet_ids"></a> [fw\_virtual\_network\_subnet\_ids](#input\_fw\_virtual\_network\_subnet\_ids) | List of subnet ids for the firewall | `list(string)` | `[]` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
+| <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | This is the same as 'cidrs\_for\_remote\_access' but without the /32 on each of the files. The 'ip\_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | `list(any)` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_kms_key_vault_network_access"></a> [kms\_key\_vault\_network\_access](#input\_kms\_key\_vault\_network\_access) | Network access configuration for the Key Vault. | `string` | `"Private"` | no |
 | <a name="input_kv_subnet_ids"></a> [kv\_subnet\_ids](#input\_kv\_subnet\_ids) | A list of Subnet IDs where the Key Vault should allow communication. | `list(string)` | `[]` | no |
