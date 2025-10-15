@@ -40,7 +40,7 @@ resource "azurerm_role_assignment" "core_kv_administrator" {
 
 ### AD CMK with custom rotation policy ###
 module "ad_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_ad_cmk ? 1 : 0
 
@@ -61,7 +61,7 @@ module "ad_cmk" {
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
 module "ars_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_ars_cmk ? 1 : 0
 
@@ -81,7 +81,7 @@ module "ars_cmk" {
 
 ### Flow Log CMK with custom rotation policy ###
 module "flowlog_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_flowlog_cmk ? 1 : 0
 
@@ -101,7 +101,7 @@ module "flowlog_cmk" {
 
 ### Install CMK with custom rotation policy ###
 module "install_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_install_cmk ? 1 : 0
 
@@ -121,7 +121,7 @@ module "install_cmk" {
 
 ### TF State CMK with custom rotation policy ###
 module "tstate_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count  = var.create_tfstate_storage ? 1 : 0
 
@@ -141,7 +141,7 @@ module "tstate_cmk" {
 
 ### Law Queries CMK with custom rotation policy ###
 module "law_queries_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_law_queries_cmk ? 1 : 0
 
@@ -161,7 +161,7 @@ module "law_queries_cmk" {
 
 ### Cloud Shell CMK with custom rotation policy ###
 module "cloudshell_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_cloudshell_cmk ? 1 : 0
 
@@ -181,7 +181,7 @@ module "cloudshell_cmk" {
 
 ### Documentation CMK with custom rotation policy ###
 module "docs_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_docs_cmk ? 1 : 0
 
@@ -201,7 +201,7 @@ module "docs_cmk" {
 
 ### Azure Virtual Desktop (AVD) CMK with custom rotation policy ###
 module "avd_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_avd_cmk ? 1 : 0
 
@@ -221,7 +221,7 @@ module "avd_cmk" {
 
 ### VM Diagnostics CMK with custom rotation policy ###
 module "vmdiag_cmk" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_vmdiag_cmk ? 1 : 0
 
