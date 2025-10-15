@@ -1,3 +1,4 @@
+# Azure Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "core_la" {
   name                       = local.log_analytics_workspace_name
   location                   = var.location
@@ -25,8 +26,7 @@ module "diag_law" {
   resource_type         = "law"
 }
 
-# storage account for stored log analytics queries
-
+# Blob Storage Account for Log Analytics Workspace Queries with CMK
 resource "azurerm_storage_account" "law_queries" {
   depends_on                        = [azurerm_resource_group.core]
   name                              = local.law_queries_storage_account_name

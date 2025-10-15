@@ -1,3 +1,4 @@
+## Blob Storage Account for Terraform State with CMK ##
 resource "azurerm_storage_account" "tf_state" {
   count                             = var.enable_tfstate_storage ? 1 : 0
   depends_on                        = [azurerm_resource_group.core]
