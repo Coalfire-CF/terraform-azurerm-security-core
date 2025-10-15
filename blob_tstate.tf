@@ -50,7 +50,7 @@ module "tfstate_sa" {
     Plane    = "Management"
   }, var.global_tags, var.regional_tags)
 
-  public_network_access_enabled = var.public_network_access_enabled
+  public_network_access_enabled = var.sa_public_network_access_enabled
   enable_customer_managed_key   = var.enable_customer_managed_key
   cmk_key_vault_id              = module.core_kv.key_vault_id
   cmk_key_name                  = module.tstate_cmk[0].key_name

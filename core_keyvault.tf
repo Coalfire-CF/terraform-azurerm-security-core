@@ -10,7 +10,7 @@ module "core_kv" {
   enabled_for_disk_encryption     = var.enabled_for_disk_encryption
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_template_deployment = var.enabled_for_template_deployment
-  public_network_access_enabled   = var.public_network_access_enabled
+  public_network_access_enabled   = var.kv_public_network_access_enabled
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la.id
 
   regional_tags                   = var.regional_tags

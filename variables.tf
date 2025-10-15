@@ -142,7 +142,7 @@ variable "fw_virtual_network_subnet_ids" {
   default     = []
 }
 
-variable "public_network_access_enabled" {
+variable "sa_public_network_access_enabled" {
   type    = bool
   description = "Enable/Disable public network access for the storage account."
   default = true
@@ -232,7 +232,7 @@ variable "enabled_for_template_deployment" {
   default     = true
 }
 
-variable "public_network_access_enabled" {
+variable "kv_public_network_access_enabled" {
   description = "Specifies whether public network access is enabled for the Key Vault."
   type        = bool
   default     = true
