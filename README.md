@@ -88,7 +88,7 @@ module "core" {
   enable_sub_logs          = false
   enable_aad_logs          = false
   enable_aad_permissions   = false
-  enable_tfstate_storage   = true
+  create_tfstate_storage   = true
   custom_private_dns_zones = [var.domain_name]
   azure_private_dns_zones  = [
     "privatelink.azurecr.us",
@@ -99,9 +99,6 @@ module "core" {
     "privatelink.file.core.usgovcloudapi.net",
     "privatelink.postgres.database.usgovcloudapi.net"
   ]
-
-  # uncomment and rerun terraform apply after the networks are created if you're using FWs
-  #fw_virtual_network_subnet_ids = data.terraform_remote_state.usgv_mgmt_vnet.outputs.usgv_mgmt_vnet_subnet_ids["${local.resource_prefix}-bastion-sn-1"] #Uncomment and rerun terraform apply after the mgmt-network is created
 }
 ```
 
@@ -129,7 +126,7 @@ You may optionally disable (enabled by default) the creation of the Terraform st
 ```hcl
 module "core" {
 ...
-  enable_tfstate_storage = false
+  create_tfstate_storage = false
 ...
 }
 ```
@@ -220,7 +217,7 @@ module "core" {
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
-| <a name="input_enable_tfstate_storage"></a> [enable\_tfstate\_storage](#input\_enable\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
+| <a name="input_create_tfstate_storage"></a> [enable\_tfstate\_storage](#input\_enable\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_law_queries_storage_account_name"></a> [law\_queries\_storage\_account\_name](#input\_law\_queries\_storage\_account\_name) | Optional custom name for the Terraform state Storage Account | `string` | `"default"` | no |

@@ -1,6 +1,6 @@
 ## Blob Storage Account for Terraform State with CMK ##
 resource "azurerm_storage_account" "tf_state" {
-  count                             = var.enable_tfstate_storage ? 1 : 0
+  count                             = var.create_tfstate_storage ? 1 : 0
   depends_on                        = [azurerm_resource_group.core]
   name                              = local.tfstate_storage_account_name
   resource_group_name               = azurerm_resource_group.core.name
@@ -34,48 +34,30 @@ resource "azurerm_storage_account" "tf_state" {
 
 
 resource "azurerm_role_assignment" "tstate_kv_crypto_user" {
-  count                = var.enable_tfstate_storage ? 1 : 0
+  count                = var.create_tfstate_storage ? 1 : 0
   scope                = module.core_kv.key_vault_id
   role_definition_name = "Key Vault Crypto Service Encryption User"
   principal_id         = azurerm_storage_account.tf_state[0].identity[0].principal_id
 }
 
 resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
-  count              = var.enable_tfstate_storage ? 1 : 0
+  count              = var.create_tfstate_storage ? 1 : 0
   storage_account_id = azurerm_storage_account.tf_state[0].id
   key_vault_id       = module.core_kv.key_vault_id
   key_name           = module.tstate_cmk[0].key_name
+
+  depends_on = [ azurerm_role_assignment.tstate_kv_crypto_user ]
 }
 
-
 resource "azurerm_storage_container" "tf_state_lock" {
-  count                 = var.enable_tfstate_storage ? 1 : 0
+  count                 = var.create_tfstate_storage ? 1 : 0
   name                  = "${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"
   storage_account_id    = azurerm_storage_account.tf_state[0].id
   container_access_type = "private"
 }
 
-resource "azurerm_storage_management_policy" "lifecycle_mgmt" {
-  count              = var.enable_tfstate_storage ? 1 : 0
-  storage_account_id = azurerm_storage_account.tf_state[0].id
-
-  rule {
-    name    = "deleteAfter90"
-    enabled = "true"
-    filters {
-      prefix_match = ["${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"]
-      blob_types   = ["blockBlob"]
-    }
-    actions {
-      version {
-        delete_after_days_since_creation = 90
-      }
-    }
-  }
-}
-
 module "diag_tf_state_sa" {
-  count                 = var.enable_tfstate_storage ? 1 : 0
+  count                 = var.create_tfstate_storage ? 1 : 0
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = azurerm_storage_account.tf_state[0].id

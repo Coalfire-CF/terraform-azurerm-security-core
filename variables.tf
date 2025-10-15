@@ -82,7 +82,7 @@ variable "enable_aad_permissions" {
   default     = true
 }
 
-variable "enable_tfstate_storage" {
+variable "create_tfstate_storage" {
   type        = bool
   description = "Enable/Disable provisioning a storage account and container for Terraform state."
   default     = true

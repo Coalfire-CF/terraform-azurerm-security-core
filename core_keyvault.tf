@@ -123,7 +123,7 @@ module "install_cmk" {
 module "tstate_cmk" {
   source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
-  count = var.create_tstate_cmk ? 1 : 0
+  count  = var.create_tfstate_storage ? 1 : 0
 
   name         = "tstate-cmk"
   key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
@@ -224,7 +224,7 @@ module "vmdiag_cmk" {
   source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
 
   count = var.create_vmdiag_cmk ? 1 : 0
-  
+
   name         = "vmdiag-cmk"
   key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
   key_vault_id = module.core_kv.key_vault_id
