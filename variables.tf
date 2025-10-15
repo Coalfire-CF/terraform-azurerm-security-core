@@ -101,6 +101,12 @@ variable "create_tfstate_storage" {
   default     = true
 }
 
+variable "create_law_queries_storage" {
+  type        = bool
+  description = "Enable/Disable provisioning a storage account and container for Log Analytics Workspace queries."
+  default     = true
+}
+
 variable "azure_private_dns_zones" {
   type        = list(string)
   description = "List of Private DNS zones to create."
