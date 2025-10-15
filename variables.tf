@@ -286,6 +286,12 @@ variable "create_avd_cmk" {
   default     = false    
 }
 
+variable "create_vmdiag_cmk" {
+  description = "Whether to create the VMDiag CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
 variable "fedramp_high" {
   description = "Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys)."
   type        = bool

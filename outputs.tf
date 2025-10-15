@@ -128,6 +128,16 @@ output "avd_cmk_name" {
   description = "Azure Virtual Desktop CMK Key Name"
 }
 
+output "vmdiag_cmk_id" {
+  value       = try(module.vmdiag_cmk[0].key_id, null)
+  description = "VMDiag CMK Key ID"
+}
+
+output "vmdiag_cmk_name" {
+  value       = try(module.vmdiag_cmk[0].key_name, null)
+  description = "VMDiag CMK Key Name"
+}
+
 output "core_xadm_ssh_public_key" {
   value       = trimspace(tls_private_key.xadm.public_key_openssh)
   description = "Value of the SSH public key for xadm"

@@ -219,6 +219,26 @@ module "avd_cmk" {
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
+### VM Diagnostics CMK with custom rotation policy ###
+module "vmdiag_cmk" {
+  source = "github.com/Coalfire-CF/terraform-azurerm-key-vault/modules/kv_key?ref=v1.1.1"
+
+  count = var.create_vmdiag_cmk ? 1 : 0
+  
+  name         = "vmdiag-cmk"
+  key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
+  key_vault_id = module.core_kv.key_vault_id
+  key_size     = 4096
+
+  # Custom rotation policy
+  rotation_policy_enabled    = true
+  rotation_expire_after      = "P180D"  # 180 days
+  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+
+  tags = var.tags
+  depends_on = [azurerm_role_assignment.core_kv_administrator]
+}
+
 ##### Key Vault Keys for CMK ######
 
 # Generate SSH keypair for Azure VMs 
