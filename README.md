@@ -319,7 +319,6 @@ Copyright © Coalfire Systems Inc.
 |-- coalfire_logo.png
 |-- core_dns.tf
 |-- core_keyvault.tf
-|-- core_kv_permissions.tf
 |-- core_loganalytics.tf
 |-- entraid.tf
 |-- locals.tf
