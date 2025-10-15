@@ -167,6 +167,7 @@ module "core" {
 | <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | fix/storage-cmk |
 | <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | fix/storage-cmk |
 | <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
@@ -192,9 +193,6 @@ module "core" {
 | [azurerm_role_assignment.assign_sub_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.assign_sub_user_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.core_kv_administrator](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.law_queries_kv_crypto_user](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_storage_account.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_account_customer_managed_key.enable_law_queries_cmk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_customer_managed_key) | resource |
 | [azurerm_storage_container.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.tf_state_lock](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [tls_private_key.xadm](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
@@ -219,6 +217,7 @@ module "core" {
 | <a name="input_create_flowlog_cmk"></a> [create\_flowlog\_cmk](#input\_create\_flowlog\_cmk) | Whether to create the Flow Log CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_install_cmk"></a> [create\_install\_cmk](#input\_create\_install\_cmk) | Whether to create the Install CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_law_queries_cmk"></a> [create\_law\_queries\_cmk](#input\_create\_law\_queries\_cmk) | Whether to create the Law Queries CMK in Key Vault. | `bool` | `true` | no |
+| <a name="input_create_law_queries_storage"></a> [create\_law\_queries\_storage](#input\_create\_law\_queries\_storage) | Enable/Disable provisioning a storage account and container for Log Analytics Workspace queries. | `bool` | `true` | no |
 | <a name="input_create_tfstate_storage"></a> [create\_tfstate\_storage](#input\_create\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
