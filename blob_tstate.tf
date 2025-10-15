@@ -56,22 +56,21 @@ module "tfstate_sa" {
   cmk_key_name                  = module.tstate_cmk[0].key_name
 }
 
+# resource "azurerm_role_assignment" "tstate_kv_crypto_user" {
+#   count                = var.create_tfstate_storage ? 1 : 0
+#   scope                = module.core_kv.key_vault_id
+#   role_definition_name = "Key Vault Crypto Service Encryption User"
+#   principal_id         = module.tfstate_sa[0].managed_principal_id
+# }
 
-resource "azurerm_role_assignment" "tstate_kv_crypto_user" {
-  count                = var.create_tfstate_storage ? 1 : 0
-  scope                = module.core_kv.key_vault_id
-  role_definition_name = "Key Vault Crypto Service Encryption User"
-  principal_id         = module.tfstate_sa[0].managed_principal_id
-}
+# resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
+#   count              = var.create_tfstate_storage ? 1 : 0
+#   storage_account_id = module.tfstate_sa[0].id
+#   key_vault_id       = module.core_kv.key_vault_id
+#   key_name           = module.tstate_cmk[0].key_name
 
-resource "azurerm_storage_account_customer_managed_key" "enable_tstate_cmk" {
-  count              = var.create_tfstate_storage ? 1 : 0
-  storage_account_id = module.tfstate_sa[0].id
-  key_vault_id       = module.core_kv.key_vault_id
-  key_name           = module.tstate_cmk[0].key_name
-
-  depends_on = [ azurerm_role_assignment.tstate_kv_crypto_user ]
-}
+#   depends_on = [ azurerm_role_assignment.tstate_kv_crypto_user ]
+# }
 
 resource "azurerm_storage_container" "tf_state_lock" {
   count                 = var.create_tfstate_storage ? 1 : 0
