@@ -239,15 +239,16 @@ module "core" {
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | This is the same as 'cidrs\_for\_remote\_access' but without the /32 on each of the files. The 'ip\_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over | `list(any)` | n/a | yes |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_kms_key_vault_network_access"></a> [kms\_key\_vault\_network\_access](#input\_kms\_key\_vault\_network\_access) | Network access configuration for the Key Vault. | `string` | `"Private"` | no |
+| <a name="input_kv_public_network_access_enabled"></a> [kv\_public\_network\_access\_enabled](#input\_kv\_public\_network\_access\_enabled) | Specifies whether public network access is enabled for the Key Vault. | `bool` | `true` | no |
 | <a name="input_kv_subnet_ids"></a> [kv\_subnet\_ids](#input\_kv\_subnet\_ids) | A list of Subnet IDs where the Key Vault should allow communication. | `list(string)` | `[]` | no |
 | <a name="input_law_queries_storage_account_name"></a> [law\_queries\_storage\_account\_name](#input\_law\_queries\_storage\_account\_name) | Optional custom name for the Terraform state Storage Account | `string` | `"default"` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location/region to create resources in | `string` | n/a | yes |
 | <a name="input_location_abbreviation"></a> [location\_abbreviation](#input\_location\_abbreviation) | The  Azure location/region in 4 letter code | `string` | n/a | yes |
 | <a name="input_log_analytics_data_collection_rule_id"></a> [log\_analytics\_data\_collection\_rule\_id](#input\_log\_analytics\_data\_collection\_rule\_id) | Optional Log Analytics Data Collection Rule for the workspace. | `string` | `null` | no |
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Optional custom name for the Log Analytics Workspace | `string` | `"default"` | no |
-| <a name="input_public_network_access_enabled"></a> [public\_network\_access\_enabled](#input\_public\_network\_access\_enabled) | Specifies whether public network access is enabled for the Key Vault. | `bool` | `true` | no |
 | <a name="input_regional_tags"></a> [regional\_tags](#input\_regional\_tags) | Regional level tags | `map(string)` | n/a | yes |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Name prefix used for resources | `string` | n/a | yes |
+| <a name="input_sa_public_network_access_enabled"></a> [sa\_public\_network\_access\_enabled](#input\_sa\_public\_network\_access\_enabled) | Enable/Disable public network access for the storage account. | `bool` | `true` | no |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The Azure subscription ID where resources are being deployed into | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource level tags | `map(string)` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The Azure tenant ID that owns the deployed resources | `string` | n/a | yes |
