@@ -27,37 +27,37 @@ module "diag_law" {
 }
 
 # Blob Storage Account for Log Analytics Workspace Queries with CMK
-resource "azurerm_storage_account" "law_queries" {
-  depends_on                        = [azurerm_resource_group.core]
-  name                              = local.law_queries_storage_account_name
-  resource_group_name               = azurerm_resource_group.core.name
-  location                          = var.location
-  account_tier                      = "Standard"
-  account_replication_type          = "GRS"
-  min_tls_version                   = "TLS1_2"
-  https_traffic_only_enabled        = true
-  allow_nested_items_to_be_public   = false
-  public_network_access_enabled     = true #controlled with firewall rules 
-  infrastructure_encryption_enabled = true
+# resource "azurerm_storage_account" "law_queries" {
+#   depends_on                        = [azurerm_resource_group.core]
+#   name                              = local.law_queries_storage_account_name
+#   resource_group_name               = azurerm_resource_group.core.name
+#   location                          = var.location
+#   account_tier                      = "Standard"
+#   account_replication_type          = "GRS"
+#   min_tls_version                   = "TLS1_2"
+#   https_traffic_only_enabled        = true
+#   allow_nested_items_to_be_public   = false
+#   public_network_access_enabled     = true #controlled with firewall rules 
+#   infrastructure_encryption_enabled = true
 
-  identity {
-    type = "SystemAssigned"
-  }
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes = [
-      customer_managed_key # required by https://github.com/hashicorp/terraform-provider-azurerm/issues/16085
-    ]
-  }
-  blob_properties {
-    versioning_enabled = true
-  }
+#   identity {
+#     type = "SystemAssigned"
+#   }
+#   lifecycle {
+#     prevent_destroy = true
+#     ignore_changes = [
+#       customer_managed_key # required by https://github.com/hashicorp/terraform-provider-azurerm/issues/16085
+#     ]
+#   }
+#   blob_properties {
+#     versioning_enabled = true
+#   }
 
-  tags = merge({
-    Function = "SIEM"
-    Plane    = "Core"
-  }, var.global_tags, var.regional_tags)
-}
+#   tags = merge({
+#     Function = "SIEM"
+#     Plane    = "Core"
+#   }, var.global_tags, var.regional_tags)
+# }
 
 
 resource "azurerm_role_assignment" "law_queries_kv_crypto_user" {

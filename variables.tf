@@ -18,6 +18,11 @@ variable "location" {
   type        = string
 }
 
+variable "ip_for_remote_access" {
+  description = "This is the same as 'cidrs_for_remote_access' but without the /32 on each of the files. The 'ip_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over"
+  type        = list(any)
+}
+
 variable "location_abbreviation" {
   description = "The  Azure location/region in 4 letter code"
   type        = string
@@ -62,6 +67,11 @@ variable "admin_principal_ids" {
 variable "resource_prefix" {
   type        = string
   description = "Name prefix used for resources"
+}
+
+variable "diag_log_analytics_id" {
+  description = "ID of the Log Analytics Workspace diagnostic logs should be sent to"
+  type        = string
 }
 
 variable "enable_sub_logs" {
@@ -124,6 +134,24 @@ variable "log_analytics_data_collection_rule_id" {
   description = "Optional Log Analytics Data Collection Rule for the workspace."
   type        = string
   default     = null
+}
+
+variable "fw_virtual_network_subnet_ids" {
+  type        = list(string)
+  description = "List of subnet ids for the firewall"
+  default     = []
+}
+
+variable "public_network_access_enabled" {
+  type    = bool
+  description = "Enable/Disable public network access for the storage account."
+  default = true
+}
+
+variable "enable_customer_managed_key" {
+  type = bool
+  description = "Enable/Disable Customer Managed Key (CMK) for the storage account."
+  default = true
 }
 
 ### Optional custom name inputs ###
