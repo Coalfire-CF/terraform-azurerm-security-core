@@ -19,8 +19,16 @@ variable "location" {
 }
 
 variable "ip_for_remote_access" {
-  description = "This is the same as 'cidrs_for_remote_access' but without the /32 on each of the files. The 'ip_rules' in the storage account will not accept a '/32' address and I gave up trying to strip and convert the values over"
-  type        = list(any)
+  description = "List of IP addresses for remote access (without CIDR notation). Storage account ip_rules will automatically reject /32 notation."
+  type        = list(string)
+  default     = []
+  
+  validation {
+    condition = alltrue([
+      for ip in var.ip_for_remote_access : can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}$", ip))
+    ])
+    error_message = "All IPs must be valid IPv4 addresses without CIDR notation (e.g., '203.0.113.1' not '203.0.113.1/32')."
+  }
 }
 
 variable "location_abbreviation" {
