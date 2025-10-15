@@ -4,27 +4,27 @@ output "core_rg_name" {
 }
 
 output "core_la_id" {
-  value       = azurerm_log_analytics_workspace.core-la.id
+  value       = azurerm_log_analytics_workspace.core_la.id
   description = "value of the core log analytics workspace id"
 }
 
 output "core_la_primaryKey" {
-  value       = azurerm_log_analytics_workspace.core-la.primary_shared_key
+  value       = azurerm_log_analytics_workspace.core_la.primary_shared_key
   description = "value of the core log analytics workspace primary key"
 }
 
 output "core_la_secondaryKey" {
-  value       = azurerm_log_analytics_workspace.core-la.secondary_shared_key
+  value       = azurerm_log_analytics_workspace.core_la.secondary_shared_key
   description = "value of the core log analytics workspace secondary key"
 }
 
 output "core_la_workspace_id" {
-  value       = azurerm_log_analytics_workspace.core-la.workspace_id
+  value       = azurerm_log_analytics_workspace.core_la.workspace_id
   description = "value of the core log analytics workspace id"
 }
 
 output "core_la_workspace_name" {
-  value       = azurerm_log_analytics_workspace.core-la.name
+  value       = azurerm_log_analytics_workspace.core_la.name
   description = "value of the core log analytics workspace name"
 }
 
@@ -38,54 +38,110 @@ output "core_kv_id" {
   description = "Value of the Core Key Vault ID"
 }
 
-output "ad-cmk_id" {
-  value       = azurerm_key_vault_key.ad-cmk.id
-  description = "AD SA CMK ID"
+output "ad_cmk_id" {
+  value       = try(module.ad_cmk[0].key_id, null)
+  description = "Active Directory CMK Key ID"
 }
 
-output "ars-cmk_id" {
-  value       = azurerm_key_vault_key.ars-cmk.id
-  description = "Azure Recovery Services SA CMK ID"
+output "ad_cmk_name" {
+  value       = try(module.ad_cmk[0].key_name, null)
+  description = "Active Directory CMK Key Name"
 }
 
-output "flowlog-cmk_id" {
-  value       = azurerm_key_vault_key.flowlog-cmk.id
-  description = "Flowlogs SA CMK ID"
+output "ars_cmk_id" {
+  value       = try(module.ars_cmk[0].key_id, null)
+  description = "Azure Recovery Services CMK Key ID"
 }
 
-output "install-cmk_id" {
-  value       = azurerm_key_vault_key.install-cmk.id
-  description = "Installs SA CMK ID"
+output "ars_cmk_name" {
+  value       = try(module.ars_cmk[0].key_name, null)
+  description = "Azure Recovery Services CMK Key Name"
 }
 
-output "law_queries-cmk_id" {
-  value       = azurerm_key_vault_key.law_queries-cmk.id
-  description = "Log Analytics Workspace Queries SA CMK ID"
+output "flowlog_cmk_id" {
+  value       = try(module.flowlog_cmk[0].key_id, null)
+  description = "Flowlogs CMK Key ID"
 }
 
-output "tstate-cmk_id" {
-  value       = azurerm_key_vault_key.tstate-cmk.id
-  description = "Terraform State SA CMK ID"
+output "flowlog_cmk_name" {
+  value       = try(module.flowlog_cmk[0].key_name, null)
+  description = "Flowlogs CMK Key Name"
 }
 
-output "cloudshell-cmk_id" {
-  value       = azurerm_key_vault_key.cloudshell-cmk.id
-  description = "Cloudshell SA CMK ID"
+output "install_cmk_id" {
+  value       = try(module.install_cmk[0].key_id, null)
+  description = "Installs CMK Key ID"
 }
 
-output "docs-cmk_id" {
-  value       = azurerm_key_vault_key.docs-cmk.id
-  description = "Docs SA CMK ID"
+output "install_cmk_name" {
+  value       = try(module.install_cmk[0].key_name, null)
+  description = "Installs CMK Key Name"
 }
 
-output "avd-cmk_id" {
-  value       = azurerm_key_vault_key.avd-cmk.id
-  description = "Azure Virtual Desktop CMK ID"
+output "law_queries_cmk_id" {
+  value       = try(module.law_queries_cmk[0].key_id, null)
+  description = "Log Analytics Workspace Queries CMK Key ID"
+}
+
+output "law_queries_cmk_name" {
+  value       = try(module.law_queries_cmk[0].key_name, null)
+  description = "Log Analytics Workspace Queries CMK Key Name"
+}
+
+output "tstate_cmk_id" {
+  value       = try(module.tstate_cmk[0].key_id, null)
+  description = "Terraform State CMK Key ID"
+}
+
+output "tstate_cmk_name" {
+  value       = try(module.tstate_cmk[0].key_name, null)
+  description = "Terraform State CMK Key Name"
+}
+
+output "cloudshell_cmk_id" {
+  value       = try(module.cloudshell_cmk[0].key_id, null)
+  description = "Cloudshell CMK Key ID"
+}
+
+output "cloudshell_cmk_name" {
+  value       = try(module.cloudshell_cmk[0].key_name, null)
+  description = "Cloudshell CMK Key Name"
+}
+
+output "docs_cmk_id" {
+  value       = try(module.docs_cmk[0].key_id, null)
+  description = "Docs CMK Key ID"
+}
+
+output "docs_cmk_name" {
+  value       = try(module.docs_cmk[0].key_name, null)
+  description = "Docs CMK Key Name"
+}
+
+output "avd_cmk_id" {
+  value       = try(module.avd_cmk[0].key_id, null)
+  description = "Azure Virtual Desktop CMK Key ID"
+}
+
+output "avd_cmk_name" {
+  value       = try(module.avd_cmk[0].key_name, null)
+  description = "Azure Virtual Desktop CMK Key Name"
+}
+
+output "vmdiag_cmk_id" {
+  value       = try(module.vmdiag_cmk[0].key_id, null)
+  description = "VMDiag CMK Key ID"
+}
+
+output "vmdiag_cmk_name" {
+  value       = try(module.vmdiag_cmk[0].key_name, null)
+  description = "VMDiag CMK Key Name"
 }
 
 output "core_xadm_ssh_public_key" {
   value       = trimspace(tls_private_key.xadm.public_key_openssh)
   description = "Value of the SSH public key for xadm"
+  sensitive = true
 }
 
 output "core_private_dns_zone_id" {
