@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.0...v1.1.1) (2025-10-15)
+
+
+### Bug Fixes
+
+* sec core config ([0373d00](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/0373d00bd36f06c41aef2f8e5ebad1d94e113016))
+
 ## [1.1.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.0.5...v1.1.0) (2025-10-15)
 
 
