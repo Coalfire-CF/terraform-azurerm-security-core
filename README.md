@@ -222,6 +222,7 @@ module "core" {
 | <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
+| <a name="input_deploy_private_dns_zones"></a> [deploy\_private\_dns\_zones](#input\_deploy\_private\_dns\_zones) | Enable/Disable provisioning of Private DNS zones. | `bool` | `true` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
@@ -270,6 +271,7 @@ module "core" {
 | <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | value of the core log analytics workspace secondary key |
 | <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | value of the core log analytics workspace id |
 | <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | value of the core log analytics workspace name |
+| <a name="output_core_map_private_dns_zone_ids"></a> [core\_map\_private\_dns\_zone\_ids](#output\_core\_map\_private\_dns\_zone\_ids) | Map of Private DNS zone names to their resource IDs |
 | <a name="output_core_private_dns_zone_id"></a> [core\_private\_dns\_zone\_id](#output\_core\_private\_dns\_zone\_id) | Private DNS Zone IDs |
 | <a name="output_core_private_dns_zones"></a> [core\_private\_dns\_zones](#output\_core\_private\_dns\_zones) | Private DNS Zone names |
 | <a name="output_core_rg_name"></a> [core\_rg\_name](#output\_core\_rg\_name) | Name of the core resource group |
