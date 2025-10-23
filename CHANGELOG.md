@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.1...v1.1.2) (2025-10-23)
+
+
+### Bug Fixes
+
+* dns zones outputs and optional creation ([c3c036e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/c3c036e7182e76915abee6f1d1b099316cda6dfa))
+
 ## [1.1.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.0...v1.1.1) (2025-10-15)
 
 
