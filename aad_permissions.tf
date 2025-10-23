@@ -10,7 +10,7 @@ resource "azuread_directory_role" "groups_administrator" {
 }
 
 resource "azuread_directory_role_assignment" "assign_groups_administrator" {
-  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : []
+  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : toset([])
 
   role_id             = local.ad_roles["Groups Administrator"]
   principal_object_id = each.value
@@ -23,7 +23,7 @@ resource "azuread_directory_role" "app_owners" {
 }
 
 resource "azuread_directory_role_assignment" "assign_app_owners" {
-  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : []
+  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : toset([])
 
   role_id             = local.ad_roles["Application Administrator"]
   principal_object_id = each.value
@@ -31,7 +31,7 @@ resource "azuread_directory_role_assignment" "assign_app_owners" {
 }
 
 resource "azurerm_role_assignment" "assign_sub_contributor" {
-  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : []
+  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : toset([])
 
   scope                = "/subscriptions/${var.subscription_id}"
   role_definition_name = "Contributor"
@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "assign_sub_contributor" {
 }
 
 resource "azurerm_role_assignment" "assign_sub_user_access" {
-  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : []
+  for_each = var.enable_aad_permissions ? toset(var.admin_principal_ids) : toset([])
 
   scope                = "/subscriptions/${var.subscription_id}"
   role_definition_name = "User Access Administrator"

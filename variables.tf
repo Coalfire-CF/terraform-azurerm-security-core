@@ -8,9 +8,27 @@ variable "regional_tags" {
   description = "Regional level tags"
 }
 
+variable "tags" {
+  type        = map(string)
+  description = "Resource level tags"
+}
+
 variable "location" {
   description = "The Azure location/region to create resources in"
   type        = string
+}
+
+variable "ip_for_remote_access" {
+  description = "List of IP addresses for remote access (without CIDR notation). Storage account ip_rules will automatically reject /32 notation."
+  type        = list(string)
+  default     = []
+  
+  validation {
+    condition = alltrue([
+      for ip in var.ip_for_remote_access : can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}$", ip))
+    ])
+    error_message = "All IPs must be valid IPv4 addresses without CIDR notation (e.g., '203.0.113.1' not '203.0.113.1/32')."
+  }
 }
 
 variable "location_abbreviation" {
@@ -77,9 +95,21 @@ variable "enable_aad_permissions" {
   default     = true
 }
 
-variable "enable_tfstate_storage" {
+variable "create_tfstate_storage" {
   type        = bool
   description = "Enable/Disable provisioning a storage account and container for Terraform state."
+  default     = true
+}
+
+variable "create_law_queries_storage" {
+  type        = bool
+  description = "Enable/Disable provisioning a storage account and container for Log Analytics Workspace queries."
+  default     = true
+}
+
+variable "deploy_private_dns_zones" {
+  description = "Enable/Disable provisioning of Private DNS zones."
+  type        = bool
   default     = true
 }
 
@@ -88,15 +118,12 @@ variable "azure_private_dns_zones" {
   description = "List of Private DNS zones to create."
   default = [
     "privatelink.azurecr.us",
-    "privatelink.azuredatabricks.net",
     "privatelink.database.usgovcloudapi.net",
-    "privatelink.datafactory.azure.net",
     "privatelink.blob.core.usgovcloudapi.net",
     "privatelink.table.core.usgovcloudapi.net",
     "privatelink.queue.core.usgovcloudapi.net",
     "privatelink.file.core.usgovcloudapi.net",
     "privatelink.documents.azure.us",
-    "privatelink.mongo.cosmos.azure.us",
     "privatelink.table.cosmos.azure.us",
     "privatelink.postgres.database.usgovcloudapi.net",
     "privatelink.mysql.database.usgovcloudapi.net",
@@ -122,6 +149,24 @@ variable "log_analytics_data_collection_rule_id" {
   description = "Optional Log Analytics Data Collection Rule for the workspace."
   type        = string
   default     = null
+}
+
+variable "fw_virtual_network_subnet_ids" {
+  type        = list(string)
+  description = "List of subnet ids for the firewall"
+  default     = []
+}
+
+variable "sa_public_network_access_enabled" {
+  type    = bool
+  description = "Enable/Disable public network access for the storage account."
+  default = true
+}
+
+variable "enable_customer_managed_key" {
+  type = bool
+  description = "Enable/Disable Customer Managed Key (CMK) for the storage account."
+  default = true
 }
 
 ### Optional custom name inputs ###
@@ -181,9 +226,124 @@ variable "log_analytics_workspace_name" {
     error_message = "Log Analytics Workspace names must be between 4 and 63 characters long and can only contain letters, numbers and dashes."
   }
 }
+
+### Key Vault Variabeles ###
+
+variable "enabled_for_disk_encryption" {
+  description = "Specifies whether the Key Vault is enabled for disk encryption."
+  type        = bool
+  default     = false
+}
+
+variable "enabled_for_deployment" {
+  description = "Specifies whether the Key Vault is enabled for deployment."
+  type        = bool
+  default     = true
+}
+
+variable "enabled_for_template_deployment" {
+  description = "Specifies whether the Key Vault is enabled for template deployment."
+  type        = bool
+  default     = true
+}
+
+variable "kv_public_network_access_enabled" {
+  description = "Specifies whether public network access is enabled for the Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "kms_key_vault_network_access" {
+  description = "Network access configuration for the Key Vault."
+  type        = string
+  default     = "Private"
+}
+
+# variable "sku_name" {
+#   description = "The SKU name of the Key Vault. Possible values are standard and premium."
+#   type        = string
+#   default     = "standard"
+#   validation {
+#     condition     = contains(["standard", "premium"], lower(var.sku_name))
+#     error_message = "SKU name must be either 'standard' or 'premium'."
+#   }
+# }
+
+variable "kv_subnet_ids" {
+  type        = list(string)
+  description = "A list of Subnet IDs where the Key Vault should allow communication."
+  default     = []
+}
+
+variable "create_ad_cmk" {
+  description = "Whether to create the AD CMK in Key Vault."
+  type        = bool
+  default     = false
+}
+
+variable "create_ars_cmk" {
+  description = "Whether to create the ARS CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_flowlog_cmk" {
+  description = "Whether to create the Flow Log CMK in Key Vault."
+  type        = bool
+  default     = true  
+}
+
+variable "create_install_cmk" {
+  description = "Whether to create the Install CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_tstate_cmk" {
+  description = "Whether to create the TF State CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
+variable "create_law_queries_cmk" {
+  description = "Whether to create the Law Queries CMK in Key Vault."
+  type        = bool
+  default     = true  
+}
+
+variable "create_cloudshell_cmk" {
+  description = "Whether to create the Cloud Shell CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "create_docs_cmk" {
+  description = "Whether to create the Docs CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "create_avd_cmk" {
+  description = "Whether to create the AVD CMK in Key Vault."
+  type        = bool
+  default     = false    
+}
+
+variable "create_vmdiag_cmk" {
+  description = "Whether to create the VMDiag CMK in Key Vault."
+  type        = bool
+  default     = true    
+}
+
+variable "fedramp_high" {
+  description = "Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys)."
+  type        = bool
+  default     = false
+}
+
 variable "admin_ssh_key_name" {
   description = "Optional custom name for admin SSH key secret in Key Vault"
   type        = string
-  default     = "xadm-ssh-private-key"
+  default     = "xadm-ssh-key"
 }
 

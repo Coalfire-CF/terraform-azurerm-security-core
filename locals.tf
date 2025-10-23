@@ -12,7 +12,7 @@ locals {
   })
 
   # DNS
-  regional_private_dns_zones = {
+  regional_private_dns_zones = var.deploy_private_dns_zones ? {
     azure_kubernetes_service_management = [
       for location in [var.location, var.dr_location] :
       "privatelink.${location}.cx.aks.containerservice.azure.us"
@@ -21,9 +21,15 @@ locals {
       for location in [var.location, var.dr_location] :
       "privatelink.${location}.kusto.usgovcloudapi.net"
     ]
-  }
-  private_dns_zones = distinct(concat(var.azure_private_dns_zones, var.custom_private_dns_zones, flatten(values(local.regional_private_dns_zones))))
+  } : {}
 
+  private_dns_zones = var.deploy_private_dns_zones ? distinct(
+    concat(
+      var.azure_private_dns_zones,
+      var.custom_private_dns_zones,
+      flatten(values(local.regional_private_dns_zones))
+    )
+  ) : []
 
   # default resource names
   key_vault_name                   = var.key_vault_name != "default" ? var.key_vault_name : "${var.resource_prefix}-core-kv"
