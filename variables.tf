@@ -107,6 +107,12 @@ variable "create_law_queries_storage" {
   default     = true
 }
 
+variable "deploy_private_dns_zones" {
+  description = "Enable/Disable provisioning of Private DNS zones."
+  type        = bool
+  default     = true
+}
+
 variable "azure_private_dns_zones" {
   type        = list(string)
   description = "List of Private DNS zones to create."

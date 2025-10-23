@@ -153,3 +153,12 @@ output "core_private_dns_zones" {
   value       = values(azurerm_private_dns_zone.default)[*].name
   description = "Private DNS Zone names"
 }
+
+output "core_map_private_dns_zone_ids" {
+  description = "Map of Private DNS zone names to their resource IDs"
+  value = {
+    for zone_name, zone in azurerm_private_dns_zone.default :
+    zone_name => zone.id
+  }
+}
+
