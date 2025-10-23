@@ -309,6 +309,7 @@ Copyright © Coalfire Systems Inc.
 ## Tree
 ```
 .
+|-- CHANGELOG.md
 |-- CONTRIBUTING.md
 |-- LICENSE
 |-- License.md
