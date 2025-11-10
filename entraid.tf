@@ -3,7 +3,7 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
   count = var.enable_aad_logs ? 1 : 0
 
   name                       = "AAD_Logs"
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.core-la.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.core_la.id
   enabled_log {
     category = "SignInLogs"
   }
@@ -33,5 +33,14 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
   }
   enabled_log {
     category = "ServicePrincipalRiskEvents"
+  }
+  enabled_log {
+    category = "MicrosoftGraphActivityLogs"
+  }
+  enabled_log {
+    category = "MicrosoftServicePrincipalSignInLogs"
+  }
+  enabled_log {
+    category = "ProvisioningLogs"
   }
 }

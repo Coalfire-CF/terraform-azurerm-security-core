@@ -1,4 +1,5 @@
-resource "azurerm_log_analytics_workspace" "core-la" {
+# Azure Log Analytics Workspace
+resource "azurerm_log_analytics_workspace" "core_la" {
   name                       = local.log_analytics_workspace_name
   location                   = var.location
   resource_group_name        = azurerm_resource_group.core.name
@@ -19,87 +20,63 @@ resource "azurerm_log_analytics_workspace" "core-la" {
 }
 
 module "diag_law" {
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
-  resource_id           = azurerm_log_analytics_workspace.core-la.id
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
+  resource_id           = azurerm_log_analytics_workspace.core_la.id
   resource_type         = "law"
 }
 
-# storage account for stored log analytics queries
-
-#data "azurerm_client_config" "current" {}
-resource "azurerm_storage_account" "law_queries" {
-  depends_on                        = [azurerm_resource_group.core]
-  name                              = local.law_queries_storage_account_name
-  resource_group_name               = azurerm_resource_group.core.name
-  location                          = var.location
-  account_tier                      = "Standard"
-  account_replication_type          = "GRS"
-  min_tls_version                   = "TLS1_2"
-  https_traffic_only_enabled        = true
-  allow_nested_items_to_be_public   = false
-  public_network_access_enabled     = true #controlled with firewall rules 
-  infrastructure_encryption_enabled = true
-
-  identity {
-    type = "SystemAssigned"
-  }
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes = [
-      customer_managed_key # required by https://github.com/hashicorp/terraform-provider-azurerm/issues/16085
-    ]
-  }
-  blob_properties {
-    versioning_enabled = true
-  }
+module "law_queries_sa" {
+  source                     = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
+  
+  count                      = var.create_law_queries_storage ? 1 : 0
+  
+  name                       = local.law_queries_storage_account_name
+  resource_group_name        = azurerm_resource_group.core.name
+  location                   = var.location
+  account_kind               = "StorageV2"
+  ip_rules                   = var.ip_for_remote_access
+  diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la.id
+  virtual_network_subnet_ids = var.sa_subnet_ids
 
   tags = merge({
-    Function = "SIEM"
-    Plane    = "Core"
+    Function = "Storage"
+    Plane    = "Management"
   }, var.global_tags, var.regional_tags)
+
+  public_network_access_enabled = var.sa_public_network_access_enabled
+  enable_customer_managed_key   = var.enable_customer_managed_key
+  cmk_key_vault_id              = module.core_kv.key_vault_id
+  cmk_key_name                  = module.law_queries_cmk[0].key_name
 }
-
-
-resource "azurerm_role_assignment" "law_queries_kv_crypto_user" {
-  # for_each             = var.admin_principal_ids
-  scope                = module.core_kv.key_vault_id
-  role_definition_name = "Key Vault Crypto Service Encryption User"
-  principal_id         = azurerm_storage_account.law_queries.identity[0].principal_id
-}
-
-resource "azurerm_storage_account_customer_managed_key" "enable_law_queries_cmk" {
-  storage_account_id = azurerm_storage_account.law_queries.id
-  key_vault_id       = module.core_kv.key_vault_id
-  key_name           = azurerm_key_vault_key.law_queries-cmk.name
-}
-
 
 resource "azurerm_storage_container" "law_queries" {
+  count                 = var.create_law_queries_storage ? 1 : 0
   name                  = "law-queries"
-  storage_account_id    = azurerm_storage_account.law_queries.id
+  storage_account_id    = module.law_queries_sa[0].id
   container_access_type = "private"
 }
 
 module "diag_la_queries_sa" {
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.0.0"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core-la.id
-  resource_id           = azurerm_storage_account.law_queries.id
+  count                 = var.create_law_queries_storage ? 1 : 0
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
+  resource_id           = module.law_queries_sa[0].id
   resource_type         = "sa"
 }
 
 resource "azurerm_log_analytics_linked_storage_account" "law_queries" {
-  depends_on            = [azurerm_resource_group.core]
+  count                 = var.create_law_queries_storage ? 1 : 0
   data_source_type      = "Query"
   resource_group_name   = azurerm_resource_group.core.name
-  workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
-  storage_account_ids   = [azurerm_storage_account.law_queries.id]
+  workspace_resource_id = azurerm_log_analytics_workspace.core_la.id
+  storage_account_ids   = [module.law_queries_sa[0].id]
 }
 
 resource "azurerm_log_analytics_linked_storage_account" "law_alerts" {
-  depends_on            = [azurerm_resource_group.core]
+  count                 = var.create_law_queries_storage ? 1 : 0
   data_source_type      = "Alerts"
   resource_group_name   = azurerm_resource_group.core.name
-  workspace_resource_id = azurerm_log_analytics_workspace.core-la.id
-  storage_account_ids   = [azurerm_storage_account.law_queries.id]
+  workspace_resource_id = azurerm_log_analytics_workspace.core_la.id
+  storage_account_ids   = [module.law_queries_sa[0].id]
 }
