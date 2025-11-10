@@ -232,7 +232,7 @@ module "core" {
 | <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `false` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
 | <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys). | `bool` | `false` | no |
-| <a name="input_fw_virtual_network_subnet_ids"></a> [fw\_virtual\_network\_subnet\_ids](#input\_fw\_virtual\_network\_subnet\_ids) | List of subnet ids for the firewall | `list(string)` | `[]` | no |
+| <a name="input_virtual_network_subnet_ids"></a> [fw\_virtual\_network\_subnet\_ids](#input\_fw\_virtual\_network\_subnet\_ids) | List of subnet ids for the firewall | `list(string)` | `[]` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | List of IP addresses for remote access (without CIDR notation). Storage account ip\_rules will automatically reject /32 notation. | `list(string)` | `[]` | no |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |

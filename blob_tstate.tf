@@ -9,7 +9,7 @@ module "tfstate_sa" {
   account_kind               = "StorageV2"
   ip_rules                   = var.ip_for_remote_access
   diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la.id
-  virtual_network_subnet_ids = var.fw_virtual_network_subnet_ids
+  virtual_network_subnet_ids = var.sa_subnet_ids
 
   tags = merge({
     Function = "Storage"
