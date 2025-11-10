@@ -153,7 +153,7 @@ variable "log_analytics_data_collection_rule_id" {
 
 variable "sa_subnet_ids" {
   type        = list(string)
-  description = "List of subnet ids for access to storage accounts."
+  description = "List of subnet ids for access to storage accounts to allow communication."
   default     = []
 }
 

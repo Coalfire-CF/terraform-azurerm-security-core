@@ -34,4 +34,13 @@ resource "azurerm_monitor_aad_diagnostic_setting" "aadlogs" {
   enabled_log {
     category = "ServicePrincipalRiskEvents"
   }
+  enabled_log {
+    category = "MicrosoftGraphActivityLogs"
+  }
+  enabled_log {
+    category = "MicrosoftServicePrincipalSignInLogs"
+  }
+  enabled_log {
+    category = "ProvisioningLogs"
+  }
 }
