@@ -20,14 +20,14 @@ resource "azurerm_log_analytics_workspace" "core_la" {
 }
 
 module "diag_law" {
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = azurerm_log_analytics_workspace.core_la.id
   resource_type         = "law"
 }
 
 module "law_queries_sa" {
-  source                     = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
+  source                     = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.4"
   
   count                      = var.create_law_queries_storage ? 1 : 0
   
@@ -59,7 +59,7 @@ resource "azurerm_storage_container" "law_queries" {
 
 module "diag_la_queries_sa" {
   count                 = var.create_law_queries_storage ? 1 : 0
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = module.law_queries_sa[0].id
   resource_type         = "sa"
