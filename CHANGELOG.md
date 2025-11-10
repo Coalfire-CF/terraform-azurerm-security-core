@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.2...v1.1.3) (2025-11-10)
+
+
+### Bug Fixes
+
+* kv cmk add ([be2e8e4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/be2e8e446ded89d7b340ad2948ca1f47b3df4b0d))
+* storage account module version ([1c52ba0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1c52ba0788a5855da6314e2a0a3a6dfe59045236))
+
+
+### Miscellaneous
+
+* update README tree ([aa51194](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/aa51194c2e7c2a629c21854ac260d9be19c3b4d6))
+
 ## [1.1.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.1...v1.1.2) (2025-10-23)
 
 
