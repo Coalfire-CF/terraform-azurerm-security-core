@@ -8,7 +8,7 @@
 
 module "diag_sub" {
   count                 = var.enable_sub_logs ? 1 : 0
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.0"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
   resource_id           = "/subscriptions/${var.subscription_id}"
   resource_type         = "sub"

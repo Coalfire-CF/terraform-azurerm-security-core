@@ -151,9 +151,9 @@ variable "log_analytics_data_collection_rule_id" {
   default     = null
 }
 
-variable "fw_virtual_network_subnet_ids" {
+variable "sa_subnet_ids" {
   type        = list(string)
-  description = "List of subnet ids for the firewall"
+  description = "List of subnet ids for access to storage accounts to allow communication."
   default     = []
 }
 
@@ -259,16 +259,6 @@ variable "kms_key_vault_network_access" {
   default     = "Private"
 }
 
-# variable "sku_name" {
-#   description = "The SKU name of the Key Vault. Possible values are standard and premium."
-#   type        = string
-#   default     = "standard"
-#   validation {
-#     condition     = contains(["standard", "premium"], lower(var.sku_name))
-#     error_message = "SKU name must be either 'standard' or 'premium'."
-#   }
-# }
-
 variable "kv_subnet_ids" {
   type        = list(string)
   description = "A list of Subnet IDs where the Key Vault should allow communication."
@@ -329,14 +319,26 @@ variable "create_avd_cmk" {
   default     = false    
 }
 
+variable "create_vmdisk_cmk" {
+  description = "Whether to create the VM Disk CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
 variable "create_vmdiag_cmk" {
   description = "Whether to create the VMDiag CMK in Key Vault."
   type        = bool
   default     = true    
 }
 
+variable "create_aks_node_cmk" {
+  description = "Whether to create the AKS Node CMK in Key Vault."
+  type        = bool
+  default     = false
+}
+
 variable "fedramp_high" {
-  description = "Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys)."
+  description = "Whether to use FedRAMP High compliant resources (e.g., KeyVault Premium, HSM-backed keys)."
   type        = bool
   default     = false
 }
