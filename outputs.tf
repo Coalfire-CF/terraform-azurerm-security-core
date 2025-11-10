@@ -128,6 +128,16 @@ output "avd_cmk_name" {
   description = "Azure Virtual Desktop CMK Key Name"
 }
 
+output "vm_disk_cmk_id" {
+  value       = try(module.vm_disk_cmk[0].key_id, null)
+  description = "VM Disk CMK Key ID"
+}
+
+output "vm_disk_cmk_name" {
+  value       = try(module.vm_disk_cmk[0].key_name, null)
+  description = "VM Disk CMK Key Name"
+}
+
 output "vmdiag_cmk_id" {
   value       = try(module.vmdiag_cmk[0].key_id, null)
   description = "VMDiag CMK Key ID"
@@ -136,6 +146,16 @@ output "vmdiag_cmk_id" {
 output "vmdiag_cmk_name" {
   value       = try(module.vmdiag_cmk[0].key_name, null)
   description = "VMDiag CMK Key Name"
+}
+
+output "aks_node_cmk_id" {
+  value       = try(module.aks_node_cmk[0].key_id, null)
+  description = "AKS Node CMK Key ID"
+}
+
+output "aks_node_cmk_name" {
+  value       = try(module.aks_node_cmk[0].key_name, null)
+  description = "AKS Node CMK Key Name"
 }
 
 output "core_xadm_ssh_public_key" {

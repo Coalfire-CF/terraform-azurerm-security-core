@@ -329,10 +329,22 @@ variable "create_avd_cmk" {
   default     = false    
 }
 
+variable "create_vmdisk_cmk" {
+  description = "Whether to create the VM Disk CMK in Key Vault."
+  type        = bool
+  default     = true
+}
+
 variable "create_vmdiag_cmk" {
   description = "Whether to create the VMDiag CMK in Key Vault."
   type        = bool
   default     = true    
+}
+
+variable "create_aks_node_cmk" {
+  description = "Whether to create the AKS Node CMK in Key Vault."
+  type        = bool
+  default     = false
 }
 
 variable "fedramp_high" {
