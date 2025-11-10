@@ -155,6 +155,7 @@ module "core" {
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
@@ -170,6 +171,7 @@ module "core" {
 | <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
 | <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
 | <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 
 ## Resources
@@ -178,8 +180,6 @@ module "core" {
 |------|------|
 | [azuread_directory_role.app_owners](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role) | resource |
 | [azuread_directory_role.groups_administrator](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role) | resource |
-| [azuread_directory_role_assignment.assign_app_owners](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role_assignment) | resource |
-| [azuread_directory_role_assignment.assign_groups_administrator](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role_assignment) | resource |
 | [azurerm_key_vault_secret.xadm_ssh_priv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.xadm_ssh_pub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_linked_storage_account.law_alerts](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_linked_storage_account) | resource |
@@ -196,7 +196,6 @@ module "core" {
 | [azurerm_storage_container.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.tf_state_lock](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [tls_private_key.xadm](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
-| [azuread_directory_roles.default](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/directory_roles) | data source |
 
 ## Inputs
 
@@ -210,6 +209,7 @@ module "core" {
 | <a name="input_cidrs_for_remote_access"></a> [cidrs\_for\_remote\_access](#input\_cidrs\_for\_remote\_access) | admin ciders | `list(any)` | n/a | yes |
 | <a name="input_core_rg_name"></a> [core\_rg\_name](#input\_core\_rg\_name) | Resource group name for core security services | `string` | `"core-rg-1"` | no |
 | <a name="input_create_ad_cmk"></a> [create\_ad\_cmk](#input\_create\_ad\_cmk) | Whether to create the AD CMK in Key Vault. | `bool` | `false` | no |
+| <a name="input_create_aks_node_cmk"></a> [create\_aks\_node\_cmk](#input\_create\_aks\_node\_cmk) | Whether to create the AKS Node CMK in Key Vault. | `bool` | `false` | no |
 | <a name="input_create_ars_cmk"></a> [create\_ars\_cmk](#input\_create\_ars\_cmk) | Whether to create the ARS CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_avd_cmk"></a> [create\_avd\_cmk](#input\_create\_avd\_cmk) | Whether to create the AVD CMK in Key Vault. | `bool` | `false` | no |
 | <a name="input_create_cloudshell_cmk"></a> [create\_cloudshell\_cmk](#input\_create\_cloudshell\_cmk) | Whether to create the Cloud Shell CMK in Key Vault. | `bool` | `true` | no |
@@ -221,6 +221,7 @@ module "core" {
 | <a name="input_create_tfstate_storage"></a> [create\_tfstate\_storage](#input\_create\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
+| <a name="input_create_vmdisk_cmk"></a> [create\_vmdisk\_cmk](#input\_create\_vmdisk\_cmk) | Whether to create the VM Disk CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
 | <a name="input_deploy_private_dns_zones"></a> [deploy\_private\_dns\_zones](#input\_deploy\_private\_dns\_zones) | Enable/Disable provisioning of Private DNS zones. | `bool` | `true` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
@@ -231,8 +232,7 @@ module "core" {
 | <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Specifies whether the Key Vault is enabled for deployment. | `bool` | `true` | no |
 | <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `false` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
-| <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., HSM-backed keys). | `bool` | `false` | no |
-| <a name="input_virtual_network_subnet_ids"></a> [fw\_virtual\_network\_subnet\_ids](#input\_fw\_virtual\_network\_subnet\_ids) | List of subnet ids for the firewall | `list(string)` | `[]` | no |
+| <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., KeyVault Premium, HSM-backed keys). | `bool` | `false` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | List of IP addresses for remote access (without CIDR notation). Storage account ip\_rules will automatically reject /32 notation. | `list(string)` | `[]` | no |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
@@ -247,6 +247,7 @@ module "core" {
 | <a name="input_regional_tags"></a> [regional\_tags](#input\_regional\_tags) | Regional level tags | `map(string)` | n/a | yes |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Name prefix used for resources | `string` | n/a | yes |
 | <a name="input_sa_public_network_access_enabled"></a> [sa\_public\_network\_access\_enabled](#input\_sa\_public\_network\_access\_enabled) | Enable/Disable public network access for the storage account. | `bool` | `true` | no |
+| <a name="input_sa_subnet_ids"></a> [sa\_subnet\_ids](#input\_sa\_subnet\_ids) | List of subnet ids for access to storage accounts to allow communication. | `list(string)` | `[]` | no |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The Azure subscription ID where resources are being deployed into | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource level tags | `map(string)` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The Azure tenant ID that owns the deployed resources | `string` | n/a | yes |
@@ -258,6 +259,8 @@ module "core" {
 |------|-------------|
 | <a name="output_ad_cmk_id"></a> [ad\_cmk\_id](#output\_ad\_cmk\_id) | Active Directory CMK Key ID |
 | <a name="output_ad_cmk_name"></a> [ad\_cmk\_name](#output\_ad\_cmk\_name) | Active Directory CMK Key Name |
+| <a name="output_aks_node_cmk_id"></a> [aks\_node\_cmk\_id](#output\_aks\_node\_cmk\_id) | AKS Node CMK Key ID |
+| <a name="output_aks_node_cmk_name"></a> [aks\_node\_cmk\_name](#output\_aks\_node\_cmk\_name) | AKS Node CMK Key Name |
 | <a name="output_ars_cmk_id"></a> [ars\_cmk\_id](#output\_ars\_cmk\_id) | Azure Recovery Services CMK Key ID |
 | <a name="output_ars_cmk_name"></a> [ars\_cmk\_name](#output\_ars\_cmk\_name) | Azure Recovery Services CMK Key Name |
 | <a name="output_avd_cmk_id"></a> [avd\_cmk\_id](#output\_avd\_cmk\_id) | Azure Virtual Desktop CMK Key ID |
@@ -286,6 +289,8 @@ module "core" {
 | <a name="output_law_queries_cmk_name"></a> [law\_queries\_cmk\_name](#output\_law\_queries\_cmk\_name) | Log Analytics Workspace Queries CMK Key Name |
 | <a name="output_tstate_cmk_id"></a> [tstate\_cmk\_id](#output\_tstate\_cmk\_id) | Terraform State CMK Key ID |
 | <a name="output_tstate_cmk_name"></a> [tstate\_cmk\_name](#output\_tstate\_cmk\_name) | Terraform State CMK Key Name |
+| <a name="output_vm_disk_cmk_id"></a> [vm\_disk\_cmk\_id](#output\_vm\_disk\_cmk\_id) | VM Disk CMK Key ID |
+| <a name="output_vm_disk_cmk_name"></a> [vm\_disk\_cmk\_name](#output\_vm\_disk\_cmk\_name) | VM Disk CMK Key Name |
 | <a name="output_vmdiag_cmk_id"></a> [vmdiag\_cmk\_id](#output\_vmdiag\_cmk\_id) | VMDiag CMK Key ID |
 | <a name="output_vmdiag_cmk_name"></a> [vmdiag\_cmk\_name](#output\_vmdiag\_cmk\_name) | VMDiag CMK Key Name |
 <!-- END_TF_DOCS -->
