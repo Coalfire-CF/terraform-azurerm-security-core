@@ -61,7 +61,7 @@ module "ad_cmk" {
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
 module "ars_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.3"
 
   count = var.create_ars_cmk ? 1 : 0
 
