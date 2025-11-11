@@ -137,7 +137,7 @@ module "core" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 2.0 |
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.6 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
@@ -146,7 +146,7 @@ module "core" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 2.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 3.6 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
@@ -159,7 +159,7 @@ module "core" {
 | <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.1.1 |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.1.3 |
 | <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
@@ -168,7 +168,7 @@ module "core" {
 | <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.4 |
+| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
 | <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
 | <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
 | <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
@@ -230,7 +230,7 @@ module "core" {
 | <a name="input_enable_customer_managed_key"></a> [enable\_customer\_managed\_key](#input\_enable\_customer\_managed\_key) | Enable/Disable Customer Managed Key (CMK) for the storage account. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Specifies whether the Key Vault is enabled for deployment. | `bool` | `true` | no |
-| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `false` | no |
+| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `true` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
 | <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., KeyVault Premium, HSM-backed keys). | `bool` | `false` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
