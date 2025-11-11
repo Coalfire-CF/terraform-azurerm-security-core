@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.3...v1.1.4) (2025-11-11)
+
+
+### Bug Fixes
+
+* kv var defaults ([731c4bb](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/731c4bbd683a915b89fffa66bd2ed7f81d2c8c2e))
+
 ## [1.1.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.2...v1.1.3) (2025-11-10)
 
 
