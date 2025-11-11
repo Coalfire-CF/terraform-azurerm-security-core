@@ -232,7 +232,7 @@ variable "log_analytics_workspace_name" {
 variable "enabled_for_disk_encryption" {
   description = "Specifies whether the Key Vault is enabled for disk encryption."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "enabled_for_deployment" {
