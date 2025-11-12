@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.4...v1.2.0) (2025-11-12)
+
+
+### Features
+
+* add resource id output to all cmks ([6a0508f](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a0508f416ff0f8ea1f52e5cc256be6a866b4657))
+* add resource id output to all cmks ([a63d141](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a63d1413faec685b0bbf714dd94efa4f73a41909))
+
 ## [1.1.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.3...v1.1.4) (2025-11-11)
 
 
