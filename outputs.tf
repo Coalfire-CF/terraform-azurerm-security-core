@@ -43,6 +43,11 @@ output "ad_cmk_id" {
   description = "Active Directory CMK Key ID"
 }
 
+output "ad_cmk_resource_id" {
+  value       = try(module.ad_cmk[0].key_resource_id, null)
+  description = "Active Directory CMK Key Resource ID"
+}
+
 output "ad_cmk_name" {
   value       = try(module.ad_cmk[0].key_name, null)
   description = "Active Directory CMK Key Name"
@@ -51,6 +56,11 @@ output "ad_cmk_name" {
 output "ars_cmk_id" {
   value       = try(module.ars_cmk[0].key_id, null)
   description = "Azure Recovery Services CMK Key ID"
+}
+
+output "ars_cmk_resource_id" {
+  value       = try(module.ars_cmk[0].key_resource_id, null)
+  description = "Azure Recovery Services CMK Key Resource ID"
 }
 
 output "ars_cmk_name" {
@@ -63,6 +73,11 @@ output "flowlog_cmk_id" {
   description = "Flowlogs CMK Key ID"
 }
 
+output "flowlog_cmk_resource_id" {
+  value       = try(module.flowlog_cmk[0].key_resource_id, null)
+  description = "Flowlogs CMK Key Resource ID"
+}
+
 output "flowlog_cmk_name" {
   value       = try(module.flowlog_cmk[0].key_name, null)
   description = "Flowlogs CMK Key Name"
@@ -71,6 +86,11 @@ output "flowlog_cmk_name" {
 output "install_cmk_id" {
   value       = try(module.install_cmk[0].key_id, null)
   description = "Installs CMK Key ID"
+}
+
+output "install_cmk_resource_id" {
+  value       = try(module.install_cmk[0].key_resource_id, null)
+  description = "Installs CMK Key Resource ID"
 }
 
 output "install_cmk_name" {
@@ -83,6 +103,11 @@ output "law_queries_cmk_id" {
   description = "Log Analytics Workspace Queries CMK Key ID"
 }
 
+output "law_queries_cmk_resource_id" {
+  value       = try(module.law_queries_cmk[0].key_resource_id, null)
+  description = "Log Analytics Workspace Queries CMK Key Resource ID"
+}
+
 output "law_queries_cmk_name" {
   value       = try(module.law_queries_cmk[0].key_name, null)
   description = "Log Analytics Workspace Queries CMK Key Name"
@@ -91,6 +116,11 @@ output "law_queries_cmk_name" {
 output "tstate_cmk_id" {
   value       = try(module.tstate_cmk[0].key_id, null)
   description = "Terraform State CMK Key ID"
+}
+
+output "tstate_cmk_resource_id" {
+  value       = try(module.tstate_cmk[0].key_resource_id, null)
+  description = "Terraform State CMK Key Resource ID"
 }
 
 output "tstate_cmk_name" {
@@ -103,6 +133,11 @@ output "cloudshell_cmk_id" {
   description = "Cloudshell CMK Key ID"
 }
 
+output "cloudshell_cmk_resource_id" {
+  value       = try(module.cloudshell_cmk[0].key_resource_id, null)
+  description = "Cloudshell CMK Key Resource ID"
+}
+
 output "cloudshell_cmk_name" {
   value       = try(module.cloudshell_cmk[0].key_name, null)
   description = "Cloudshell CMK Key Name"
@@ -111,6 +146,11 @@ output "cloudshell_cmk_name" {
 output "docs_cmk_id" {
   value       = try(module.docs_cmk[0].key_id, null)
   description = "Docs CMK Key ID"
+}
+
+output "docs_cmk_resource_id" {
+  value       = try(module.docs_cmk[0].key_resource_id, null)
+  description = "Docs CMK Key Resource ID"
 }
 
 output "docs_cmk_name" {
@@ -123,6 +163,11 @@ output "avd_cmk_id" {
   description = "Azure Virtual Desktop CMK Key ID"
 }
 
+output "avd_cmk_resource_id" {
+  value       = try(module.avd_cmk[0].key_resource_id, null)
+  description = "Azure Virtual Desktop CMK Key Resource ID"
+}
+
 output "avd_cmk_name" {
   value       = try(module.avd_cmk[0].key_name, null)
   description = "Azure Virtual Desktop CMK Key Name"
@@ -131,6 +176,11 @@ output "avd_cmk_name" {
 output "vm_disk_cmk_id" {
   value       = try(module.vm_disk_cmk[0].key_id, null)
   description = "VM Disk CMK Key ID"
+}
+
+output "vm_disk_cmk_resource_id" {
+  value       = try(module.vm_disk_cmk[0].key_resource_id, null)
+  description = "VM Disk CMK Key Resource ID"
 }
 
 output "vm_disk_cmk_name" {
@@ -143,6 +193,11 @@ output "vmdiag_cmk_id" {
   description = "VMDiag CMK Key ID"
 }
 
+output "vmdiag_cmk_resource_id" {
+  value       = try(module.vmdiag_cmk[0].key_resource_id, null)
+  description = "VMDiag CMK Key Resource ID"
+}
+
 output "vmdiag_cmk_name" {
   value       = try(module.vmdiag_cmk[0].key_name, null)
   description = "VMDiag CMK Key Name"
@@ -151,6 +206,11 @@ output "vmdiag_cmk_name" {
 output "aks_node_cmk_id" {
   value       = try(module.aks_node_cmk[0].key_id, null)
   description = "AKS Node CMK Key ID"
+}
+
+output "aks_node_cmk_resource_id" {
+  value       = try(module.aks_node_cmk[0].key_resource_id, null)
+  description = "AKS Node CMK Key Resource ID"
 }
 
 output "aks_node_cmk_name" {
