@@ -259,14 +259,19 @@ module "core" {
 |------|-------------|
 | <a name="output_ad_cmk_id"></a> [ad\_cmk\_id](#output\_ad\_cmk\_id) | Active Directory CMK Key ID |
 | <a name="output_ad_cmk_name"></a> [ad\_cmk\_name](#output\_ad\_cmk\_name) | Active Directory CMK Key Name |
+| <a name="output_ad_cmk_resource_id"></a> [ad\_cmk\_resource\_id](#output\_ad\_cmk\_resource\_id) | Active Directory CMK Key Resource ID |
 | <a name="output_aks_node_cmk_id"></a> [aks\_node\_cmk\_id](#output\_aks\_node\_cmk\_id) | AKS Node CMK Key ID |
 | <a name="output_aks_node_cmk_name"></a> [aks\_node\_cmk\_name](#output\_aks\_node\_cmk\_name) | AKS Node CMK Key Name |
+| <a name="output_aks_node_cmk_resource_id"></a> [aks\_node\_cmk\_resource\_id](#output\_aks\_node\_cmk\_resource\_id) | AKS Node CMK Key Resource ID |
 | <a name="output_ars_cmk_id"></a> [ars\_cmk\_id](#output\_ars\_cmk\_id) | Azure Recovery Services CMK Key ID |
 | <a name="output_ars_cmk_name"></a> [ars\_cmk\_name](#output\_ars\_cmk\_name) | Azure Recovery Services CMK Key Name |
+| <a name="output_ars_cmk_resource_id"></a> [ars\_cmk\_resource\_id](#output\_ars\_cmk\_resource\_id) | Azure Recovery Services CMK Key Resource ID |
 | <a name="output_avd_cmk_id"></a> [avd\_cmk\_id](#output\_avd\_cmk\_id) | Azure Virtual Desktop CMK Key ID |
 | <a name="output_avd_cmk_name"></a> [avd\_cmk\_name](#output\_avd\_cmk\_name) | Azure Virtual Desktop CMK Key Name |
+| <a name="output_avd_cmk_resource_id"></a> [avd\_cmk\_resource\_id](#output\_avd\_cmk\_resource\_id) | Azure Virtual Desktop CMK Key Resource ID |
 | <a name="output_cloudshell_cmk_id"></a> [cloudshell\_cmk\_id](#output\_cloudshell\_cmk\_id) | Cloudshell CMK Key ID |
 | <a name="output_cloudshell_cmk_name"></a> [cloudshell\_cmk\_name](#output\_cloudshell\_cmk\_name) | Cloudshell CMK Key Name |
+| <a name="output_cloudshell_cmk_resource_id"></a> [cloudshell\_cmk\_resource\_id](#output\_cloudshell\_cmk\_resource\_id) | Cloudshell CMK Key Resource ID |
 | <a name="output_core_kv_id"></a> [core\_kv\_id](#output\_core\_kv\_id) | Value of the Core Key Vault ID |
 | <a name="output_core_kv_name"></a> [core\_kv\_name](#output\_core\_kv\_name) | Name of the Core Key vault |
 | <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | value of the core log analytics workspace id |
@@ -281,18 +286,25 @@ module "core" {
 | <a name="output_core_xadm_ssh_public_key"></a> [core\_xadm\_ssh\_public\_key](#output\_core\_xadm\_ssh\_public\_key) | Value of the SSH public key for xadm |
 | <a name="output_docs_cmk_id"></a> [docs\_cmk\_id](#output\_docs\_cmk\_id) | Docs CMK Key ID |
 | <a name="output_docs_cmk_name"></a> [docs\_cmk\_name](#output\_docs\_cmk\_name) | Docs CMK Key Name |
+| <a name="output_docs_cmk_resource_id"></a> [docs\_cmk\_resource\_id](#output\_docs\_cmk\_resource\_id) | Docs CMK Key Resource ID |
 | <a name="output_flowlog_cmk_id"></a> [flowlog\_cmk\_id](#output\_flowlog\_cmk\_id) | Flowlogs CMK Key ID |
 | <a name="output_flowlog_cmk_name"></a> [flowlog\_cmk\_name](#output\_flowlog\_cmk\_name) | Flowlogs CMK Key Name |
+| <a name="output_flowlog_cmk_resource_id"></a> [flowlog\_cmk\_resource\_id](#output\_flowlog\_cmk\_resource\_id) | Flowlogs CMK Key Resource ID |
 | <a name="output_install_cmk_id"></a> [install\_cmk\_id](#output\_install\_cmk\_id) | Installs CMK Key ID |
 | <a name="output_install_cmk_name"></a> [install\_cmk\_name](#output\_install\_cmk\_name) | Installs CMK Key Name |
+| <a name="output_install_cmk_resource_id"></a> [install\_cmk\_resource\_id](#output\_install\_cmk\_resource\_id) | Installs CMK Key Resource ID |
 | <a name="output_law_queries_cmk_id"></a> [law\_queries\_cmk\_id](#output\_law\_queries\_cmk\_id) | Log Analytics Workspace Queries CMK Key ID |
 | <a name="output_law_queries_cmk_name"></a> [law\_queries\_cmk\_name](#output\_law\_queries\_cmk\_name) | Log Analytics Workspace Queries CMK Key Name |
+| <a name="output_law_queries_cmk_resource_id"></a> [law\_queries\_cmk\_resource\_id](#output\_law\_queries\_cmk\_resource\_id) | Log Analytics Workspace Queries CMK Key Resource ID |
 | <a name="output_tstate_cmk_id"></a> [tstate\_cmk\_id](#output\_tstate\_cmk\_id) | Terraform State CMK Key ID |
 | <a name="output_tstate_cmk_name"></a> [tstate\_cmk\_name](#output\_tstate\_cmk\_name) | Terraform State CMK Key Name |
+| <a name="output_tstate_cmk_resource_id"></a> [tstate\_cmk\_resource\_id](#output\_tstate\_cmk\_resource\_id) | Terraform State CMK Key Resource ID |
 | <a name="output_vm_disk_cmk_id"></a> [vm\_disk\_cmk\_id](#output\_vm\_disk\_cmk\_id) | VM Disk CMK Key ID |
 | <a name="output_vm_disk_cmk_name"></a> [vm\_disk\_cmk\_name](#output\_vm\_disk\_cmk\_name) | VM Disk CMK Key Name |
+| <a name="output_vm_disk_cmk_resource_id"></a> [vm\_disk\_cmk\_resource\_id](#output\_vm\_disk\_cmk\_resource\_id) | VM Disk CMK Key Resource ID |
 | <a name="output_vmdiag_cmk_id"></a> [vmdiag\_cmk\_id](#output\_vmdiag\_cmk\_id) | VMDiag CMK Key ID |
 | <a name="output_vmdiag_cmk_name"></a> [vmdiag\_cmk\_name](#output\_vmdiag\_cmk\_name) | VMDiag CMK Key Name |
+| <a name="output_vmdiag_cmk_resource_id"></a> [vmdiag\_cmk\_resource\_id](#output\_vmdiag\_cmk\_resource\_id) | VMDiag CMK Key Resource ID |
 <!-- END_TF_DOCS -->
 
 ## Contributing
