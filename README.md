@@ -343,6 +343,5 @@ Copyright © Coalfire Systems Inc.
 |-- required_version.tf
 |-- resource_group.tf
 |-- subscription_monitor.tf
-|-- update-readme-tree.sh
 |-- variables.tf
 ```
