@@ -329,7 +329,6 @@ Copyright © Coalfire Systems Inc.
 |-- CHANGELOG.md
 |-- CONTRIBUTING.md
 |-- LICENSE
-|-- License.md
 |-- README.md
 |-- aad_permissions.tf
 |-- blob_tstate.tf
