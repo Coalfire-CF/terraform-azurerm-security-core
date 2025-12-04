@@ -221,7 +221,7 @@ output "aks_node_cmk_name" {
 output "core_xadm_ssh_public_key" {
   value       = trimspace(tls_private_key.xadm.public_key_openssh)
   description = "Value of the SSH public key for xadm"
-  sensitive = true
+  sensitive   = true
 }
 
 output "core_private_dns_zone_id" {

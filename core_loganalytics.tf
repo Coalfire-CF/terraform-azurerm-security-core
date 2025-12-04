@@ -4,7 +4,7 @@ resource "azurerm_log_analytics_workspace" "core_la" {
   location                   = var.location
   resource_group_name        = azurerm_resource_group.core.name
   sku                        = "PerGB2018"
-  retention_in_days          = 366
+  retention_in_days          = var.retention_in_days
   internet_ingestion_enabled = true
   internet_query_enabled     = true
   data_collection_rule_id    = var.log_analytics_data_collection_rule_id
@@ -27,10 +27,10 @@ module "diag_law" {
 }
 
 module "law_queries_sa" {
-  source                     = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
-  
-  count                      = var.create_law_queries_storage ? 1 : 0
-  
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
+
+  count = var.create_law_queries_storage ? 1 : 0
+
   name                       = local.law_queries_storage_account_name
   resource_group_name        = azurerm_resource_group.core.name
   location                   = var.location

@@ -22,7 +22,7 @@ variable "ip_for_remote_access" {
   description = "List of IP addresses for remote access (without CIDR notation). Storage account ip_rules will automatically reject /32 notation."
   type        = list(string)
   default     = []
-  
+
   validation {
     condition = alltrue([
       for ip in var.ip_for_remote_access : can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}$", ip))
@@ -158,15 +158,15 @@ variable "sa_subnet_ids" {
 }
 
 variable "sa_public_network_access_enabled" {
-  type    = bool
+  type        = bool
   description = "Enable/Disable public network access for the storage account."
-  default = true
+  default     = true
 }
 
 variable "enable_customer_managed_key" {
-  type = bool
+  type        = bool
   description = "Enable/Disable Customer Managed Key (CMK) for the storage account."
-  default = true
+  default     = true
 }
 
 ### Optional custom name inputs ###
@@ -227,6 +227,13 @@ variable "log_analytics_workspace_name" {
   }
 }
 
+variable "retention_in_days" {
+  description = "Retention in days for log analytics"
+  type        = number
+  default     = 366 #1 year default
+}
+
+
 ### Key Vault Variabeles ###
 
 variable "enabled_for_disk_encryption" {
@@ -280,7 +287,7 @@ variable "create_ars_cmk" {
 variable "create_flowlog_cmk" {
   description = "Whether to create the Flow Log CMK in Key Vault."
   type        = bool
-  default     = true  
+  default     = true
 }
 
 variable "create_install_cmk" {
@@ -298,25 +305,25 @@ variable "create_tstate_cmk" {
 variable "create_law_queries_cmk" {
   description = "Whether to create the Law Queries CMK in Key Vault."
   type        = bool
-  default     = true  
+  default     = true
 }
 
 variable "create_cloudshell_cmk" {
   description = "Whether to create the Cloud Shell CMK in Key Vault."
   type        = bool
-  default     = true    
+  default     = true
 }
 
 variable "create_docs_cmk" {
   description = "Whether to create the Docs CMK in Key Vault."
   type        = bool
-  default     = true    
+  default     = true
 }
 
 variable "create_avd_cmk" {
   description = "Whether to create the AVD CMK in Key Vault."
   type        = bool
-  default     = false    
+  default     = false
 }
 
 variable "create_vmdisk_cmk" {
@@ -328,7 +335,7 @@ variable "create_vmdisk_cmk" {
 variable "create_vmdiag_cmk" {
   description = "Whether to create the VMDiag CMK in Key Vault."
   type        = bool
-  default     = true    
+  default     = true
 }
 
 variable "create_aks_node_cmk" {

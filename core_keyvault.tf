@@ -1,7 +1,7 @@
 # Core Key Vault
 module "core_kv" {
-  source                          = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.1.3"
-  
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.1.3"
+
   kv_name                         = local.key_vault_name
   sku_name                        = var.fedramp_high ? "premium" : "standard"
   resource_group_name             = var.core_rg_name
@@ -13,14 +13,14 @@ module "core_kv" {
   public_network_access_enabled   = var.kv_public_network_access_enabled
   diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la.id
 
-  regional_tags                   = var.regional_tags
-  global_tags                     = var.global_tags
-  tags                            = var.tags
+  regional_tags = var.regional_tags
+  global_tags   = var.global_tags
+  tags          = var.tags
 
   network_acls = {
     bypass                     = "AzureServices"
     default_action             = var.kms_key_vault_network_access == "Private" ? "Deny" : "Allow"
-    virtual_network_subnet_ids = var.kms_key_vault_network_access == "Private" ?  var.kv_subnet_ids : []
+    virtual_network_subnet_ids = var.kms_key_vault_network_access == "Private" ? var.kv_subnet_ids : []
     ip_rules                   = var.cidrs_for_remote_access
   }
 
@@ -50,9 +50,9 @@ module "ad_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
   tags = var.tags
 
@@ -71,11 +71,11 @@ module "ars_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -91,11 +91,11 @@ module "flowlog_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -111,11 +111,11 @@ module "install_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -123,7 +123,7 @@ module "install_cmk" {
 module "tstate_cmk" {
   source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.1"
 
-  count  = var.create_tfstate_storage ? 1 : 0
+  count = var.create_tfstate_storage ? 1 : 0
 
   name         = "tstate-cmk"
   key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
@@ -131,11 +131,11 @@ module "tstate_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -151,11 +151,11 @@ module "law_queries_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -171,11 +171,11 @@ module "cloudshell_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -191,11 +191,11 @@ module "docs_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -211,11 +211,11 @@ module "avd_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -231,11 +231,11 @@ module "vm_disk_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -251,11 +251,11 @@ module "aks_node_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -272,11 +272,11 @@ module "vmdiag_cmk" {
   key_size     = 4096
 
   # Custom rotation policy
-  rotation_policy_enabled    = true
-  rotation_expire_after      = "P180D"  # 180 days
-  rotation_time_before_expiry = "P30D"   # Rotate 30 days before expiry
+  rotation_policy_enabled     = true
+  rotation_expire_after       = "P180D" # 180 days
+  rotation_time_before_expiry = "P30D"  # Rotate 30 days before expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 

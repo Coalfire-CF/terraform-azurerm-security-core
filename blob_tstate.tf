@@ -1,8 +1,8 @@
 module "tfstate_sa" {
-  source                     = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
-  
-  count                      = var.create_tfstate_storage ? 1 : 0
-  
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
+
+  count = var.create_tfstate_storage ? 1 : 0
+
   name                       = local.tfstate_storage_account_name
   resource_group_name        = azurerm_resource_group.core.name
   location                   = var.location

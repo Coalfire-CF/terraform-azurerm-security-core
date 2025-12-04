@@ -1,10 +1,10 @@
 resource "azuread_directory_role" "groups_administrator" {
-  count = var.enable_aad_permissions ? 1 : 0
+  count        = var.enable_aad_permissions ? 1 : 0
   display_name = "Groups Administrator"
 }
 
 resource "azuread_directory_role" "app_owners" {
-  count = var.enable_aad_permissions ? 1 : 0
+  count        = var.enable_aad_permissions ? 1 : 0
   display_name = "Application Administrator"
 }
 
