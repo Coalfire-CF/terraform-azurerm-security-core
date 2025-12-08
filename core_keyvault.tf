@@ -11,7 +11,7 @@ module "core_kv" {
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_template_deployment = var.enabled_for_template_deployment
   public_network_access_enabled   = var.kv_public_network_access_enabled
-  diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la[0].id
+  diag_log_analytics_id           = var.create_log_analytics ? azurerm_log_analytics_workspace.core_la[0].id : var.diag_log_analytics_id
 
   regional_tags = var.regional_tags
   global_tags   = var.global_tags

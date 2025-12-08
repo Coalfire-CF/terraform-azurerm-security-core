@@ -151,6 +151,12 @@ variable "create_log_analytics" {
   default     = true
 }
 
+variable "diag_log_analytics_id" {
+  description = "Log Analytics workspace ID that you want to send logs too. (Central Management)"
+  type        = string
+  default     = null
+}
+
 variable "log_analytics_data_collection_rule_id" {
   description = "Optional Log Analytics Data Collection Rule for the workspace."
   type        = string
