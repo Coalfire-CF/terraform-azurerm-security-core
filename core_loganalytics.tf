@@ -23,7 +23,7 @@ resource "azurerm_log_analytics_workspace" "core_la" {
 
 resource "azurerm_log_analytics_cluster_customer_managed_key" "core_la_cmk" {
   log_analytics_cluster_id = azurerm_log_analytics_workspace.core_la[0].id
-  key_vault_key_id         = module.log_analytics_cmk.key_id
+  key_vault_key_id         = module.log_analytics_cmk[0].key_id
 }
 
 module "diag_law" {
