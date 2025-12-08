@@ -21,11 +21,6 @@ module "tfstate_sa" {
   cmk_key_vault_id              = module.core_kv.key_vault_id
   cmk_key_name                  = module.tstate_cmk[0].key_name
 
-  lifecycle {
-    ignore_changes = [
-      network_rules[0].private_link_access
-    ]
-  }
 }
 
 resource "azurerm_storage_container" "tf_state_lock" {

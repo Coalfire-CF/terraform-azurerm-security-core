@@ -51,11 +51,6 @@ module "law_queries_sa" {
   cmk_key_vault_id              = module.core_kv.key_vault_id
   cmk_key_name                  = module.law_queries_cmk[0].key_name
 
-  lifecycle {
-    ignore_changes = [
-      network_rules[0].private_link_access
-    ]
-  }
 }
 
 resource "azurerm_storage_container" "law_queries" {
