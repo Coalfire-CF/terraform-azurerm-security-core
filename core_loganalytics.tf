@@ -22,6 +22,8 @@ resource "azurerm_log_analytics_workspace" "core_la" {
 }
 
 module "diag_law" {
+  count = var.create_log_analytics ? 1 : 0
+
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
   resource_id           = azurerm_log_analytics_workspace.core_la[0].id
