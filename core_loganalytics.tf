@@ -26,6 +26,8 @@ module "diag_law" {
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
   resource_id           = azurerm_log_analytics_workspace.core_la[0].id
   resource_type         = "law"
+
+  depends_on = [ azurerm_log_analytics_workspace.core_la ]
 }
 
 module "law_queries_sa" {
