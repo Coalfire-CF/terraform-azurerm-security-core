@@ -38,25 +38,6 @@ resource "azurerm_role_assignment" "core_kv_administrator" {
 
 ##### FedRAMP Moderate or High Key Vault Keys for CMK ######
 
-module "log_analytics_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.3"
-
-  count = var.create_log_analytics ? 1 : 0
-
-  name         = "log-analytics-cmk"
-  key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
-  key_vault_id = module.core_kv.key_vault_id
-  key_size     = var.key_size
-
-  # Custom rotation policy
-  rotation_policy_enabled     = var.rotation_policy_enabled
-  rotation_expire_after       = var.rotation_expire_after
-  rotation_time_before_expiry = var.rotation_time_before_expiry
-
-  tags       = var.regional_tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
-}
-
 ### AD CMK with custom rotation policy ###
 module "ad_cmk" {
   source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.3"

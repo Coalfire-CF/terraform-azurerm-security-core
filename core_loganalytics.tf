@@ -21,11 +21,6 @@ resource "azurerm_log_analytics_workspace" "core_la" {
   ]
 }
 
-resource "azurerm_log_analytics_cluster_customer_managed_key" "core_la_cmk" {
-  log_analytics_cluster_id = azurerm_log_analytics_workspace.core_la[0].workspace_id
-  key_vault_key_id         = module.log_analytics_cmk[0].key_id
-}
-
 module "diag_law" {
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
   diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
@@ -55,6 +50,12 @@ module "law_queries_sa" {
   enable_customer_managed_key   = var.enable_customer_managed_key
   cmk_key_vault_id              = module.core_kv.key_vault_id
   cmk_key_name                  = module.law_queries_cmk[0].key_name
+
+  lifecycle {
+    ignore_changes = [
+      network_rules[0].private_link_access
+    ]
+  }
 }
 
 resource "azurerm_storage_container" "law_queries" {
