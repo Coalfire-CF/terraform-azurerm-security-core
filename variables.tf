@@ -145,6 +145,12 @@ variable "dr_location" {
   default     = "usgovtexas"
 }
 
+variable "create_log_analytics" {
+  description = "Enable/Disable provisioning of Log Analytics Workspace."
+  type        = bool
+  default     = true
+}
+
 variable "log_analytics_data_collection_rule_id" {
   description = "Optional Log Analytics Data Collection Rule for the workspace."
   type        = string
@@ -270,6 +276,43 @@ variable "kv_subnet_ids" {
   type        = list(string)
   description = "A list of Subnet IDs where the Key Vault should allow communication."
   default     = []
+}
+
+variable "key_size" {
+  description = "The size of the key to create in the Key Vault. Possible values are 2048, 3072, and 4096 for RSA keys."
+  type        = string
+  default     = "4096"
+}
+
+## SSH Key Pair
+variable "ssh_algorithm" {
+  description = "SSH Algorithm"
+  type = string
+  default = "RSA"
+}
+
+variable "rsa_bits" {
+  description = "RSA Bit size"
+  type = number
+  default = 4096
+}
+
+variable "rotation_policy_enabled" {
+  description = "Enable automatic key rotation policy"
+  type        = bool
+  default     = true
+}
+
+variable "rotation_expire_after" {
+  description = "The duration after which the key rotation expires"
+  type        = string
+  default     = "P180D" #180 days
+}
+
+variable "rotation_time_before_expiry" {
+  description = "The duration before expiry when the key rotation should occur"
+  type        = string
+  default     = "P30D" #Rotate 30 days before expiry
 }
 
 variable "create_ad_cmk" {

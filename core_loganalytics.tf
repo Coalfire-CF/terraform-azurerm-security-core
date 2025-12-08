@@ -1,5 +1,7 @@
 # Azure Log Analytics Workspace
 resource "azurerm_log_analytics_workspace" "core_la" {
+  count = var.create_log_analytics ? 1 : 0
+
   name                       = local.log_analytics_workspace_name
   location                   = var.location
   resource_group_name        = azurerm_resource_group.core.name
@@ -17,6 +19,11 @@ resource "azurerm_log_analytics_workspace" "core_la" {
   depends_on = [
     azurerm_resource_group.core
   ]
+}
+
+resource "azurerm_log_analytics_cluster_customer_managed_key" "core_la_cmk" {
+  log_analytics_cluster_id = azurerm_log_analytics_workspace.core_la.id
+  key_vault_key_id         = module.log_analytics_cmk.key_id
 }
 
 module "diag_law" {
