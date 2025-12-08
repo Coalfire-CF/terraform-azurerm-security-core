@@ -4,27 +4,27 @@ output "core_rg_name" {
 }
 
 output "core_la_id" {
-  value       = azurerm_log_analytics_workspace.core_la.id
+  value       = azurerm_log_analytics_workspace.core_la[0].id
   description = "value of the core log analytics workspace id"
 }
 
 output "core_la_primaryKey" {
-  value       = azurerm_log_analytics_workspace.core_la.primary_shared_key
+  value       = azurerm_log_analytics_workspace.core_la[0].primary_shared_key
   description = "value of the core log analytics workspace primary key"
 }
 
 output "core_la_secondaryKey" {
-  value       = azurerm_log_analytics_workspace.core_la.secondary_shared_key
+  value       = azurerm_log_analytics_workspace.core_la[0].secondary_shared_key
   description = "value of the core log analytics workspace secondary key"
 }
 
 output "core_la_workspace_id" {
-  value       = azurerm_log_analytics_workspace.core_la.workspace_id
+  value       = azurerm_log_analytics_workspace.core_la[0].workspace_id
   description = "value of the core log analytics workspace id"
 }
 
 output "core_la_workspace_name" {
-  value       = azurerm_log_analytics_workspace.core_la.name
+  value       = azurerm_log_analytics_workspace.core_la[0].name
   description = "value of the core log analytics workspace name"
 }
 

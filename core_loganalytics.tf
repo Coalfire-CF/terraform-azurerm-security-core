@@ -22,14 +22,14 @@ resource "azurerm_log_analytics_workspace" "core_la" {
 }
 
 resource "azurerm_log_analytics_cluster_customer_managed_key" "core_la_cmk" {
-  log_analytics_cluster_id = azurerm_log_analytics_workspace.core_la.id
+  log_analytics_cluster_id = azurerm_log_analytics_workspace.core_la[0].id
   key_vault_key_id         = module.log_analytics_cmk.key_id
 }
 
 module "diag_law" {
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
-  resource_id           = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
+  resource_id           = azurerm_log_analytics_workspace.core_la[0].id
   resource_type         = "law"
 }
 
@@ -43,7 +43,7 @@ module "law_queries_sa" {
   location                   = var.location
   account_kind               = "StorageV2"
   ip_rules                   = var.ip_for_remote_access
-  diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la[0].id
   virtual_network_subnet_ids = var.sa_subnet_ids
 
   tags = merge({
@@ -67,7 +67,7 @@ resource "azurerm_storage_container" "law_queries" {
 module "diag_la_queries_sa" {
   count                 = var.create_law_queries_storage ? 1 : 0
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
   resource_id           = module.law_queries_sa[0].id
   resource_type         = "sa"
 }
@@ -76,7 +76,7 @@ resource "azurerm_log_analytics_linked_storage_account" "law_queries" {
   count                 = var.create_law_queries_storage ? 1 : 0
   data_source_type      = "Query"
   resource_group_name   = azurerm_resource_group.core.name
-  workspace_resource_id = azurerm_log_analytics_workspace.core_la.id
+  workspace_resource_id = azurerm_log_analytics_workspace.core_la[0].id
   storage_account_ids   = [module.law_queries_sa[0].id]
 }
 
@@ -84,6 +84,6 @@ resource "azurerm_log_analytics_linked_storage_account" "law_alerts" {
   count                 = var.create_law_queries_storage ? 1 : 0
   data_source_type      = "Alerts"
   resource_group_name   = azurerm_resource_group.core.name
-  workspace_resource_id = azurerm_log_analytics_workspace.core_la.id
+  workspace_resource_id = azurerm_log_analytics_workspace.core_la[0].id
   storage_account_ids   = [module.law_queries_sa[0].id]
 }

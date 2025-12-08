@@ -8,7 +8,7 @@ module "tfstate_sa" {
   location                   = var.location
   account_kind               = "StorageV2"
   ip_rules                   = var.ip_for_remote_access
-  diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id      = azurerm_log_analytics_workspace.core_la[0].id
   virtual_network_subnet_ids = var.sa_subnet_ids
 
   tags = merge({
@@ -32,7 +32,7 @@ resource "azurerm_storage_container" "tf_state_lock" {
 module "diag_tf_state_sa" {
   count                 = var.create_tfstate_storage ? 1 : 0
   source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
-  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id = azurerm_log_analytics_workspace.core_la[0].id
   resource_id           = module.tfstate_sa[0].id
   resource_type         = "sa"
 }

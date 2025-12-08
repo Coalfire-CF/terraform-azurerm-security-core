@@ -287,14 +287,14 @@ variable "key_size" {
 ## SSH Key Pair
 variable "ssh_algorithm" {
   description = "SSH Algorithm"
-  type = string
-  default = "RSA"
+  type        = string
+  default     = "RSA"
 }
 
 variable "rsa_bits" {
   description = "RSA Bit size"
-  type = number
-  default = 4096
+  type        = number
+  default     = 4096
 }
 
 variable "rotation_policy_enabled" {

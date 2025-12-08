@@ -11,7 +11,7 @@ module "core_kv" {
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_template_deployment = var.enabled_for_template_deployment
   public_network_access_enabled   = var.kv_public_network_access_enabled
-  diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la.id
+  diag_log_analytics_id           = azurerm_log_analytics_workspace.core_la[0].id
 
   regional_tags = var.regional_tags
   global_tags   = var.global_tags
@@ -53,7 +53,7 @@ module "log_analytics_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags = var.regional_tags
+  tags       = var.regional_tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
@@ -73,7 +73,7 @@ module "ad_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags = var.tags
+  tags       = var.tags
   depends_on = [azurerm_role_assignment.core_kv_administrator]
 }
 
