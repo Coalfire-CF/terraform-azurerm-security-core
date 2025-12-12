@@ -4,28 +4,28 @@ output "core_rg_name" {
 }
 
 output "core_la_id" {
-  value       = azurerm_log_analytics_workspace.core_la.id
-  description = "value of the core log analytics workspace id"
+  value       = try(azurerm_log_analytics_workspace.core_la[0].id, null)
+  description = "Value of the core log analytics workspace id"
 }
 
 output "core_la_primaryKey" {
-  value       = azurerm_log_analytics_workspace.core_la.primary_shared_key
-  description = "value of the core log analytics workspace primary key"
+  value       = try(azurerm_log_analytics_workspace.core_la[0].primary_shared_key, null)
+  description = "Value of the core log analytics workspace primary key"
 }
 
 output "core_la_secondaryKey" {
-  value       = azurerm_log_analytics_workspace.core_la.secondary_shared_key
-  description = "value of the core log analytics workspace secondary key"
+  value       = try(azurerm_log_analytics_workspace.core_la[0].secondary_shared_key, null)
+  description = "Value of the core log analytics workspace secondary key"
 }
 
 output "core_la_workspace_id" {
-  value       = azurerm_log_analytics_workspace.core_la.workspace_id
-  description = "value of the core log analytics workspace id"
+  value       = try(azurerm_log_analytics_workspace.core_la[0].workspace_id, null)
+  description = "Value of the core log analytics workspace id"
 }
 
 output "core_la_workspace_name" {
-  value       = azurerm_log_analytics_workspace.core_la.name
-  description = "value of the core log analytics workspace name"
+  value       = try(azurerm_log_analytics_workspace.core_la[0].name, null)
+  description = "Value of the core log analytics workspace name"
 }
 
 output "core_kv_name" {
@@ -221,7 +221,7 @@ output "aks_node_cmk_name" {
 output "core_xadm_ssh_public_key" {
   value       = trimspace(tls_private_key.xadm.public_key_openssh)
   description = "Value of the SSH public key for xadm"
-  sensitive = true
+  sensitive   = true
 }
 
 output "core_private_dns_zone_id" {
