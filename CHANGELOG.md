@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.1...v1.2.2) (2026-01-09)
+
+
+### Bug Fixes
+
+* update license year to 2026 ([#67](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/67)) ([180d015](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/180d0154cfc36fc1d840cbb4eca3d294cb939c23))
+
 ## [1.2.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.0...v1.2.1) (2025-12-12)
 
 
