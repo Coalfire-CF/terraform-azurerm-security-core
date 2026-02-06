@@ -1,5 +1,69 @@
 # Changelog
 
+## [1.2.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.1...v1.2.2) (2026-02-06)
+
+
+### Bug Fixes
+
+* tf validate workflow ([6a1fe50](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a1fe50f1be0326b61a5c72d411d01ea2a71aee3))
+* tf validate workflow ([f64cf23](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/f64cf232e876fcbd2f1c6e279ea5bc0699c02f75))
+* update license year to 2026 ([#67](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/67)) ([180d015](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/180d0154cfc36fc1d840cbb4eca3d294cb939c23))
+* use correct CoalForge team slug ([410cb6d](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/410cb6df7c0162ec7968b9bc789f46b5c6f8f8dd))
+
+
+### Miscellaneous
+
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml ([eb397e8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/eb397e808449075d76ac8a222edbbd88af44364a))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml ([a558630](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a55863014aa0b6ade9f8e6ff4c8d077d6b0befd7))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml ([d51acfd](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/d51acfd0036084717933253a00e34ac368a7dfc2))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml from 0.1.0 to 0.1.1 ([f055293](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/f0552934987d6f0825688c9c74c2e64478f76714))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml from 0.1.1 to 0.2.1 ([78e59e9](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/78e59e913cc5fd1482e16b0a47599e75988233ee))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-checkov.yml from 0.2.1 to 0.2.2 ([b4c2a07](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b4c2a07f3a9e06ec56d49959bff2a08361ecf3c3))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml ([e9c9fd5](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e9c9fd5d1383718f25daefa7eb174651c7f8f5bc))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml ([1374950](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1374950c89f9fb950df3495ac19b91b1520ac713))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml ([#73](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/73)) ([d643814](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/d643814ae5eb006878c0cdf7abe0de4f152a28ae))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml from 0.1.1 to 0.2.1 ([8c79461](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/8c794610a44724e8117a1f05e70db74be9ab3bca))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml from 0.2.1 to 0.2.4 ([e06173c](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e06173c938228634ee7cc1d2ec0ef2a14850b57b))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml ([8dd5459](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/8dd545971fdc729aae5c9ddcd44cf34a60cf428a))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml ([8d69fa3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/8d69fa3c5e04bc2a2631a43868b2943621f71cf6))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml from 0.1.0 to 0.1.1 ([ad8d3a1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ad8d3a195ee770c98bd8cf1472497d5d52f186cc))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml from 0.1.1 to 0.2.1 ([130c191](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/130c1913c58151dc69a446cb9309ab682d4fddf5))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml ([bd3cc8d](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/bd3cc8d5d2549271a96c6d0c0c0934624d994274))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml ([19ba65e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/19ba65eea3dd7fb371124df8302ea0f7467d9d54))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml ([1d31e99](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1d31e99caca9fbf6a98070df053c474a634b30b4))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml from 0.1.0 to 0.1.1 ([9d190e8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/9d190e8c810400fba0a744bb1d2f5146ea9cf762))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml from 0.2.1 to 0.2.2 ([033bac3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/033bac34759a93c3a92e9c3948d7583ead71f7b1))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml from 0.2.2 to 0.2.4 ([18ddbb0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/18ddbb059409ad243f762dabe362113ecc50c547))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([814db42](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/814db429a02fef7198bf3e84412e6db568e709c6))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([9525c25](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/9525c25ebe91a23de91957133a87e70fb52d4497))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([87871ed](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/87871eddb76eb0c51c1b33f4864851e284beba23))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml from 0.1.0 to 0.1.1 ([d04d9ee](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/d04d9ee6e75c5237929aa488ac841d989ccc7d11))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml from 0.1.1 to 0.2.1 ([2f066c8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/2f066c8872386a7155067abe688eaeff390fbf17))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml from 0.2.1 to 0.2.2 ([905d2d8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/905d2d84601d232d01d78ef9fc477df815df3e77))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([e135e73](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e135e73a5cf0246c3826d08ddd34d06b85ea7047))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([ef88bba](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ef88bba0af2622b5dcf94773f43462d983f8a343))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([32c7545](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/32c75450dd46a1dd3fa1b474f11d500dfc4aaba3))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([decb155](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/decb155372a157981ce6e6725b454b3bb65f32c3))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml from 0.1.0 to 0.1.1 ([e1f39e9](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e1f39e997b7a14ae42e5c03cf495fcd5b6b822e1))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml from 0.1.1 to 0.2.1 ([5fe1dad](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/5fe1dadfae068cfff9964d02362cf9bd1025b470))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml from 0.2.1 to 0.2.2 ([4c38ee7](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/4c38ee77629bac3b538b497c741f822a86b7dea5))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml from 0.2.2 to 0.2.4 ([00c7980](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/00c79802c124d376ff330e8f1136d33c6cc34549))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml ([ace4198](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ace41980e3e17e844ec167ae7230ac73ec32e46d))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml ([4cbc740](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/4cbc7405f14c8da18363339c94025a6c6a45845b))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml ([#71](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/71)) ([6a48954](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a48954bc4907059908f0255601cb8320039f14d))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml from 0.1.1 to 0.2.1 ([d691abd](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/d691abdc9826dc29a7fbb4140aecefc724d29915))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml from 0.2.2 to 0.2.4 ([83555a1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/83555a1d2a4ccaafdb4a977bbcf84188e841d0c1))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml ([65e357a](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/65e357a9337954f42110dbcf472b6617c8db3093))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml ([db65de0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/db65de0dadbe8dfd8d6c6b9b9fdd4c4123511366))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml ([64b9084](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/64b90847ced9f028068dcef593e954df84301026))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml ([#72](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/72)) ([b9d7625](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b9d7625d02045e9f37b3bcd338a0dd586ac4330f))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml from 0.1.1 to 0.2.1 ([4f2a5c5](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/4f2a5c58cf51c6381f5d254d65de373ee49a9fa8))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml from 0.2.1 to 0.2.2 ([eb71e02](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/eb71e02a4fbc38d09441dafe00c8dd34a51304c5))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml from 0.2.2 to 0.2.4 ([eee94a8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/eee94a8f17ad146a9feab1d7a0a6a847662f39c7))
+* update CODEOWNERS ([7ffdeee](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/7ffdeee808529c5eae24216815ea2d11ae3f8d15))
+* update CODEOWNERS ([dfbe39e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/dfbe39ee1862d78f012cefd3e5fb369f5f62e7c6))
+* update org-release.yml to v0.2.1 ([#74](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/74)) ([2ad4c3f](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/2ad4c3ff05d8dbcb82fbe24865fb58c536a1978c))
+
 ## [1.2.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.0...v1.2.1) (2025-12-12)
 
 
