@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.2.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.0...v1.2.1) (2025-12-12)
+
+
+### Bug Fixes
+
+* optional vars + log analytics retention ([ebe155e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ebe155ee7dbfdf8e706bc2bdc215118cd67c05c8))
+
+
+### Miscellaneous
+
+* remove obsolete update-readme-tree.sh script ([c47f0dc](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/c47f0dc2efd16ad929a44ff4589941d49f525ca8))
+* remove obsolete update-readme-tree.sh script ([b6c4110](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b6c41105d274c3248104e4a3a18ccc27e7fd0b62))
+* remove old LICENSE file ([a15319b](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a15319b30a57fa96692c30096a3109dc4dbfc89f))
+* remove old LICENSE file ([c72f2d6](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/c72f2d667da5c9cf4524b272b85297155c4ed393))
+* update README tree ([1fe5c86](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1fe5c864a53dfb91c19828a55f73ab819872423a))
+* update README tree ([639be81](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/639be81b3fb802224ca27115fa4489674f8c5392))
+
+## [1.2.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.4...v1.2.0) (2025-11-12)
+
+
+### Features
+
+* add resource id output to all cmks ([6a0508f](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a0508f416ff0f8ea1f52e5cc256be6a866b4657))
+* add resource id output to all cmks ([a63d141](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a63d1413faec685b0bbf714dd94efa4f73a41909))
+
+## [1.1.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.3...v1.1.4) (2025-11-11)
+
+
+### Bug Fixes
+
+* kv var defaults ([731c4bb](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/731c4bbd683a915b89fffa66bd2ed7f81d2c8c2e))
+
 ## [1.1.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.2...v1.1.3) (2025-11-10)
 
 

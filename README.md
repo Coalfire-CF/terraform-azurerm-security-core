@@ -154,25 +154,25 @@ module "core" {
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.1.1 |
+| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.1.3 |
 | <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
 | <a name="module_docs_cmk"></a> [docs\_cmk](#module\_docs\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
-| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 | <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
 | <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
-| <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
-| <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.1 |
+| <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 
 ## Resources
 
@@ -218,23 +218,26 @@ module "core" {
 | <a name="input_create_install_cmk"></a> [create\_install\_cmk](#input\_create\_install\_cmk) | Whether to create the Install CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_law_queries_cmk"></a> [create\_law\_queries\_cmk](#input\_create\_law\_queries\_cmk) | Whether to create the Law Queries CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_law_queries_storage"></a> [create\_law\_queries\_storage](#input\_create\_law\_queries\_storage) | Enable/Disable provisioning a storage account and container for Log Analytics Workspace queries. | `bool` | `true` | no |
+| <a name="input_create_log_analytics"></a> [create\_log\_analytics](#input\_create\_log\_analytics) | Enable/Disable provisioning of Log Analytics Workspace. | `bool` | `true` | no |
 | <a name="input_create_tfstate_storage"></a> [create\_tfstate\_storage](#input\_create\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
 | <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_create_vmdisk_cmk"></a> [create\_vmdisk\_cmk](#input\_create\_vmdisk\_cmk) | Whether to create the VM Disk CMK in Key Vault. | `bool` | `true` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
 | <a name="input_deploy_private_dns_zones"></a> [deploy\_private\_dns\_zones](#input\_deploy\_private\_dns\_zones) | Enable/Disable provisioning of Private DNS zones. | `bool` | `true` | no |
+| <a name="input_diag_log_analytics_id"></a> [diag\_log\_analytics\_id](#input\_diag\_log\_analytics\_id) | Log Analytics workspace ID that you want to send logs too. (Central Management) | `string` | `null` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
 | <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
 | <a name="input_enable_customer_managed_key"></a> [enable\_customer\_managed\_key](#input\_enable\_customer\_managed\_key) | Enable/Disable Customer Managed Key (CMK) for the storage account. | `bool` | `true` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Specifies whether the Key Vault is enabled for deployment. | `bool` | `true` | no |
-| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `false` | no |
+| <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `true` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
 | <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., KeyVault Premium, HSM-backed keys). | `bool` | `false` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
 | <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | List of IP addresses for remote access (without CIDR notation). Storage account ip\_rules will automatically reject /32 notation. | `list(string)` | `[]` | no |
+| <a name="input_key_size"></a> [key\_size](#input\_key\_size) | The size of the key to create in the Key Vault. Possible values are 2048, 3072, and 4096 for RSA keys. | `string` | `"4096"` | no |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
 | <a name="input_kms_key_vault_network_access"></a> [kms\_key\_vault\_network\_access](#input\_kms\_key\_vault\_network\_access) | Network access configuration for the Key Vault. | `string` | `"Private"` | no |
 | <a name="input_kv_public_network_access_enabled"></a> [kv\_public\_network\_access\_enabled](#input\_kv\_public\_network\_access\_enabled) | Specifies whether public network access is enabled for the Key Vault. | `bool` | `true` | no |
@@ -246,8 +249,14 @@ module "core" {
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Optional custom name for the Log Analytics Workspace | `string` | `"default"` | no |
 | <a name="input_regional_tags"></a> [regional\_tags](#input\_regional\_tags) | Regional level tags | `map(string)` | n/a | yes |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Name prefix used for resources | `string` | n/a | yes |
+| <a name="input_retention_in_days"></a> [retention\_in\_days](#input\_retention\_in\_days) | Retention in days for log analytics | `number` | `366` | no |
+| <a name="input_rotation_expire_after"></a> [rotation\_expire\_after](#input\_rotation\_expire\_after) | The duration after which the key rotation expires | `string` | `"P180D"` | no |
+| <a name="input_rotation_policy_enabled"></a> [rotation\_policy\_enabled](#input\_rotation\_policy\_enabled) | Enable automatic key rotation policy | `bool` | `true` | no |
+| <a name="input_rotation_time_before_expiry"></a> [rotation\_time\_before\_expiry](#input\_rotation\_time\_before\_expiry) | The duration before expiry when the key rotation should occur | `string` | `"P30D"` | no |
+| <a name="input_rsa_bits"></a> [rsa\_bits](#input\_rsa\_bits) | RSA Bit size | `number` | `4096` | no |
 | <a name="input_sa_public_network_access_enabled"></a> [sa\_public\_network\_access\_enabled](#input\_sa\_public\_network\_access\_enabled) | Enable/Disable public network access for the storage account. | `bool` | `true` | no |
 | <a name="input_sa_subnet_ids"></a> [sa\_subnet\_ids](#input\_sa\_subnet\_ids) | List of subnet ids for access to storage accounts to allow communication. | `list(string)` | `[]` | no |
+| <a name="input_ssh_algorithm"></a> [ssh\_algorithm](#input\_ssh\_algorithm) | SSH Algorithm | `string` | `"RSA"` | no |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The Azure subscription ID where resources are being deployed into | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource level tags | `map(string)` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The Azure tenant ID that owns the deployed resources | `string` | n/a | yes |
@@ -259,21 +268,26 @@ module "core" {
 |------|-------------|
 | <a name="output_ad_cmk_id"></a> [ad\_cmk\_id](#output\_ad\_cmk\_id) | Active Directory CMK Key ID |
 | <a name="output_ad_cmk_name"></a> [ad\_cmk\_name](#output\_ad\_cmk\_name) | Active Directory CMK Key Name |
+| <a name="output_ad_cmk_resource_id"></a> [ad\_cmk\_resource\_id](#output\_ad\_cmk\_resource\_id) | Active Directory CMK Key Resource ID |
 | <a name="output_aks_node_cmk_id"></a> [aks\_node\_cmk\_id](#output\_aks\_node\_cmk\_id) | AKS Node CMK Key ID |
 | <a name="output_aks_node_cmk_name"></a> [aks\_node\_cmk\_name](#output\_aks\_node\_cmk\_name) | AKS Node CMK Key Name |
+| <a name="output_aks_node_cmk_resource_id"></a> [aks\_node\_cmk\_resource\_id](#output\_aks\_node\_cmk\_resource\_id) | AKS Node CMK Key Resource ID |
 | <a name="output_ars_cmk_id"></a> [ars\_cmk\_id](#output\_ars\_cmk\_id) | Azure Recovery Services CMK Key ID |
 | <a name="output_ars_cmk_name"></a> [ars\_cmk\_name](#output\_ars\_cmk\_name) | Azure Recovery Services CMK Key Name |
+| <a name="output_ars_cmk_resource_id"></a> [ars\_cmk\_resource\_id](#output\_ars\_cmk\_resource\_id) | Azure Recovery Services CMK Key Resource ID |
 | <a name="output_avd_cmk_id"></a> [avd\_cmk\_id](#output\_avd\_cmk\_id) | Azure Virtual Desktop CMK Key ID |
 | <a name="output_avd_cmk_name"></a> [avd\_cmk\_name](#output\_avd\_cmk\_name) | Azure Virtual Desktop CMK Key Name |
+| <a name="output_avd_cmk_resource_id"></a> [avd\_cmk\_resource\_id](#output\_avd\_cmk\_resource\_id) | Azure Virtual Desktop CMK Key Resource ID |
 | <a name="output_cloudshell_cmk_id"></a> [cloudshell\_cmk\_id](#output\_cloudshell\_cmk\_id) | Cloudshell CMK Key ID |
 | <a name="output_cloudshell_cmk_name"></a> [cloudshell\_cmk\_name](#output\_cloudshell\_cmk\_name) | Cloudshell CMK Key Name |
+| <a name="output_cloudshell_cmk_resource_id"></a> [cloudshell\_cmk\_resource\_id](#output\_cloudshell\_cmk\_resource\_id) | Cloudshell CMK Key Resource ID |
 | <a name="output_core_kv_id"></a> [core\_kv\_id](#output\_core\_kv\_id) | Value of the Core Key Vault ID |
 | <a name="output_core_kv_name"></a> [core\_kv\_name](#output\_core\_kv\_name) | Name of the Core Key vault |
-| <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | value of the core log analytics workspace id |
-| <a name="output_core_la_primaryKey"></a> [core\_la\_primaryKey](#output\_core\_la\_primaryKey) | value of the core log analytics workspace primary key |
-| <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | value of the core log analytics workspace secondary key |
-| <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | value of the core log analytics workspace id |
-| <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | value of the core log analytics workspace name |
+| <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | Value of the core log analytics workspace id |
+| <a name="output_core_la_primaryKey"></a> [core\_la\_primaryKey](#output\_core\_la\_primaryKey) | Value of the core log analytics workspace primary key |
+| <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | Value of the core log analytics workspace secondary key |
+| <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | Value of the core log analytics workspace id |
+| <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | Value of the core log analytics workspace name |
 | <a name="output_core_map_private_dns_zone_ids"></a> [core\_map\_private\_dns\_zone\_ids](#output\_core\_map\_private\_dns\_zone\_ids) | Map of Private DNS zone names to their resource IDs |
 | <a name="output_core_private_dns_zone_id"></a> [core\_private\_dns\_zone\_id](#output\_core\_private\_dns\_zone\_id) | Private DNS Zone IDs |
 | <a name="output_core_private_dns_zones"></a> [core\_private\_dns\_zones](#output\_core\_private\_dns\_zones) | Private DNS Zone names |
@@ -281,18 +295,25 @@ module "core" {
 | <a name="output_core_xadm_ssh_public_key"></a> [core\_xadm\_ssh\_public\_key](#output\_core\_xadm\_ssh\_public\_key) | Value of the SSH public key for xadm |
 | <a name="output_docs_cmk_id"></a> [docs\_cmk\_id](#output\_docs\_cmk\_id) | Docs CMK Key ID |
 | <a name="output_docs_cmk_name"></a> [docs\_cmk\_name](#output\_docs\_cmk\_name) | Docs CMK Key Name |
+| <a name="output_docs_cmk_resource_id"></a> [docs\_cmk\_resource\_id](#output\_docs\_cmk\_resource\_id) | Docs CMK Key Resource ID |
 | <a name="output_flowlog_cmk_id"></a> [flowlog\_cmk\_id](#output\_flowlog\_cmk\_id) | Flowlogs CMK Key ID |
 | <a name="output_flowlog_cmk_name"></a> [flowlog\_cmk\_name](#output\_flowlog\_cmk\_name) | Flowlogs CMK Key Name |
+| <a name="output_flowlog_cmk_resource_id"></a> [flowlog\_cmk\_resource\_id](#output\_flowlog\_cmk\_resource\_id) | Flowlogs CMK Key Resource ID |
 | <a name="output_install_cmk_id"></a> [install\_cmk\_id](#output\_install\_cmk\_id) | Installs CMK Key ID |
 | <a name="output_install_cmk_name"></a> [install\_cmk\_name](#output\_install\_cmk\_name) | Installs CMK Key Name |
+| <a name="output_install_cmk_resource_id"></a> [install\_cmk\_resource\_id](#output\_install\_cmk\_resource\_id) | Installs CMK Key Resource ID |
 | <a name="output_law_queries_cmk_id"></a> [law\_queries\_cmk\_id](#output\_law\_queries\_cmk\_id) | Log Analytics Workspace Queries CMK Key ID |
 | <a name="output_law_queries_cmk_name"></a> [law\_queries\_cmk\_name](#output\_law\_queries\_cmk\_name) | Log Analytics Workspace Queries CMK Key Name |
+| <a name="output_law_queries_cmk_resource_id"></a> [law\_queries\_cmk\_resource\_id](#output\_law\_queries\_cmk\_resource\_id) | Log Analytics Workspace Queries CMK Key Resource ID |
 | <a name="output_tstate_cmk_id"></a> [tstate\_cmk\_id](#output\_tstate\_cmk\_id) | Terraform State CMK Key ID |
 | <a name="output_tstate_cmk_name"></a> [tstate\_cmk\_name](#output\_tstate\_cmk\_name) | Terraform State CMK Key Name |
+| <a name="output_tstate_cmk_resource_id"></a> [tstate\_cmk\_resource\_id](#output\_tstate\_cmk\_resource\_id) | Terraform State CMK Key Resource ID |
 | <a name="output_vm_disk_cmk_id"></a> [vm\_disk\_cmk\_id](#output\_vm\_disk\_cmk\_id) | VM Disk CMK Key ID |
 | <a name="output_vm_disk_cmk_name"></a> [vm\_disk\_cmk\_name](#output\_vm\_disk\_cmk\_name) | VM Disk CMK Key Name |
+| <a name="output_vm_disk_cmk_resource_id"></a> [vm\_disk\_cmk\_resource\_id](#output\_vm\_disk\_cmk\_resource\_id) | VM Disk CMK Key Resource ID |
 | <a name="output_vmdiag_cmk_id"></a> [vmdiag\_cmk\_id](#output\_vmdiag\_cmk\_id) | VMDiag CMK Key ID |
 | <a name="output_vmdiag_cmk_name"></a> [vmdiag\_cmk\_name](#output\_vmdiag\_cmk\_name) | VMDiag CMK Key Name |
+| <a name="output_vmdiag_cmk_resource_id"></a> [vmdiag\_cmk\_resource\_id](#output\_vmdiag\_cmk\_resource\_id) | VMDiag CMK Key Resource ID |
 <!-- END_TF_DOCS -->
 
 ## Contributing
@@ -317,7 +338,6 @@ Copyright © Coalfire Systems Inc.
 |-- CHANGELOG.md
 |-- CONTRIBUTING.md
 |-- LICENSE
-|-- License.md
 |-- README.md
 |-- aad_permissions.tf
 |-- blob_tstate.tf
@@ -332,6 +352,5 @@ Copyright © Coalfire Systems Inc.
 |-- required_version.tf
 |-- resource_group.tf
 |-- subscription_monitor.tf
-|-- update-readme-tree.sh
 |-- variables.tf
 ```
