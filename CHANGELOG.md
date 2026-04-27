@@ -2,14 +2,12 @@
 
 ## [1.2.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.1...v1.2.2) (2026-04-09)
 
-
 ### Bug Fixes
 
 * tf validate workflow ([6a1fe50](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a1fe50f1be0326b61a5c72d411d01ea2a71aee3))
 * tf validate workflow ([f64cf23](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/f64cf232e876fcbd2f1c6e279ea5bc0699c02f75))
 * update license year to 2026 ([#67](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/67)) ([180d015](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/180d0154cfc36fc1d840cbb4eca3d294cb939c23))
 * use correct CoalForge team slug ([410cb6d](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/410cb6df7c0162ec7968b9bc789f46b5c6f8f8dd))
-
 
 ### Miscellaneous
 
