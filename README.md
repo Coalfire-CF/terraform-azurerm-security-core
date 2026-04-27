@@ -43,7 +43,7 @@ The folder you will deploy from. Most of the folder calls from the vars the only
 
 - Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
 - Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
-- Login to the Azure CLI: `az login`. If your subscription is in Azure Gov change the cloud first with: `az login --environment AzureUSGovernment`
+- Login to the Azure CLI: `az login`. If your subscription is in Azure Gov change the cloud first with: `az cloud set --name AzureUSGovernment`
 - Change directories to the `/coalfire-azure-pak/terraform/prod/us-va/security-core` directory.
 - Run `terraform init`.
 - Run `terraform plan` to review the resources being created.
