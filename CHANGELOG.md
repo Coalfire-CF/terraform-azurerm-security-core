@@ -158,11 +158,9 @@
 
 ## [1.2.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.0...v1.2.1) (2025-12-12)
 
-
 ### Bug Fixes
 
 * optional vars + log analytics retention ([ebe155e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ebe155ee7dbfdf8e706bc2bdc215118cd67c05c8))
-
 
 ### Miscellaneous
 
@@ -175,7 +173,6 @@
 
 ## [1.2.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.4...v1.2.0) (2025-11-12)
 
-
 ### Features
 
 * add resource id output to all cmks ([6a0508f](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/6a0508f416ff0f8ea1f52e5cc256be6a866b4657))
@@ -183,19 +180,16 @@
 
 ## [1.1.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.3...v1.1.4) (2025-11-11)
 
-
 ### Bug Fixes
 
 * kv var defaults ([731c4bb](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/731c4bbd683a915b89fffa66bd2ed7f81d2c8c2e))
 
 ## [1.1.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.2...v1.1.3) (2025-11-10)
 
-
 ### Bug Fixes
 
 * kv cmk add ([be2e8e4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/be2e8e446ded89d7b340ad2948ca1f47b3df4b0d))
 * storage account module version ([1c52ba0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1c52ba0788a5855da6314e2a0a3a6dfe59045236))
-
 
 ### Miscellaneous
 
@@ -203,20 +197,17 @@
 
 ## [1.1.2](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.1...v1.1.2) (2025-10-23)
 
-
 ### Bug Fixes
 
 * dns zones outputs and optional creation ([c3c036e](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/c3c036e7182e76915abee6f1d1b099316cda6dfa))
 
 ## [1.1.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.1.0...v1.1.1) (2025-10-15)
 
-
 ### Bug Fixes
 
 * sec core config ([0373d00](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/0373d00bd36f06c41aef2f8e5ebad1d94e113016))
 
 ## [1.1.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.0.5...v1.1.0) (2025-10-15)
-
 
 ### Features
 
@@ -229,7 +220,6 @@
 * make tfstate storage account and container optional ([952c1fe](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/952c1fe15a71635aa47236634aadd860f67bf761))
 * make tfstate storage account and container optional ([406cdd0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/406cdd0ed3c3f9d35ed82e3f416dacb6b73d5fe8))
 
-
 ### Bug Fixes
 
 * avoid activating aad directory role if var.enable_aad_permissions is false ([15dedff](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/15dedffc4322d847a5685f1d6365726fb3e7a37b))
@@ -237,7 +227,6 @@
 * remove outdated inputs from readme example ([693ff34](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/693ff3457e715c7efab55777026e536edc1387de))
 * removed extra spaces for tf fmt ([bda82bc](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/bda82bceca1ace5fd4b9fa2de5659c31c0cc5355))
 * resolve longstanding normalization issue that caused dir role assignments to be replaced on every apply ([88b961a](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/88b961a7185680260af116003d3efed3691ac891))
-
 
 ### Miscellaneous
 
