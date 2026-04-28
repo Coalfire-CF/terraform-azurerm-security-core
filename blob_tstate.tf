@@ -1,5 +1,5 @@
 module "tfstate_sa" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.1"
 
   count = var.create_tfstate_storage ? 1 : 0
 
@@ -32,7 +32,7 @@ resource "azurerm_storage_container" "tf_state_lock" {
 
 module "diag_tf_state_sa" {
   count                 = var.create_tfstate_storage ? 1 : 0
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.4"
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v1.1.5"
   diag_log_analytics_id = var.create_log_analytics ? azurerm_log_analytics_workspace.core_la[0].id : var.diag_log_analytics_id
   resource_id           = module.tfstate_sa[0].id
   resource_type         = "sa"
