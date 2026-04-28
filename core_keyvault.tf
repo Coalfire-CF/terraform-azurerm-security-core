@@ -100,7 +100,7 @@ module "flowlog_cmk" {
 
 ### Install CMK with custom rotation policy ###
 module "install_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.3"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
 
   count = var.create_install_cmk ? 1 : 0
 
