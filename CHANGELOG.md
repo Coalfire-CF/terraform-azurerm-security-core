@@ -1,6 +1,8 @@
 # Changelog
 
-## [1.2.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.2...v1.2.3) (2026-04-27)
+## [1.2.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.3...v1.2.4) (2026-04-29)
+
+### Miscellaneous
 
 ### Miscellaneous
 
