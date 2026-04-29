@@ -1,6 +1,6 @@
 # Core Key Vault
 module "core_kv" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.1.3"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v1.2.0"
 
   kv_name                         = local.key_vault_name
   sku_name                        = var.fedramp_high ? "premium" : "standard"
