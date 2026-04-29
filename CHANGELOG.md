@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.3...v1.2.4) (2026-04-29)
+
+
+### Miscellaneous
+
+* **deps:** bump core_kv::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([8414886](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/8414886e6f9f7bd0b868d64c8376e62091644be4))
+
 ## [1.2.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.2...v1.2.3) (2026-04-27)
 
 
