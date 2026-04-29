@@ -240,7 +240,7 @@ module "vm_disk_cmk" {
 
 ### AKS Node CMK with custom rotation policy ###
 module "aks_node_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.1.3"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
 
   count = var.create_aks_node_cmk ? 1 : 0
 
