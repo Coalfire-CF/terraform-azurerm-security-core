@@ -4,14 +4,6 @@
 
 ### Miscellaneous
 
-* **deps:** bump aks_node_cmk::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([280a568](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/280a56837131eff0a579c42817037a8961611401))
-* **deps:** bump ars_cmk::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([3d97d96](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/3d97d96479755231521876b4dcbdaf80ef59e5d9))
-* **deps:** bump core_kv::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([8414886](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/8414886e6f9f7bd0b868d64c8376e62091644be4))
-* **deps:** bump install_cmk::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([b7a15ff](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b7a15ff4b331915c6c5e8e568862b41991ed6c48))
-* **deps:** bump vmdiag_cmk::terraform-azurerm-key-vault from 1.1.3 to 1.2.0 ([a6cb80a](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a6cb80a4f14169bb0585220c50a65f17e30a0233))
-
-## [1.2.3](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.2...v1.2.3) (2026-04-27)
-
 ### Miscellaneous
 
 * **deps:** bump docs_cmk::terraform-azurerm-key-vault from 1.1.1 to 1.1.3 ([771ca4c](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/771ca4ce57399cd9a98076570a699224af389c20))
