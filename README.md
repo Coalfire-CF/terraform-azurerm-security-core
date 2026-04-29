@@ -26,7 +26,6 @@ Learn more at [Coalfire OpenSource](https://coalfire.com/opensource).
 ### Global-vars.tf
 
 Update `/coalfire-azure-pak/terraform/prod/global-vars.tf` file variables:
-
 | Name | Description | Sample |
 |---|---|---|
 | subscription_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
@@ -57,12 +56,12 @@ The folder you will deploy from. Most of the folder calls from the vars the only
 Now that the storage account exists you need to migrate the local state file to the remote state storage account.
 
 1. Uncomment the `backend "azurerm"` portion of the `tstate.tf` file.
-1. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
-1. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
-1. Run `terraform apply` to migrate the state file to the remote storage account.
-1. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
-1. Uncomment the `remote-data.tf` file for the `Core` block only.
-1. Commit changes and push to repo.
+2. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
+3. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
+4. Run `terraform apply` to migrate the state file to the remote storage account.
+5. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
+6. Uncomment the `remote-data.tf` file for the `Core` block only.
+7. Commit changes and push to repo.
 
 ## Usage
 
@@ -105,7 +104,7 @@ module "core" {
 
 ### Optional - custom resource names
 
-You may optionally supply custom names for all resources created by this module, to support various naming convention requirements:
+You may optionally supply custom names for all resources created by this module, to support various naming convention requirements: 
 
 ```hcl
 module "core" {
@@ -137,9 +136,9 @@ module "core" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~>1.0 |
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.6 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.70 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
@@ -148,31 +147,31 @@ module "core" {
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 3.6 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.70 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
+| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 | <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
 | <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
+| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 | <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.2.0 |
-| <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
-| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
-| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
-| <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
-| <a name="module_docs_cmk"></a> [docs\_cmk](#module\_docs\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
+| <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
+| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
+| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
+| <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.4 |
+| <a name="module_docs_cmk"></a> [docs\_cmk](#module\_docs\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 | <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.1 |
-| <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.1 |
-| <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
+| <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
+| <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v1.1.0 |
+| <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
+| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.1.3 |
 | <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
 
 ## Resources
@@ -334,8 +333,7 @@ module "core" {
 Copyright © Coalfire Systems Inc.
 
 ## Tree
-
-```text
+```
 .
 |-- CHANGELOG.md
 |-- CONTRIBUTING.md
