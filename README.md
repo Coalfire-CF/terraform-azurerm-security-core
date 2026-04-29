@@ -26,6 +26,7 @@ Learn more at [Coalfire OpenSource](https://coalfire.com/opensource).
 ### Global-vars.tf
 
 Update `/coalfire-azure-pak/terraform/prod/global-vars.tf` file variables:
+
 | Name | Description | Sample |
 |---|---|---|
 | subscription_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
@@ -56,12 +57,12 @@ The folder you will deploy from. Most of the folder calls from the vars the only
 Now that the storage account exists you need to migrate the local state file to the remote state storage account.
 
 1. Uncomment the `backend "azurerm"` portion of the `tstate.tf` file.
-2. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
-3. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
-4. Run `terraform apply` to migrate the state file to the remote storage account.
-5. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
-6. Uncomment the `remote-data.tf` file for the `Core` block only.
-7. Commit changes and push to repo.
+1. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
+1. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
+1. Run `terraform apply` to migrate the state file to the remote storage account.
+1. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
+1. Uncomment the `remote-data.tf` file for the `Core` block only.
+1. Commit changes and push to repo.
 
 ## Usage
 
@@ -104,7 +105,7 @@ module "core" {
 
 ### Optional - custom resource names
 
-You may optionally supply custom names for all resources created by this module, to support various naming convention requirements: 
+You may optionally supply custom names for all resources created by this module, to support various naming convention requirements:
 
 ```hcl
 module "core" {
@@ -333,7 +334,8 @@ module "core" {
 Copyright © Coalfire Systems Inc.
 
 ## Tree
-```
+
+```text
 .
 |-- CHANGELOG.md
 |-- CONTRIBUTING.md
