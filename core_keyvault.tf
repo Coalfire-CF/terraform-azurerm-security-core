@@ -220,7 +220,7 @@ module "avd_cmk" {
 
 ### VM Disk CMK with custom rotation policy ###
 module "vm_disk_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_vmdisk_cmk ? 1 : 0
 
