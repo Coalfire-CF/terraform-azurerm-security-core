@@ -60,7 +60,7 @@ module "ad_cmk" {
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
 module "ars_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_ars_cmk ? 1 : 0
 
@@ -180,7 +180,7 @@ module "cloudshell_cmk" {
 
 ### Documentation CMK with custom rotation policy ###
 module "docs_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_docs_cmk ? 1 : 0
 
@@ -261,7 +261,7 @@ module "aks_node_cmk" {
 
 ### VM Diagnostics CMK with custom rotation policy ###
 module "vmdiag_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_vmdiag_cmk ? 1 : 0
 
