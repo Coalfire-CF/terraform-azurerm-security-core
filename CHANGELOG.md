@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.5](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.4...v1.2.5) (2026-05-20)
+
+
+### Miscellaneous
+
+* **deps:** bump aks_node_cmk::terraform-azurerm-key-vault ([aa758eb](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/aa758eb15b7dd0e406414a36939f863a9cdbd937))
+* **deps:** bump aks_node_cmk::terraform-azurerm-key-vault from 1.2.0 to 1.2.1 ([535ef91](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/535ef91a0196c1ccd0adabb234613f4c3132f062))
+* **deps:** bump ars_cmk::terraform-azurerm-key-vault ([acd4368](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/acd43682a5eb7988d99ac9d89cf69648294f5f03))
+* **deps:** bump ars_cmk::terraform-azurerm-key-vault from 1.2.0 to 1.2.1 ([ae43031](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/ae430310015bce245b26caea4a0e139fa86b1a01))
+* **deps:** bump docs_cmk::terraform-azurerm-key-vault ([f72ba7d](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/f72ba7d9d01892ba38eb9ed1452deee0689ba6a0))
+* **deps:** bump docs_cmk::terraform-azurerm-key-vault from 1.2.0 to 1.2.1 ([3bf6560](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/3bf65606110ab03ba59b8ccc08c0d43a2e94f44a))
+* **deps:** bump vm_disk_cmk::terraform-azurerm-key-vault ([93a30e8](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/93a30e8859df41a8a6dce9fa6446bbe0fbbe71a7))
+* **deps:** bump vm_disk_cmk::terraform-azurerm-key-vault from 1.2.0 to 1.2.1 ([d62f1db](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/d62f1db378b8426b5ea3852049c79d1f27d4b8de))
+* **deps:** bump vmdiag_cmk::terraform-azurerm-key-vault ([243b6e0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/243b6e0a3b95e2ac407138593a7722797e354926))
+* **deps:** bump vmdiag_cmk::terraform-azurerm-key-vault from 1.2.0 to 1.2.1 ([b6d9e8b](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b6d9e8b80c5add114c001fa7bb1dc1f597ff4d37))
+
 ## [1.2.4](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.3...v1.2.4) (2026-04-29)
 
 ### Miscellaneous
