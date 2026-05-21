@@ -160,7 +160,7 @@ module "core" {
 | <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.1 |
 | <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
 | <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v1.2.0 |
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.2.0 |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v1.2.1 |
 | <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
 | <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
 | <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v1.1.5 |
