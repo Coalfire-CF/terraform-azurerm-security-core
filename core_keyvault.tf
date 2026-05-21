@@ -80,7 +80,7 @@ module "ars_cmk" {
 
 ### Flow Log CMK with custom rotation policy ###
 module "flowlog_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_flowlog_cmk ? 1 : 0
 
