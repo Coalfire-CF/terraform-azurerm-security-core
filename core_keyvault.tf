@@ -200,7 +200,7 @@ module "docs_cmk" {
 
 ### Azure Virtual Desktop (AVD) CMK with custom rotation policy ###
 module "avd_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_avd_cmk ? 1 : 0
 
