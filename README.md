@@ -334,6 +334,7 @@ module "core" {
 Copyright © Coalfire Systems Inc.
 
 ## Tree
+
 ```text
 .
 |-- CHANGELOG.md
