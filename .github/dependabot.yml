@@ -7,6 +7,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "00:48"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -26,6 +27,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "00:48"
     commit-message:
       prefix: "chore"
       include: "scope"
