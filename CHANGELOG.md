@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.2.6](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.5...v1.2.6) (2026-07-23)
+
+
+### Bug Fixes
+
+* **ci:** remove retired org-checkov caller (Checkov retired org-wide — ADR-0017, Actions[#130](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/130)) ([#176](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/176)) ([412f76b](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/412f76b2b9c04d8f841e1899d5dc09248753a307))
+
+
+### Miscellaneous
+
+* adopt Actions v0.12.1 (bypass auto-merge + event-driven re-merge) ([bc7067a](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/bc7067aca47e0b7453dde7ea3b4f8e54b6e5df46))
+* **ci:** adopt Coalfire-CF/Actions v0.11.3 ([#194](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/194)) ([1eae1ab](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1eae1abbe46fa4ec0c28f57be6997741be5e25d3))
+* **ci:** re-pin org workflows to Actions v0.8.1 + dependabot auto-merge ([#177](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/177)) ([2950820](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/2950820a236964b345252b7722d288a3b1095e09))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot-auto-merge.yml ([#181](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/181)) ([924d79b](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/924d79bf3f185d5d6a4cb21ffd4c6b3cb305c543))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot-auto-merge.yml ([#185](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/185)) ([99f8418](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/99f8418adf2f0d876353ef785d557f420a5e7a4d))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml from 0.5.1 to 0.7.0 ([#171](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/171)) ([1e8ab91](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1e8ab918dab0fd4d26e849fe68284fb8efe74c11))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-dependabot.yml from 0.8.1 to 0.10.0 ([#183](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/183)) ([5df67fd](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/5df67fd7bd11009953da7fad8546095ae87fac19))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml ([#175](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/175)) ([4364400](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/4364400fd2c9bb10ee09353f61c18e4270783679))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml ([#178](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/178)) ([2c203d9](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/2c203d9b04ca3f013ba5c1aab94ebb74fea74aaa))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-markdown-lint.yml ([#187](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/187)) ([a6ee935](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/a6ee935df7cb5ea2fdf9f1b879cb4ea9ae060d38))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml ([#170](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/170)) ([b7b6344](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/b7b6344c21be75a6f6e57282d233fa82700365fc))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-release.yml ([#184](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/184)) ([efb13cb](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/efb13cb5ae8266e6be0603d1954140b8d1b23658))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([#167](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/167)) ([70e9265](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/70e9265ce3f8eddb55db46777e03684d99514665))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([#179](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/179)) ([7cda23d](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/7cda23dad3fd78912553b64b2d6955b1a158113a))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-docs.yml ([#186](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/186)) ([e58058b](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e58058b3b0ad0db9a090da68bad1d1d21ff9a5ee))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([#174](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/174)) ([30594e6](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/30594e650aca43bcab2ee87ff9b2dbd48d013255))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-fmt.yml ([#180](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/180)) ([5df7300](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/5df73001d6ec58d77d53ec1a2c52c5bd5f0106d4))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-terraform-validate.yml ([#173](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/173)) ([442c554](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/442c554b9470fe9acd2cbdcc26da4963993cab64))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml ([#168](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/168)) ([e15dc41](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e15dc410e80fbdfbf02329d4215ac163aa035702))
+* **deps:** bump Coalfire-CF/Actions/.github/workflows/org-tree-readme.yml from 0.8.1 to 0.8.2 ([#182](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/182)) ([1709521](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/1709521c8d485687ef58a625bf30f5c14bcef29d))
+* **deps:** bump the org-actions group with 4 updates ([#190](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/190)) ([3562b72](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/3562b7257638007479cfe76673d83faf48f00d5c))
+* **deps:** bump the org-actions group with 8 updates ([#195](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/195)) ([e4d3a9a](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e4d3a9a132fbbb1fc534d689818476ed141d9733))
+* **deps:** bump the org-actions group with 8 updates ([#196](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/196)) ([3310d21](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/3310d21310b4985542c5e3ff65c2338413131271))
+* **deps:** bump the org-actions group with 8 updates ([#197](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/197)) ([e9e98cf](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/e9e98cfdb8cea25c5506211e5380547992886e38))
+
 ## [1.2.5](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.4...v1.2.5) (2026-05-20)
 
 
