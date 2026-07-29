@@ -332,27 +332,3 @@ module "core" {
 ### Copyright
 
 Copyright © Coalfire Systems Inc.
-
-## Tree
-
-```text
-.
-|-- CHANGELOG.md
-|-- CONTRIBUTING.md
-|-- LICENSE
-|-- README.md
-|-- aad_permissions.tf
-|-- blob_tstate.tf
-|-- coalfire_logo.png
-|-- core_dns.tf
-|-- core_keyvault.tf
-|-- core_loganalytics.tf
-|-- entraid.tf
-|-- locals.tf
-|-- outputs.tf
-|-- release-please-config.json
-|-- required_version.tf
-|-- resource_group.tf
-|-- subscription_monitor.tf
-|-- variables.tf
-```
