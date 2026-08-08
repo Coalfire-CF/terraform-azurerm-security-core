@@ -160,7 +160,7 @@ module "law_queries_cmk" {
 
 ### Cloud Shell CMK with custom rotation policy ###
 module "cloudshell_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_cloudshell_cmk ? 1 : 0
 
