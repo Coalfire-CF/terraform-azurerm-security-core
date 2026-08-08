@@ -40,7 +40,7 @@ resource "azurerm_role_assignment" "core_kv_administrator" {
 
 ### AD CMK with custom rotation policy ###
 module "ad_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v1.2.1"
 
   count = var.create_ad_cmk ? 1 : 0
 
