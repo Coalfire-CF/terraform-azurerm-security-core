@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   refresh:
-    uses: Coalfire-CF/Actions/.github/workflows/automation-dependabot-refresh.yml@1f508d6ac9eff2044809590535fe36535e7fbc19 # pilot Coalfire-CF/Actions#342
+    uses: Coalfire-CF/Actions/.github/workflows/automation-dependabot-refresh.yml@ae4cb86bec66c32830116c5248437ed7760008a7 # pilot Coalfire-CF/Actions#342
     with:
       head_branch: ${{ github.head_ref || github.ref_name }}  # PR head, or current branch if not a PR
       include_github_actions: "true"
