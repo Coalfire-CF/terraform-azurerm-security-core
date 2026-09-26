@@ -39,7 +39,6 @@ updates:
       coalfire-modules:
         applies-to: version-updates
         patterns: ["*::github::Coalfire-CF/*"]
-        update-types: ["minor", "patch"]
       terraform:
         applies-to: version-updates
         group-by: dependency-name
