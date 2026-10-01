@@ -1,5 +1,5 @@
 module "tfstate_sa" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.2"
 
   count = var.create_tfstate_storage ? 1 : 0
 
