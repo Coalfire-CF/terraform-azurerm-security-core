@@ -33,7 +33,7 @@ module "diag_law" {
 }
 
 module "law_queries_sa" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.1"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account?ref=v1.1.2"
 
   count = var.create_law_queries_storage ? 1 : 0
 
