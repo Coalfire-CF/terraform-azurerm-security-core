@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.6...v2.0.0) (2026-10-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* require Terraform 1.16 and azurerm 5.7 ([#223](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/223))
+
+### Features
+
+* require Terraform 1.16 and azurerm 5.7 ([#223](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/223)) ([5e94ec6](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/5e94ec6326dda9d8c2423c430af4c8dad9b79053))
+
 ## [1.2.6](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v1.2.5...v1.2.6) (2026-10-20)
 
 
