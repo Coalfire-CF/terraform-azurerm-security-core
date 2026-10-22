@@ -6,104 +6,109 @@
 
 ## Description
 
-This module is the first step for deploying the [Coalfire-Azure-RAMPpak](https://github.com/Coalfire-CF/Coalfire-Azure-RAMPpak) FedRAMP Framework. It will create the core resources needed to deploy the rest of the environment.
+A reusable module that creates the core security resources for an Azure Government environment:
+
+- The core resource group.
+- A Log Analytics workspace (optional; you can send logs to an existing one).
+- The core Key Vault, with optional customer-managed keys (CMK) for downstream services.
+- A storage account and container for Terraform state (optional).
+- A storage account for Log Analytics query and alert storage (only when this module creates the workspace).
+- Private DNS zones. They are not linked to any virtual network; the caller links them.
+- Entra ID diagnostic logs and subscription Activity Log diagnostics.
 
 Learn more at [Coalfire OpenSource](https://coalfire.com/opensource).
 
-## Dependencies
+## Prerequisites
 
-- New Azure Commercial or Gov Subscription
+- The deploying identity must be in `admin_principal_ids`. The vault uses Azure RBAC, so the deployer needs the Key Vault role to write keys and secrets.
+- Entra ID diagnostics need the Security Administrator role in the tenant.
+- The vault and both storage accounts are private by default. Writing keys and secrets needs one of two setups:
+  - A private endpoint (`kv_private_endpoint_subnet_id`, and `sa_private_endpoint_subnet_id` for storage) plus a runner that can reach the subnet and resolve `privatelink.vaultcore.usgovcloudapi.net` and `privatelink.blob.core.usgovcloudapi.net`. The caller links the zones to the runner's virtual network. Terraform waits for the whole key-vault module, including its private endpoint, before it writes keys and secrets. It cannot create the virtual network link.
+  - `kv_public_network_access_enabled = true` with `cidrs_for_remote_access`.
+- Both storage accounts disable Shared Key authorization. A backend that uses the state account must set `use_azuread_auth = true`. Writers need `Storage Blob Data Contributor`; readers need `Storage Blob Data Reader`.
+- Log Analytics internet ingestion, internet query and local authentication are off by default. Agents need an Azure Monitor Private Link Scope. Portal queries from public networks need `law_internet_query_enabled = true`.
+- When `key_vault_name` is left at `default`, the vault name is `<resource_prefix>-core-kv`. Keep `resource_prefix` at 13 characters or fewer, or key-vault rejects the name.
 
-## Resource List
+## Key Vault
 
-- Resource group
-- Vnet
-- Private DNS zone if desired
-- Entra ID Diagnostic logs
-- Storage account to store the terraform state files
-- Key Vault
-- Log Analytics workspace
-- Subscription diagnostics monitor
+key-vault appends `-<1-99>` to the vault name, as in v2. Read the real name from the `core_kv_name` output. A custom `key_vault_name` is limited to 21 characters for this reason.
 
-### Global-vars.tf
+The vault firewall keeps `bypass = AzureServices`. Storage CMK and the `enabled_for_*` flags need trusted Azure services while the firewall denies. key-vault v3 defaults the bypass to `None`.
 
-Update `/coalfire-azure-pak/terraform/prod/global-vars.tf` file variables:
+The private SSH key is written to the vault through the write-only `value_wo` argument, so it is not stored in the secret's state. It is still in the `tls_private_key` state. Both SSH secrets get an expiry date (`ssh_key_secret_expiration_days`, default 365). Key Vault still returns an expired secret.
 
-| Name | Description | Sample |
-|---|---|---|
-| subscription\_id | The Azure subscription ID where resources are being deployed into. This should be the subscription for the management plane | 00000000-0000-0000-0000-000000000000 |
-| tenant\_id | The Azure tenant ID that owns the deployed resources. Found in Entra ID properties tab in the portal | 00000000-0000-0000-0000-000000000000 |
-| app\_subscription\_ids | The Azure subscription IDs for client application subscriptions. This should be the subscription for the application plane | ["00000000-0000-0000-0000-000000000000"] |
-| app\_abbreviation | two or three digit abbreviation for app resource naming | "CF" |
-| cidrs\_for\_remote\_access | List of CIDRs that will be allowed to access the resources | [""]|
-| admin\_principal\_ids" | List of admin principal IDs that will be set as admins on resources. Found on each users properties in Entra ID | ["00000000-0000-0000-0000-000000000000"] |
+## Customer-managed keys
 
-## /coalfire-azure-pak/terraform/prod/us-va/security-core/core.tf
+CMK is off by default (R12). Storage uses platform-managed keys plus infrastructure encryption. There are two opt-ins:
 
-The folder you will deploy from. Most of the folder calls from the vars the only updates you need to make are enable logs or Entra ID permissions. If you're developing/testing it's probably best to turn these off because of existing permissions/log conflicts. For a new environment you should enable these.
+- `enable_customer_managed_key = true` makes storage-account create a key in the core vault for each storage account and grant the storage identity access to it.
+- Each `create_*_cmk` input creates one key in the core vault for a downstream service.
 
-## Deployment Steps
+Creating a key needs vault data-plane access from the runner.
 
-- Ensure the `backend "azurerm"` portion of the `tstate.tf` file is commented out for initial deployment. The state file will be created as part of this apply and we will migrate the state file to the newly created storage account.
-- Ensure `remote-data.tf` file is commented out for initial deployment. This file will be used to access information in the state as the deployment progresses.
-- Login to the Azure CLI: `az login`. If your subscription is in Azure Gov change the cloud first with: `az login --environment AzureUSGovernment`
-- Change directories to the `/coalfire-azure-pak/terraform/prod/us-va/security-core` directory.
-- Run `terraform init`.
-- Run `terraform plan` to review the resources being created.
-- If everything looks correct in the plan output, run `terraform apply`.
+## Entra ID log categories
 
-**Warning** It does take some time for the initial key vault permissions to propagate. If you get a 400 error about the Customer Managed Key for the state storage account, wait a few minutes and try again. The deployment should complete successfully.
+Source: [Entra diagnostic settings log options](https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-diagnostic-settings-logs-options), updated 2026-05-12.
 
-## Migrate State
+The default (`aad_log_categories`) sends all 18 categories of the Entra diagnostic settings section (R20). v2 sent 13. Added in v3:
 
-Now that the storage account exists you need to migrate the local state file to the remote state storage account.
+- `RiskyAgents` and `AgentRiskEvents` (ID Protection for agents).
+- `NetworkAccessTrafficLogs`, `EnrichedOffice365AuditLogs` and `RemoteNetworkHealthLogs` (Global Secure Access). They add no data unless Global Secure Access is in use.
 
-1. Uncomment the `backend "azurerm"` portion of the `tstate.tf` file.
-1. update the `resource_group_name`, `storage_account_name` and `container_name` variables to match the newly created storage account.
-1. Run `terraform init` to initialize the backend. You will be prompted to migrate the state file. Select yes.
-1. Run `terraform apply` to migrate the state file to the remote storage account.
-1. Delete the `terraform.tfstate` and `terraform.tfstate.backup` files.
-1. Uncomment the `remote-data.tf` file for the `Core` block only.
-1. Commit changes and push to repo.
+`MicrosoftServicePrincipalSignInLogs` is a preview category. Microsoft says it is high volume and not needed by most customers, so check the ingestion cost. It is kept because R20 asks for all categories.
+
+`CustomSecurityAttributeAuditLogs` is not part of this setting. Microsoft configures it in the separate "Custom security attributes" section of diagnostic settings, with the Attribute Log Administrator role. The caller owns that setting, and validation rejects the category here.
+
+Azure Government support is not verified for any category. A category the tenant does not expose fails the apply. Remove it with `aad_log_categories`.
+
+## Recovery and redundancy
+
+Storage soft delete and point-in-time restore are on. Set retention with `sa_blob_delete_retention_days`, `sa_container_delete_retention_days` and `sa_point_in_time_restore_days`. Replication defaults to GRS (`sa_replication_type`); ZRS or GZRS adds zone redundancy where the region supports it. azurerm 5.10.0 does not expose Log Analytics zone redundancy.
+
+## Breaking changes from v2
+
+- Requires Terraform `>= 1.16.6, < 2.0` and azurerm `~> 5.10`. The `azuread` provider is removed. `hashicorp/time ~> 0.14` is added.
+- Inputs removed: `app_subscription_ids`, `enable_aad_permissions`, `sa_public_network_access_enabled`, `create_tstate_cmk`, `create_law_queries_cmk`. The subscription `Contributor` and `User Access Administrator` assignments and Entra directory role activation are gone; the caller owns them.
+- `sa_public_network_access_enabled` (bool) is replaced by `sa_public_network_access` (string, default `Disabled`).
+- `cidrs_for_remote_access` is now `list(string)` with default `[]`. `key_size` is now a number (2048, 3072 or 4096).
+- Defaults changed from true to false: `kv_public_network_access_enabled`, `enable_customer_managed_key`, `create_ars_cmk`, `create_flowlog_cmk`, `create_install_cmk`, `create_cloudshell_cmk`, `create_docs_cmk`, `create_vmdisk_cmk`, `create_vmdiag_cmk`.
+- New validation: `key_vault_name` 3 to 21 characters; `kms_key_vault_network_access` is `Private` or `Public`; `diag_log_analytics_id` is required when `create_log_analytics = false`; `ip_for_remote_access` accepts addresses and CIDRs up to /30; `location_abbreviation` and `app_abbreviation` are lowercase letters and numbers.
+- Storage diagnostics, storage CMK keys and the state and query containers are created inside storage-account v3. LAW query storage is created only when this module creates the workspace.
+- Outputs removed: `core_la_primaryKey`, `core_la_secondaryKey`, `tstate_cmk_id`, `tstate_cmk_resource_id`, `tstate_cmk_name`, `law_queries_cmk_id`, `law_queries_cmk_resource_id`, `law_queries_cmk_name`. Output added: `tfstate_container_name`.
+- Tag precedence is now one order everywhere: module `Function`/`Plane`, then `tags`, then `global_tags`, then `regional_tags` (later wins). DNS zones, the workspace, storage accounts, the resource group, vault keys and SSH secrets all follow it.
+- The Entra diagnostic setting sends 18 categories instead of 13.
 
 ## Usage
 
 ```hcl
 provider "azurerm" {
   features {}
+  environment                     = "usgovernment"
+  subscription_id                 = var.subscription_id
+  resource_provider_registrations = "none"
+  storage_use_azuread             = true
 }
 
 module "core" {
-  source = "github.com/Coalfire-CF/terraform-azurerm-security-core"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-security-core?ref=v3.0.0"
 
-  subscription_id          = var.subscription_id
-  resource_prefix          = local.resource_prefix
-  location_abbreviation    = var.location_abbreviation
-  location                 = var.location
-  app_abbreviation         = var.app_abbreviation
-  tenant_id                = var.tenant_id
-  regional_tags            = var.regional_tags
-  global_tags              = merge(var.global_tags, local.global_local_tags)
-  core_rg_name             = "${local.resource_prefix}-core-rg"
-  cidrs_for_remote_access  = var.cidrs_for_remote_access
-  admin_principal_ids      = var.admin_principal_ids
-  app_subscription_ids     = var.app_subscription_ids
-  enable_sub_logs          = false
-  enable_aad_logs          = false
-  enable_aad_permissions   = false
-  create_tfstate_storage   = true
-  custom_private_dns_zones = [var.domain_name]
-  azure_private_dns_zones  = [
-    "privatelink.azurecr.us",
-    "privatelink.database.usgovcloudapi.net",
-    "privatelink.blob.core.usgovcloudapi.net",
-    "privatelink.table.core.usgovcloudapi.net",
-    "privatelink.queue.core.usgovcloudapi.net",
-    "privatelink.file.core.usgovcloudapi.net",
-    "privatelink.postgres.database.usgovcloudapi.net"
-  ]
+  subscription_id       = var.subscription_id
+  tenant_id             = var.tenant_id
+  resource_prefix       = "ex-usgv"
+  location              = "usgovvirginia"
+  location_abbreviation = "usgv"
+  app_abbreviation      = "cf"
+  admin_principal_ids   = var.admin_principal_ids
+  global_tags           = var.global_tags
+  regional_tags         = var.regional_tags
+  tags                  = var.tags
+
+  kv_private_endpoint_subnet_id = var.pe_subnet_id
+  sa_private_endpoint_subnet_id = var.pe_subnet_id
 }
 ```
+
+See `examples/default` for a complete root. With `resource_provider_registrations = "none"`, confirm on the first apply that the subscription has the providers it needs registered. Registration of `Microsoft.AADIAM` for the Entra diagnostic setting is not verified.
 
 ### Optional - custom resource names
 
@@ -114,13 +119,15 @@ module "core" {
 ...
   core_rg_name                     = "arbitrary-resource-group-name"
   admin_ssh_key_name               = "arbitrary-ssh-key-name"
-  key_vault_name                   = "arbitrary-key-vault-name"
+  key_vault_name                   = "arbitrary-kv-name"
   tfstate_storage_account_name     = "tfstatestorageaccountname"
   law_queries_storage_account_name = "lawquerystorageaccountname"
   log_analytics_workspace_name     = "arbitrary-log-analytics-workspace-name"
 ...
 }
 ```
+
+A custom `key_vault_name` must be 21 characters or fewer.
 
 ### Optional - Terraform state storage creation
 
@@ -134,55 +141,51 @@ module "core" {
 }
 ```
 
+**Warning** It takes some time for the initial Key Vault role assignments to propagate. If you get a 403 or 400 error writing a key or secret, wait a few minutes and run the apply again.
+
 <!-- markdownlint-disable MD033 MD034 MD060 -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.16 |
-| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.6 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 5.7 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.16.6, < 2.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 5.10 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.0 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.14 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 3.6 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 5.7 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 5.10 |
+| <a name="provider_time"></a> [time](#provider\_time) | ~> 0.14 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 4.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v2.0.0 |
-| <a name="module_diag_la_queries_sa"></a> [diag\_la\_queries\_sa](#module\_diag\_la\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v2.0.0 |
-| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v2.0.0 |
-| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v2.0.0 |
-| <a name="module_diag_tf_state_sa"></a> [diag\_tf\_state\_sa](#module\_diag\_tf\_state\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v2.0.0 |
-| <a name="module_docs_cmk"></a> [docs\_cmk](#module\_docs\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_law_queries_cmk"></a> [law\_queries\_cmk](#module\_law\_queries\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v2.0.0 |
-| <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v2.0.0 |
-| <a name="module_tstate_cmk"></a> [tstate\_cmk](#module\_tstate\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
-| <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v2.0.0 |
+| <a name="module_ad_cmk"></a> [ad\_cmk](#module\_ad\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_aks_node_cmk"></a> [aks\_node\_cmk](#module\_aks\_node\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_ars_cmk"></a> [ars\_cmk](#module\_ars\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_avd_cmk"></a> [avd\_cmk](#module\_avd\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_cloudshell_cmk"></a> [cloudshell\_cmk](#module\_cloudshell\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_core_kv"></a> [core\_kv](#module\_core\_kv) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault | v3.0.0 |
+| <a name="module_diag_law"></a> [diag\_law](#module\_diag\_law) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v3.0.0 |
+| <a name="module_diag_sub"></a> [diag\_sub](#module\_diag\_sub) | git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics | v3.0.0 |
+| <a name="module_docs_cmk"></a> [docs\_cmk](#module\_docs\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_flowlog_cmk"></a> [flowlog\_cmk](#module\_flowlog\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_install_cmk"></a> [install\_cmk](#module\_install\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_law_queries_sa"></a> [law\_queries\_sa](#module\_law\_queries\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v3.0.0 |
+| <a name="module_tfstate_sa"></a> [tfstate\_sa](#module\_tfstate\_sa) | git::https://github.com/Coalfire-CF/terraform-azurerm-storage-account | v3.0.0 |
+| <a name="module_vm_disk_cmk"></a> [vm\_disk\_cmk](#module\_vm\_disk\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
+| <a name="module_vmdiag_cmk"></a> [vmdiag\_cmk](#module\_vmdiag\_cmk) | git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key | v3.0.0 |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azuread_directory_role.app_owners](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role) | resource |
-| [azuread_directory_role.groups_administrator](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/directory_role) | resource |
 | [azurerm_key_vault_secret.xadm_ssh_priv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.xadm_ssh_pub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_log_analytics_linked_storage_account.law_alerts](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_linked_storage_account) | resource |
@@ -191,63 +194,62 @@ module "core" {
 | [azurerm_monitor_aad_diagnostic_setting.aadlogs](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_aad_diagnostic_setting) | resource |
 | [azurerm_private_dns_zone.default](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_resource_group.core](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
-| [azurerm_role_assignment.assign_app_sub_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.assign_app_sub_user_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.assign_sub_contributor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.assign_sub_user_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.core_kv_administrator](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_storage_container.law_queries](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [azurerm_storage_container.tf_state_lock](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [time_offset.ssh_secret_expiry](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/offset) | resource |
+| [time_static.ssh_key_version](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/static) | resource |
 | [tls_private_key.xadm](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/private_key) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aad_log_categories"></a> [aad\_log\_categories](#input\_aad\_log\_categories) | Entra ID log categories sent to Log Analytics (R20). The default is all 18 categories of the Entra diagnostic settings section. A category the tenant does not expose fails the apply; Azure Government support is unverified. Removing a category loses that audit trail. | `list(string)` | <pre>[<br/>  "AuditLogs",<br/>  "SignInLogs",<br/>  "NonInteractiveUserSignInLogs",<br/>  "ServicePrincipalSignInLogs",<br/>  "ManagedIdentitySignInLogs",<br/>  "ProvisioningLogs",<br/>  "ADFSSignInLogs",<br/>  "RiskyUsers",<br/>  "UserRiskEvents",<br/>  "NetworkAccessTrafficLogs",<br/>  "RiskyServicePrincipals",<br/>  "ServicePrincipalRiskEvents",<br/>  "RiskyAgents",<br/>  "AgentRiskEvents",<br/>  "EnrichedOffice365AuditLogs",<br/>  "MicrosoftGraphActivityLogs",<br/>  "RemoteNetworkHealthLogs",<br/>  "MicrosoftServicePrincipalSignInLogs"<br/>]</pre> | no |
 | <a name="input_admin_principal_ids"></a> [admin\_principal\_ids](#input\_admin\_principal\_ids) | admin principal ids | `set(string)` | n/a | yes |
 | <a name="input_admin_ssh_key_name"></a> [admin\_ssh\_key\_name](#input\_admin\_ssh\_key\_name) | Optional custom name for admin SSH key secret in Key Vault | `string` | `"xadm-ssh-key"` | no |
-| <a name="input_app_abbreviation"></a> [app\_abbreviation](#input\_app\_abbreviation) | The prefix for the blob storage account names | `string` | n/a | yes |
-| <a name="input_app_subscription_ids"></a> [app\_subscription\_ids](#input\_app\_subscription\_ids) | The Azure subscription IDs for org microservices | `map(any)` | n/a | yes |
+| <a name="input_app_abbreviation"></a> [app\_abbreviation](#input\_app\_abbreviation) | The prefix for the blob storage account names. Lowercase letters and numbers only. | `string` | n/a | yes |
 | <a name="input_azure_private_dns_zones"></a> [azure\_private\_dns\_zones](#input\_azure\_private\_dns\_zones) | List of Private DNS zones to create. | `list(string)` | <pre>[<br/>  "privatelink.azurecr.us",<br/>  "privatelink.database.usgovcloudapi.net",<br/>  "privatelink.blob.core.usgovcloudapi.net",<br/>  "privatelink.table.core.usgovcloudapi.net",<br/>  "privatelink.queue.core.usgovcloudapi.net",<br/>  "privatelink.file.core.usgovcloudapi.net",<br/>  "privatelink.documents.azure.us",<br/>  "privatelink.table.cosmos.azure.us",<br/>  "privatelink.postgres.database.usgovcloudapi.net",<br/>  "privatelink.mysql.database.usgovcloudapi.net",<br/>  "privatelink.vaultcore.usgovcloudapi.net",<br/>  "privatelink.servicebus.usgovcloudapi.net",<br/>  "privatelink.redis.cache.usgovcloudapi.net"<br/>]</pre> | no |
-| <a name="input_cidrs_for_remote_access"></a> [cidrs\_for\_remote\_access](#input\_cidrs\_for\_remote\_access) | admin ciders | `list(any)` | n/a | yes |
+| <a name="input_cidrs_for_remote_access"></a> [cidrs\_for\_remote\_access](#input\_cidrs\_for\_remote\_access) | Public IPv4 addresses or CIDRs allowed through the Key Vault firewall. | `list(string)` | `[]` | no |
 | <a name="input_core_rg_name"></a> [core\_rg\_name](#input\_core\_rg\_name) | Resource group name for core security services | `string` | `"core-rg-1"` | no |
-| <a name="input_create_ad_cmk"></a> [create\_ad\_cmk](#input\_create\_ad\_cmk) | Whether to create the AD CMK in Key Vault. | `bool` | `false` | no |
-| <a name="input_create_aks_node_cmk"></a> [create\_aks\_node\_cmk](#input\_create\_aks\_node\_cmk) | Whether to create the AKS Node CMK in Key Vault. | `bool` | `false` | no |
-| <a name="input_create_ars_cmk"></a> [create\_ars\_cmk](#input\_create\_ars\_cmk) | Whether to create the ARS CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_avd_cmk"></a> [create\_avd\_cmk](#input\_create\_avd\_cmk) | Whether to create the AVD CMK in Key Vault. | `bool` | `false` | no |
-| <a name="input_create_cloudshell_cmk"></a> [create\_cloudshell\_cmk](#input\_create\_cloudshell\_cmk) | Whether to create the Cloud Shell CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_docs_cmk"></a> [create\_docs\_cmk](#input\_create\_docs\_cmk) | Whether to create the Docs CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_flowlog_cmk"></a> [create\_flowlog\_cmk](#input\_create\_flowlog\_cmk) | Whether to create the Flow Log CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_install_cmk"></a> [create\_install\_cmk](#input\_create\_install\_cmk) | Whether to create the Install CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_law_queries_cmk"></a> [create\_law\_queries\_cmk](#input\_create\_law\_queries\_cmk) | Whether to create the Law Queries CMK in Key Vault. | `bool` | `true` | no |
+| <a name="input_create_ad_cmk"></a> [create\_ad\_cmk](#input\_create\_ad\_cmk) | Whether to create the AD CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_aks_node_cmk"></a> [create\_aks\_node\_cmk](#input\_create\_aks\_node\_cmk) | Whether to create the AKS Node CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_ars_cmk"></a> [create\_ars\_cmk](#input\_create\_ars\_cmk) | Whether to create the ARS CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_avd_cmk"></a> [create\_avd\_cmk](#input\_create\_avd\_cmk) | Whether to create the AVD CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_cloudshell_cmk"></a> [create\_cloudshell\_cmk](#input\_create\_cloudshell\_cmk) | Whether to create the Cloud Shell CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_docs_cmk"></a> [create\_docs\_cmk](#input\_create\_docs\_cmk) | Whether to create the Docs CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_flowlog_cmk"></a> [create\_flowlog\_cmk](#input\_create\_flowlog\_cmk) | Whether to create the Flow Log CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_install_cmk"></a> [create\_install\_cmk](#input\_create\_install\_cmk) | Whether to create the Install CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
 | <a name="input_create_law_queries_storage"></a> [create\_law\_queries\_storage](#input\_create\_law\_queries\_storage) | Enable/Disable provisioning a storage account and container for Log Analytics Workspace queries. | `bool` | `true` | no |
 | <a name="input_create_log_analytics"></a> [create\_log\_analytics](#input\_create\_log\_analytics) | Enable/Disable provisioning of Log Analytics Workspace. | `bool` | `true` | no |
 | <a name="input_create_tfstate_storage"></a> [create\_tfstate\_storage](#input\_create\_tfstate\_storage) | Enable/Disable provisioning a storage account and container for Terraform state. | `bool` | `true` | no |
-| <a name="input_create_tstate_cmk"></a> [create\_tstate\_cmk](#input\_create\_tstate\_cmk) | Whether to create the TF State CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. | `bool` | `true` | no |
-| <a name="input_create_vmdisk_cmk"></a> [create\_vmdisk\_cmk](#input\_create\_vmdisk\_cmk) | Whether to create the VM Disk CMK in Key Vault. | `bool` | `true` | no |
+| <a name="input_create_vmdiag_cmk"></a> [create\_vmdiag\_cmk](#input\_create\_vmdiag\_cmk) | Whether to create the VMDiag CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
+| <a name="input_create_vmdisk_cmk"></a> [create\_vmdisk\_cmk](#input\_create\_vmdisk\_cmk) | Whether to create the VM Disk CMK in Key Vault. Creating a key needs vault data-plane access from the runner. | `bool` | `false` | no |
 | <a name="input_custom_private_dns_zones"></a> [custom\_private\_dns\_zones](#input\_custom\_private\_dns\_zones) | List of custom private DNS zones to create. | `list(string)` | `[]` | no |
 | <a name="input_deploy_private_dns_zones"></a> [deploy\_private\_dns\_zones](#input\_deploy\_private\_dns\_zones) | Enable/Disable provisioning of Private DNS zones. | `bool` | `true` | no |
-| <a name="input_diag_log_analytics_id"></a> [diag\_log\_analytics\_id](#input\_diag\_log\_analytics\_id) | Log Analytics workspace ID that you want to send logs too. (Central Management) | `string` | `null` | no |
+| <a name="input_diag_log_analytics_id"></a> [diag\_log\_analytics\_id](#input\_diag\_log\_analytics\_id) | Log Analytics workspace ID that you want to send logs to (central management). Required when create\_log\_analytics is false. | `string` | `null` | no |
 | <a name="input_dr_location"></a> [dr\_location](#input\_dr\_location) | The Azure location/region for DR resources. | `string` | `"usgovtexas"` | no |
 | <a name="input_enable_aad_logs"></a> [enable\_aad\_logs](#input\_enable\_aad\_logs) | Enable/Disable Entra ID logging | `bool` | `true` | no |
-| <a name="input_enable_aad_permissions"></a> [enable\_aad\_permissions](#input\_enable\_aad\_permissions) | Enable/Disable provisioning basic Entra ID level permissions. | `bool` | `true` | no |
-| <a name="input_enable_customer_managed_key"></a> [enable\_customer\_managed\_key](#input\_enable\_customer\_managed\_key) | Enable/Disable Customer Managed Key (CMK) for the storage account. | `bool` | `true` | no |
+| <a name="input_enable_customer_managed_key"></a> [enable\_customer\_managed\_key](#input\_enable\_customer\_managed\_key) | Encrypt both storage accounts with a customer-managed key that storage-account creates in the core vault. False uses platform-managed keys plus infrastructure encryption (R12). | `bool` | `false` | no |
 | <a name="input_enable_sub_logs"></a> [enable\_sub\_logs](#input\_enable\_sub\_logs) | Enable/Disable subscription level logging | `bool` | `true` | no |
 | <a name="input_enabled_for_deployment"></a> [enabled\_for\_deployment](#input\_enabled\_for\_deployment) | Specifies whether the Key Vault is enabled for deployment. | `bool` | `true` | no |
 | <a name="input_enabled_for_disk_encryption"></a> [enabled\_for\_disk\_encryption](#input\_enabled\_for\_disk\_encryption) | Specifies whether the Key Vault is enabled for disk encryption. | `bool` | `true` | no |
 | <a name="input_enabled_for_template_deployment"></a> [enabled\_for\_template\_deployment](#input\_enabled\_for\_template\_deployment) | Specifies whether the Key Vault is enabled for template deployment. | `bool` | `true` | no |
 | <a name="input_fedramp_high"></a> [fedramp\_high](#input\_fedramp\_high) | Whether to use FedRAMP High compliant resources (e.g., KeyVault Premium, HSM-backed keys). | `bool` | `false` | no |
 | <a name="input_global_tags"></a> [global\_tags](#input\_global\_tags) | Global level tags | `map(string)` | n/a | yes |
-| <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | List of IP addresses for remote access (without CIDR notation). Storage account ip\_rules will automatically reject /32 notation. | `list(string)` | `[]` | no |
-| <a name="input_key_size"></a> [key\_size](#input\_key\_size) | The size of the key to create in the Key Vault. Possible values are 2048, 3072, and 4096 for RSA keys. | `string` | `"4096"` | no |
+| <a name="input_ip_for_remote_access"></a> [ip\_for\_remote\_access](#input\_ip\_for\_remote\_access) | Public IPv4 addresses or CIDRs (up to /30) for the storage firewall. Applies only when sa\_public\_network\_access is Enabled. | `list(string)` | `[]` | no |
+| <a name="input_key_size"></a> [key\_size](#input\_key\_size) | The size of the RSA keys to create in the Key Vault. Possible values are 2048, 3072, and 4096. | `number` | `4096` | no |
+| <a name="input_key_vault_admin_role_definition_name"></a> [key\_vault\_admin\_role\_definition\_name](#input\_key\_vault\_admin\_role\_definition\_name) | Role given to admin\_principal\_ids on the core Key Vault (R19). | `string` | `"Key Vault Administrator"` | no |
 | <a name="input_key_vault_name"></a> [key\_vault\_name](#input\_key\_vault\_name) | Optional custom name for the Security Core Key Vault | `string` | `"default"` | no |
-| <a name="input_kms_key_vault_network_access"></a> [kms\_key\_vault\_network\_access](#input\_kms\_key\_vault\_network\_access) | Network access configuration for the Key Vault. | `string` | `"Private"` | no |
-| <a name="input_kv_public_network_access_enabled"></a> [kv\_public\_network\_access\_enabled](#input\_kv\_public\_network\_access\_enabled) | Specifies whether public network access is enabled for the Key Vault. | `bool` | `true` | no |
+| <a name="input_kms_key_vault_network_access"></a> [kms\_key\_vault\_network\_access](#input\_kms\_key\_vault\_network\_access) | Key Vault firewall mode. Private sets the vault firewall to Deny. Public sets it to Allow, which opens the vault to any network that can reach it. | `string` | `"Private"` | no |
+| <a name="input_kv_private_dns_zone_ids"></a> [kv\_private\_dns\_zone\_ids](#input\_kv\_private\_dns\_zone\_ids) | Private DNS zone IDs for the Key Vault endpoint. Empty uses the module's privatelink.vaultcore.usgovcloudapi.net zone when it exists. | `list(string)` | `[]` | no |
+| <a name="input_kv_private_endpoint_subnet_id"></a> [kv\_private\_endpoint\_subnet\_id](#input\_kv\_private\_endpoint\_subnet\_id) | Subnet for the Key Vault private endpoint. Null means the caller owns private access. | `string` | `null` | no |
+| <a name="input_kv_public_network_access_enabled"></a> [kv\_public\_network\_access\_enabled](#input\_kv\_public\_network\_access\_enabled) | Allow public network access to the Key Vault. True exposes the data plane to public networks, limited only by network\_acls. Keep false and use kv\_private\_endpoint\_subnet\_id. | `bool` | `false` | no |
 | <a name="input_kv_subnet_ids"></a> [kv\_subnet\_ids](#input\_kv\_subnet\_ids) | A list of Subnet IDs where the Key Vault should allow communication. | `list(string)` | `[]` | no |
+| <a name="input_law_internet_ingestion_enabled"></a> [law\_internet\_ingestion\_enabled](#input\_law\_internet\_ingestion\_enabled) | Allow Log Analytics ingestion over the public internet. False needs an Azure Monitor Private Link Scope for agents. | `bool` | `false` | no |
+| <a name="input_law_internet_query_enabled"></a> [law\_internet\_query\_enabled](#input\_law\_internet\_query\_enabled) | Allow Log Analytics queries over the public internet, including the portal from public networks. | `bool` | `false` | no |
+| <a name="input_law_local_authentication_enabled"></a> [law\_local\_authentication\_enabled](#input\_law\_local\_authentication\_enabled) | Allow Log Analytics workspace shared-key auth. True lets key holders bypass Entra ID. | `bool` | `false` | no |
 | <a name="input_law_queries_storage_account_name"></a> [law\_queries\_storage\_account\_name](#input\_law\_queries\_storage\_account\_name) | Optional custom name for the Terraform state Storage Account | `string` | `"default"` | no |
 | <a name="input_location"></a> [location](#input\_location) | The Azure location/region to create resources in | `string` | n/a | yes |
-| <a name="input_location_abbreviation"></a> [location\_abbreviation](#input\_location\_abbreviation) | The  Azure location/region in 4 letter code | `string` | n/a | yes |
+| <a name="input_location_abbreviation"></a> [location\_abbreviation](#input\_location\_abbreviation) | The Azure location/region in 4 letter code. Lowercase letters and numbers only. | `string` | n/a | yes |
 | <a name="input_log_analytics_data_collection_rule_id"></a> [log\_analytics\_data\_collection\_rule\_id](#input\_log\_analytics\_data\_collection\_rule\_id) | Optional Log Analytics Data Collection Rule for the workspace. | `string` | `null` | no |
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Optional custom name for the Log Analytics Workspace | `string` | `"default"` | no |
 | <a name="input_regional_tags"></a> [regional\_tags](#input\_regional\_tags) | Regional level tags | `map(string)` | n/a | yes |
@@ -257,9 +259,16 @@ module "core" {
 | <a name="input_rotation_policy_enabled"></a> [rotation\_policy\_enabled](#input\_rotation\_policy\_enabled) | Enable automatic key rotation policy | `bool` | `true` | no |
 | <a name="input_rotation_time_before_expiry"></a> [rotation\_time\_before\_expiry](#input\_rotation\_time\_before\_expiry) | The duration before expiry when the key rotation should occur | `string` | `"P30D"` | no |
 | <a name="input_rsa_bits"></a> [rsa\_bits](#input\_rsa\_bits) | RSA Bit size | `number` | `4096` | no |
-| <a name="input_sa_public_network_access_enabled"></a> [sa\_public\_network\_access\_enabled](#input\_sa\_public\_network\_access\_enabled) | Enable/Disable public network access for the storage account. | `bool` | `true` | no |
-| <a name="input_sa_subnet_ids"></a> [sa\_subnet\_ids](#input\_sa\_subnet\_ids) | List of subnet ids for access to storage accounts to allow communication. | `list(string)` | `[]` | no |
+| <a name="input_sa_blob_delete_retention_days"></a> [sa\_blob\_delete\_retention\_days](#input\_sa\_blob\_delete\_retention\_days) | Blob soft delete days for both storage accounts (R22). Lower values shorten recovery. | `number` | `7` | no |
+| <a name="input_sa_container_delete_retention_days"></a> [sa\_container\_delete\_retention\_days](#input\_sa\_container\_delete\_retention\_days) | Container soft delete days for both storage accounts (R22). Lower values shorten recovery. | `number` | `7` | no |
+| <a name="input_sa_point_in_time_restore_days"></a> [sa\_point\_in\_time\_restore\_days](#input\_sa\_point\_in\_time\_restore\_days) | Point-in-time restore days for both storage accounts. Must be below sa\_blob\_delete\_retention\_days (storage-account precondition). | `number` | `6` | no |
+| <a name="input_sa_private_dns_zone_id"></a> [sa\_private\_dns\_zone\_id](#input\_sa\_private\_dns\_zone\_id) | Blob private DNS zone ID for the storage endpoints. Null uses the module's privatelink.blob.core.usgovcloudapi.net zone when it exists. | `string` | `null` | no |
+| <a name="input_sa_private_endpoint_subnet_id"></a> [sa\_private\_endpoint\_subnet\_id](#input\_sa\_private\_endpoint\_subnet\_id) | Subnet for the blob private endpoint of each storage account. Null means the caller owns private access. | `string` | `null` | no |
+| <a name="input_sa_public_network_access"></a> [sa\_public\_network\_access](#input\_sa\_public\_network\_access) | Public network access for both storage accounts. Enabled exposes the endpoints, limited only by ip\_for\_remote\_access and sa\_subnet\_ids. | `string` | `"Disabled"` | no |
+| <a name="input_sa_replication_type"></a> [sa\_replication\_type](#input\_sa\_replication\_type) | Replication for both storage accounts. storage-account validates it. ZRS or GZRS adds zone redundancy where the region supports it (R23). | `string` | `"GRS"` | no |
+| <a name="input_sa_subnet_ids"></a> [sa\_subnet\_ids](#input\_sa\_subnet\_ids) | List of subnet ids for access to storage accounts to allow communication. Applies only when sa\_public\_network\_access is Enabled. | `list(string)` | `[]` | no |
 | <a name="input_ssh_algorithm"></a> [ssh\_algorithm](#input\_ssh\_algorithm) | SSH Algorithm | `string` | `"RSA"` | no |
+| <a name="input_ssh_key_secret_expiration_days"></a> [ssh\_key\_secret\_expiration\_days](#input\_ssh\_key\_secret\_expiration\_days) | Days until both SSH key secrets show as expired. Key Vault still returns an expired secret. | `number` | `365` | no |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The Azure subscription ID where resources are being deployed into | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource level tags | `map(string)` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The Azure tenant ID that owns the deployed resources | `string` | n/a | yes |
@@ -287,8 +296,6 @@ module "core" {
 | <a name="output_core_kv_id"></a> [core\_kv\_id](#output\_core\_kv\_id) | Value of the Core Key Vault ID |
 | <a name="output_core_kv_name"></a> [core\_kv\_name](#output\_core\_kv\_name) | Name of the Core Key vault |
 | <a name="output_core_la_id"></a> [core\_la\_id](#output\_core\_la\_id) | Value of the core log analytics workspace id |
-| <a name="output_core_la_primaryKey"></a> [core\_la\_primaryKey](#output\_core\_la\_primaryKey) | Value of the core log analytics workspace primary key |
-| <a name="output_core_la_secondaryKey"></a> [core\_la\_secondaryKey](#output\_core\_la\_secondaryKey) | Value of the core log analytics workspace secondary key |
 | <a name="output_core_la_workspace_id"></a> [core\_la\_workspace\_id](#output\_core\_la\_workspace\_id) | Value of the core log analytics workspace id |
 | <a name="output_core_la_workspace_name"></a> [core\_la\_workspace\_name](#output\_core\_la\_workspace\_name) | Value of the core log analytics workspace name |
 | <a name="output_core_map_private_dns_zone_ids"></a> [core\_map\_private\_dns\_zone\_ids](#output\_core\_map\_private\_dns\_zone\_ids) | Map of Private DNS zone names to their resource IDs |
@@ -305,12 +312,7 @@ module "core" {
 | <a name="output_install_cmk_id"></a> [install\_cmk\_id](#output\_install\_cmk\_id) | Installs CMK Key ID |
 | <a name="output_install_cmk_name"></a> [install\_cmk\_name](#output\_install\_cmk\_name) | Installs CMK Key Name |
 | <a name="output_install_cmk_resource_id"></a> [install\_cmk\_resource\_id](#output\_install\_cmk\_resource\_id) | Installs CMK Key Resource ID |
-| <a name="output_law_queries_cmk_id"></a> [law\_queries\_cmk\_id](#output\_law\_queries\_cmk\_id) | Log Analytics Workspace Queries CMK Key ID |
-| <a name="output_law_queries_cmk_name"></a> [law\_queries\_cmk\_name](#output\_law\_queries\_cmk\_name) | Log Analytics Workspace Queries CMK Key Name |
-| <a name="output_law_queries_cmk_resource_id"></a> [law\_queries\_cmk\_resource\_id](#output\_law\_queries\_cmk\_resource\_id) | Log Analytics Workspace Queries CMK Key Resource ID |
-| <a name="output_tstate_cmk_id"></a> [tstate\_cmk\_id](#output\_tstate\_cmk\_id) | Terraform State CMK Key ID |
-| <a name="output_tstate_cmk_name"></a> [tstate\_cmk\_name](#output\_tstate\_cmk\_name) | Terraform State CMK Key Name |
-| <a name="output_tstate_cmk_resource_id"></a> [tstate\_cmk\_resource\_id](#output\_tstate\_cmk\_resource\_id) | Terraform State CMK Key Resource ID |
+| <a name="output_tfstate_container_name"></a> [tfstate\_container\_name](#output\_tfstate\_container\_name) | Name of the Terraform state container |
 | <a name="output_vm_disk_cmk_id"></a> [vm\_disk\_cmk\_id](#output\_vm\_disk\_cmk\_id) | VM Disk CMK Key ID |
 | <a name="output_vm_disk_cmk_name"></a> [vm\_disk\_cmk\_name](#output\_vm\_disk\_cmk\_name) | VM Disk CMK Key Name |
 | <a name="output_vm_disk_cmk_resource_id"></a> [vm\_disk\_cmk\_resource\_id](#output\_vm\_disk\_cmk\_resource\_id) | VM Disk CMK Key Resource ID |

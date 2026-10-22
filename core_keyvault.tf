@@ -1,6 +1,6 @@
 # Core Key Vault
 module "core_kv" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault?ref=v3.0.0"
 
   kv_name                         = local.key_vault_name
   sku_name                        = var.fedramp_high ? "premium" : "standard"
@@ -11,12 +11,15 @@ module "core_kv" {
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_template_deployment = var.enabled_for_template_deployment
   public_network_access_enabled   = var.kv_public_network_access_enabled
-  diag_log_analytics_id           = var.create_log_analytics ? azurerm_log_analytics_workspace.core_la[0].id : var.diag_log_analytics_id
+  diag_log_analytics_id           = local.law_id
+  private_endpoint_subnet_id      = var.kv_private_endpoint_subnet_id
+  private_dns_zone_ids            = local.kv_private_dns_zone_ids
 
   regional_tags = var.regional_tags
   global_tags   = var.global_tags
   tags          = var.tags
 
+  # bypass AzureServices: storage CMK and enabled_for_* need trusted services while default_action is Deny. key-vault v3 defaults bypass to None.
   network_acls = {
     bypass                     = "AzureServices"
     default_action             = var.kms_key_vault_network_access == "Private" ? "Deny" : "Allow"
@@ -31,7 +34,7 @@ module "core_kv" {
 resource "azurerm_role_assignment" "core_kv_administrator" {
   for_each             = var.admin_principal_ids
   scope                = module.core_kv.key_vault_id
-  role_definition_name = "Key Vault Administrator"
+  role_definition_name = var.key_vault_admin_role_definition_name
   principal_id         = each.key
 }
 
@@ -40,7 +43,7 @@ resource "azurerm_role_assignment" "core_kv_administrator" {
 
 ### AD CMK with custom rotation policy ###
 module "ad_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_ad_cmk ? 1 : 0
 
@@ -54,13 +57,13 @@ module "ad_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Azure Recovery Service (ARS) CMK with custom rotation policy ###
 module "ars_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_ars_cmk ? 1 : 0
 
@@ -74,13 +77,13 @@ module "ars_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Flow Log CMK with custom rotation policy ###
 module "flowlog_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_flowlog_cmk ? 1 : 0
 
@@ -94,13 +97,13 @@ module "flowlog_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Install CMK with custom rotation policy ###
 module "install_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_install_cmk ? 1 : 0
 
@@ -114,53 +117,13 @@ module "install_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
-}
-
-### TF State CMK with custom rotation policy ###
-module "tstate_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
-
-  count = var.create_tfstate_storage ? 1 : 0
-
-  name         = "tstate-cmk"
-  key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
-  key_vault_id = module.core_kv.key_vault_id
-  key_size     = var.key_size
-
-  # Custom rotation policy
-  rotation_policy_enabled     = var.rotation_policy_enabled
-  rotation_expire_after       = var.rotation_expire_after
-  rotation_time_before_expiry = var.rotation_time_before_expiry
-
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
-}
-
-### Law Queries CMK with custom rotation policy ###
-module "law_queries_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
-
-  count = var.create_law_queries_cmk ? 1 : 0
-
-  name         = "law-queries-cmk"
-  key_type     = var.fedramp_high ? "RSA-HSM" : "RSA"
-  key_vault_id = module.core_kv.key_vault_id
-  key_size     = var.key_size
-
-  # Custom rotation policy
-  rotation_policy_enabled     = var.rotation_policy_enabled
-  rotation_expire_after       = var.rotation_expire_after
-  rotation_time_before_expiry = var.rotation_time_before_expiry
-
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Cloud Shell CMK with custom rotation policy ###
 module "cloudshell_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_cloudshell_cmk ? 1 : 0
 
@@ -174,13 +137,13 @@ module "cloudshell_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Documentation CMK with custom rotation policy ###
 module "docs_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_docs_cmk ? 1 : 0
 
@@ -194,13 +157,13 @@ module "docs_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### Azure Virtual Desktop (AVD) CMK with custom rotation policy ###
 module "avd_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_avd_cmk ? 1 : 0
 
@@ -214,13 +177,13 @@ module "avd_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### VM Disk CMK with custom rotation policy ###
 module "vm_disk_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_vmdisk_cmk ? 1 : 0
 
@@ -234,13 +197,13 @@ module "vm_disk_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 ### AKS Node CMK with custom rotation policy ###
 module "aks_node_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_aks_node_cmk ? 1 : 0
 
@@ -254,14 +217,14 @@ module "aks_node_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
 
 ### VM Diagnostics CMK with custom rotation policy ###
 module "vmdiag_cmk" {
-  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v2.0.0"
+  source = "git::https://github.com/Coalfire-CF/terraform-azurerm-key-vault//modules/kv_key?ref=v3.0.0"
 
   count = var.create_vmdiag_cmk ? 1 : 0
 
@@ -275,37 +238,60 @@ module "vmdiag_cmk" {
   rotation_expire_after       = var.rotation_expire_after
   rotation_time_before_expiry = var.rotation_time_before_expiry
 
-  tags       = var.tags
-  depends_on = [azurerm_role_assignment.core_kv_administrator]
+  tags       = local.caller_tags
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }
 
-##### Key Vault Keys for CMK ######
+##### SSH key pair ######
 
-# Generate SSH keypair for Azure VMs 
+# Generate SSH keypair for Azure VMs
 resource "tls_private_key" "xadm" {
   algorithm = var.ssh_algorithm
   rsa_bits  = var.rsa_bits
 }
 
-# Store the PUBLIC key in Key Vault for use with VM creation
-resource "azurerm_key_vault_secret" "xadm_ssh_pub" {
-  name         = "${var.admin_ssh_key_name}-pub"
-  value        = tls_private_key.xadm.public_key_openssh
-  key_vault_id = module.core_kv.key_vault_id
-  content_type = "ssh-public-key"
+# Expiry date for both SSH key secrets (CKV_AZURE_41). Key Vault still returns an expired secret.
+# Replaced with the key pair, so a rotated key gets a fresh date.
+resource "time_offset" "ssh_secret_expiry" {
+  offset_days = var.ssh_key_secret_expiration_days
 
-  tags = {
-    managed_by = "terraform"
+  lifecycle {
+    replace_triggered_by = [tls_private_key.xadm]
   }
 }
 
-resource "azurerm_key_vault_secret" "xadm_ssh_priv" {
-  name         = "${var.admin_ssh_key_name}-priv"
-  value        = tls_private_key.xadm.private_key_pem
-  key_vault_id = module.core_kv.key_vault_id
-  content_type = "ssh-private-key"
-
-  tags = {
-    managed_by = "terraform"
+# Changes whenever the key pair is replaced, so value_wo is written again.
+resource "time_static" "ssh_key_version" {
+  lifecycle {
+    replace_triggered_by = [tls_private_key.xadm]
   }
+}
+
+# Store the PUBLIC key in Key Vault for use with VM creation
+# tflint-ignore: azurerm_resources_missing_prevent_destroy # prevent_destroy cannot come from an input and would block teardown; vault soft delete and purge protection keep a recoverable copy.
+resource "azurerm_key_vault_secret" "xadm_ssh_pub" {
+  name            = "${var.admin_ssh_key_name}-pub"
+  value           = tls_private_key.xadm.public_key_openssh
+  key_vault_id    = module.core_kv.key_vault_id
+  content_type    = "ssh-public-key"
+  expiration_date = time_offset.ssh_secret_expiry.rfc3339
+
+  tags = merge({ managed_by = "terraform" }, local.caller_tags)
+
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
+}
+
+# The private key is written through value_wo, so it is not stored in this secret's state.
+# tflint-ignore: azurerm_resources_missing_prevent_destroy # prevent_destroy cannot come from an input and would block teardown; vault soft delete and purge protection keep a recoverable copy.
+resource "azurerm_key_vault_secret" "xadm_ssh_priv" {
+  name             = "${var.admin_ssh_key_name}-priv"
+  value_wo         = tls_private_key.xadm.private_key_pem
+  value_wo_version = time_static.ssh_key_version.unix
+  key_vault_id     = module.core_kv.key_vault_id
+  content_type     = "ssh-private-key"
+  expiration_date  = time_offset.ssh_secret_expiry.rfc3339
+
+  tags = merge({ managed_by = "terraform" }, local.caller_tags)
+
+  depends_on = [module.core_kv, azurerm_role_assignment.core_kv_administrator]
 }

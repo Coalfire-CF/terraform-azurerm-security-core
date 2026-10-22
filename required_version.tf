@@ -1,17 +1,17 @@
 terraform {
-  required_version = ">= 1.16"
+  required_version = ">= 1.16.6, < 2.0"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 5.7"
-    }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "~> 3.6" # 3.0 appears bugged: https://github.com/hashicorp/terraform-provider-azuread/issues/1526
+      version = "~> 5.10"
     }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.14"
     }
     tls = {
       source  = "hashicorp/tls"

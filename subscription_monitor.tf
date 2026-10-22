@@ -1,15 +1,8 @@
-# NOTE
-# issue with provider and logs
-# see - https://github.com/terraform-providers/terraform-provider-azurerm/issues/5673
-# TLDR: some settings do not support retention policy in the provider and having that
-# value would make TF reapply diag settings each time.
-# Also the sub does not have a diag categories available for query. This is why the
-# sub logs are stored in a var. And sub diag logs are slightly different than other logs.
-
+# Activity Log to Log Analytics through the diagnostics module ("sub" type).
 module "diag_sub" {
   count                 = var.enable_sub_logs ? 1 : 0
-  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v2.0.0"
-  diag_log_analytics_id = var.create_log_analytics ? azurerm_log_analytics_workspace.core_la[0].id : var.diag_log_analytics_id
+  source                = "git::https://github.com/Coalfire-CF/terraform-azurerm-diagnostics?ref=v3.0.0"
+  diag_log_analytics_id = local.law_id
   resource_id           = "/subscriptions/${var.subscription_id}"
   resource_type         = "sub"
 }
