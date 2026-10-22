@@ -278,15 +278,6 @@ run "aad_categories_empty_rejected" {
 run "private_endpoints_module_zones" {
   command = plan
 
-  # Makes the zone IDs known at plan so the zone-ID locals can be compared.
-  override_resource {
-    target          = azurerm_private_dns_zone.default
-    override_during = plan
-    values = {
-      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
-    }
-  }
-
   variables {
     kv_private_endpoint_subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/pe"
     sa_private_endpoint_subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/pe"
@@ -307,14 +298,6 @@ run "private_endpoints_module_zones" {
   assert {
     condition     = azurerm_key_vault_secret.xadm_ssh_priv.value == null
     error_message = "The private key secret must still plan under depends_on."
-  }
-  assert {
-    condition     = length(local.kv_private_dns_zone_ids) == 1 && local.kv_private_dns_zone_ids[0] == "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
-    error_message = "The module's vault zone ID must be passed to key-vault."
-  }
-  assert {
-    condition     = local.sa_private_dns_zone_id == "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
-    error_message = "The module's blob zone ID must be passed to storage-account."
   }
 }
 
@@ -431,4 +414,33 @@ run "key_size_rejects_1024" {
   }
 
   expect_failures = [var.key_size]
+}
+
+# Run 14 keeps the zone IDs unknown, as in a real plan. This run makes them known so the
+# wiring from the module's zones to key-vault and storage-account can be compared.
+run "private_endpoints_zone_ids_wired" {
+  command = plan
+
+  variables {
+    kv_private_endpoint_subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/pe"
+    sa_private_endpoint_subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/pe"
+  }
+
+  # Makes the zone IDs known at plan so the zone-ID locals can be compared.
+  override_resource {
+    target          = azurerm_private_dns_zone.default
+    override_during = plan
+    values = {
+      id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
+    }
+  }
+
+  assert {
+    condition     = length(local.kv_private_dns_zone_ids) == 1 && local.kv_private_dns_zone_ids[0] == "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
+    error_message = "The module's vault zone ID must be passed to key-vault."
+  }
+  assert {
+    condition     = local.sa_private_dns_zone_id == "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/core-rg-1/providers/Microsoft.Network/privateDnsZones/mocked"
+    error_message = "The module's blob zone ID must be passed to storage-account."
+  }
 }
