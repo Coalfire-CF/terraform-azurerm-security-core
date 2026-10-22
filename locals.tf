@@ -1,15 +1,21 @@
 locals {
-  storage_name_prefix = replace(var.resource_prefix, "-", "")
-  app_sub_user_mapping = distinct(flatten([for user in var.admin_principal_ids : [
-    for app, sub in var.app_subscription_ids : {
-      user            = user
-      subscription_id = sub
-    }
-  ]]))
-  tags = merge(var.regional_tags, var.global_tags, {
-    Function = "Networking"
-    Plane    = "Core"
-  })
+  storage_name_prefix        = replace(var.resource_prefix, "-", "")
+  caller_tags                = merge(var.tags, var.global_tags, var.regional_tags)
+  dns_tags                   = merge({ Function = "Networking", Plane = "Core" }, local.caller_tags)
+  law_tags                   = merge({ Function = "SIEM", Plane = "Core" }, local.caller_tags)
+  storage_tags               = merge({ Function = "Storage", Plane = "Management" }, local.caller_tags)
+  law_id                     = var.create_log_analytics ? azurerm_log_analytics_workspace.core_la[0].id : var.diag_log_analytics_id
+  create_law_queries_storage = var.create_log_analytics && var.create_law_queries_storage
+  tfstate_container_name     = "${var.location_abbreviation}${var.app_abbreviation}tfstatecontainer"
+
+  kv_zone_name = "privatelink.vaultcore.usgovcloudapi.net"
+  sa_zone_name = "privatelink.blob.core.usgovcloudapi.net"
+  kv_private_dns_zone_ids = length(var.kv_private_dns_zone_ids) > 0 ? var.kv_private_dns_zone_ids : (
+    contains(local.private_dns_zones, local.kv_zone_name) ? [azurerm_private_dns_zone.default[local.kv_zone_name].id] : []
+  )
+  sa_private_dns_zone_id = var.sa_private_dns_zone_id != null ? var.sa_private_dns_zone_id : (
+    contains(local.private_dns_zones, local.sa_zone_name) ? azurerm_private_dns_zone.default[local.sa_zone_name].id : null
+  )
 
   # DNS
   regional_private_dns_zones = var.deploy_private_dns_zones ? {

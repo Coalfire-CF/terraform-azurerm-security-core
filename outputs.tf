@@ -8,16 +8,6 @@ output "core_la_id" {
   description = "Value of the core log analytics workspace id"
 }
 
-output "core_la_primaryKey" {
-  value       = try(azurerm_log_analytics_workspace.core_la[0].primary_shared_key, null)
-  description = "Value of the core log analytics workspace primary key"
-}
-
-output "core_la_secondaryKey" {
-  value       = try(azurerm_log_analytics_workspace.core_la[0].secondary_shared_key, null)
-  description = "Value of the core log analytics workspace secondary key"
-}
-
 output "core_la_workspace_id" {
   value       = try(azurerm_log_analytics_workspace.core_la[0].workspace_id, null)
   description = "Value of the core log analytics workspace id"
@@ -96,36 +86,6 @@ output "install_cmk_resource_id" {
 output "install_cmk_name" {
   value       = try(module.install_cmk[0].key_name, null)
   description = "Installs CMK Key Name"
-}
-
-output "law_queries_cmk_id" {
-  value       = try(module.law_queries_cmk[0].key_id, null)
-  description = "Log Analytics Workspace Queries CMK Key ID"
-}
-
-output "law_queries_cmk_resource_id" {
-  value       = try(module.law_queries_cmk[0].key_resource_id, null)
-  description = "Log Analytics Workspace Queries CMK Key Resource ID"
-}
-
-output "law_queries_cmk_name" {
-  value       = try(module.law_queries_cmk[0].key_name, null)
-  description = "Log Analytics Workspace Queries CMK Key Name"
-}
-
-output "tstate_cmk_id" {
-  value       = try(module.tstate_cmk[0].key_id, null)
-  description = "Terraform State CMK Key ID"
-}
-
-output "tstate_cmk_resource_id" {
-  value       = try(module.tstate_cmk[0].key_resource_id, null)
-  description = "Terraform State CMK Key Resource ID"
-}
-
-output "tstate_cmk_name" {
-  value       = try(module.tstate_cmk[0].key_name, null)
-  description = "Terraform State CMK Key Name"
 }
 
 output "cloudshell_cmk_id" {
@@ -242,3 +202,7 @@ output "core_map_private_dns_zone_ids" {
   }
 }
 
+output "tfstate_container_name" {
+  value       = var.create_tfstate_storage ? local.tfstate_container_name : null
+  description = "Name of the Terraform state container"
+}
