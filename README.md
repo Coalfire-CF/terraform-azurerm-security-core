@@ -91,8 +91,8 @@ Log Analytics zone redundancy.
 
 ## Breaking changes from v2
 
-- Requires Terraform `>= 1.16.6, < 2.0` and azurerm `~> 5.10`. The `azuread` provider is removed. `hashicorp/time ~>
-  0.14` is added.
+- Requires Terraform `>= 1.16.6, < 2.0` and azurerm `~> 5.10`. The `azuread` provider is removed.
+  `hashicorp/time ~> 0.14` is added.
 - Inputs removed: `app_subscription_ids`, `enable_aad_permissions`, `sa_public_network_access_enabled`,
   `create_tstate_cmk`, `create_law_queries_cmk`. The subscription `Contributor` and `User Access Administrator`
   assignments and Entra directory role activation are gone; the caller owns them.
