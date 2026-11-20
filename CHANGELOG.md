@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v3.0.0...v3.0.1) (2026-11-06)
+
+
+### Documentation
+
+* wrap Markdown lines at 120 characters (Coalfire-CF/Actions[#375](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/375)) ([#228](https://github.com/Coalfire-CF/terraform-azurerm-security-core/issues/228)) ([05a3efe](https://github.com/Coalfire-CF/terraform-azurerm-security-core/commit/05a3efe60fbb5b0b1fa99b8c7019885aa04f6d29))
+
 ## [3.0.0](https://github.com/Coalfire-CF/terraform-azurerm-security-core/compare/v2.0.0...v3.0.0) (2026-10-22)
 
 
